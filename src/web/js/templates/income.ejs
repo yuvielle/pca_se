@@ -1,0 +1,92 @@
+<script type="text/javascript" src="js/Chart.min.js"></script>
+<div id="text" class="pop_window">
+    <img class="btn_close" src="images/x_button.png" alt="Close">
+
+    <h1>Прибыль<% if(hasOwnProperty('term_name') && term_name != ''){ %> терминала <%= term_name %><% }else{ %> терминалов<% } %></h1>
+    <hr style="clear: both"/>
+    <div id="graph_param">
+        <div id="periods">
+            <form action="#">
+                <table>
+                    <tr>
+                        <td colspan="2"><b>Диапозон графика:</b></td>
+                    </tr>
+                    <tr>
+                        <td><input id="" type="radio" name="period" value="1" <% if(period==1){ %>checked="checked"<% } %>
+                                   class="datesAble">
+                            <label>Эту неделю</label></td>
+                        <td><input type="radio" name="period" value="3" <% if(period==3){ %>checked="checked"<% } %> class="datesAble">
+                            <label>Прошлый месяц</label></td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" name="period" value="2" <% if(period==2){ %>checked="checked"<% } %> class="datesAble">
+                            <label>Этот месяц</label>
+                        </td>
+                        <td><input type="radio" name="period" value="4" <% if(period==4){ %>checked="checked"<% } %> class="datesAble">
+                            <label>Этот год</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="radio" name="period" value="5" id="other_date" <% if(period==5){ %>checked="checked"<% } %>
+                        class="datesAble"><label>Другое</label></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div id="dates">
+            <form><label>C </label>
+                <input class="datePicker" type="text" name="search_from" id="search_from" <% if(hasOwnProperty('start_day')){ %>value="<%= start_day %><% } %>" <% if(hasOwnProperty('period') && period != 5){ %>disabled="disabled"<% } %>/>
+                <label> По </label>
+                <input class="datePicker" type="text" name="search_till" id="search_till" <% if(hasOwnProperty('end_day')){ %>value="<%= end_day %><% } %>" <% if(hasOwnProperty('period') && period != 5){ %>disabled="disabled"<% } %>"/></form>
+        </div>
+        <div id="axes">
+            <form action="#">
+                <table>
+                    <tr>
+                        <td colspan="2"><b>График:</b></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="pays_amount" class="graph_params" name="graph" value="1" <% if(hasOwnProperty('pays_amount') && pays_amount!=''){ %> checked <% } %>><label>Количество</label></td>
+                        <td><input type="checkbox" id="commission" class="graph_params" name="graph" value="3" <% if(hasOwnProperty('commission') && commission!=''){ %> checked <% } %>><label>Комиссия</label></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="summa" class="graph_params" name="graph" value="2" <% if(hasOwnProperty('summa') && summa!=''){ %> checked <% } %>><label>Сумма</label></td>
+                        <td><input type="checkbox" id="all" class="graph_params" name="graph" value="4" <% if(hasOwnProperty('all') && all!=''){ %> checked <% } %>><label>Общая</label></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <input type="button" id="draw_graph" class="buttons" value="Обновить график"/></div>
+    <div>Терминал
+        <select class="ui-corner-all" style="height: 20px;" id="id_terminal">
+            <option value="">Не известен</option>
+            <% if(hasOwnProperty('term_select')){ %>
+            <% term_select.forEach(function(terminal){ %>
+            <option value="<%= terminal['point_oid'] %>"
+            <% if(hasOwnProperty('id_terminal') && terminal['point_oid'] == id_terminal){ %> selected<% } %>><%=
+            terminal['name'] %></option>
+            <% }); %>
+            <% } %>
+        </select>
+    </div>
+    <br/>
+
+    <canvas id="plot" height="450" width="730"></canvas>
+    <div id="plot_table_div">
+        <% if(hasOwnProperty('data')){ %>
+        <table  id="modal_bills" class="display" style="width: 90%;">
+            <thead><th>date</th><th>pays_amount</th><th>summa</th><th>commission</th></thead>
+            <tbody>
+            <% data.forEach(function(row){ %>
+                <tr><td><%= row['date'] %></td>
+                    <td><%= row['pays_amount'] %></td>
+                    <td><%= row['summa'] %></td>
+                    <td><%= row['commission'] %></td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
+        <% } %>
+    </div>
+</div>

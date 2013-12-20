@@ -1,0 +1,55 @@
+<div id="text" class="pop_window">
+    <img class="btn_close" src="images/x_button.png" alt="Close">
+<% if(hasOwnProperty('term_name') && term_name != ''){ %>
+<h1>Последние ошибки терминала <%= term_name %></h1>
+    <hr style="clear: both"/>
+    <div id="error_message">
+    <% if(hasOwnProperty('error') && error != ''){ %>
+        <h2 style="color:#ff0000; font-size: 15px">Терминал работает с ошибкой</h2>
+    <% } else { %>
+        <h2 style="color:#00ff00; font-size: 15px">Терминал работает без ошибок</h2>
+    <% } %>
+<% } else { %>
+<h1>Последние ошибки терминалов </h1>
+    <hr style="clear: both"/>
+    <div id="error_message">
+    <% if(hasOwnProperty('data')){ %>
+     <h2 style="color:#ff0000; font-size: 15px">"На терминале &laquo;<%= data[0]['name'] %>&raquo;" <%= data[0]['ERROR_TEXT'] %></h2>
+     <h2 style="color:#ff0000; font-size: 15px">"На терминале &laquo;<%= data[1]['name'] %>&raquo;" <%= data[1]['ERROR_TEXT'] %></h2>
+     <% } else { %>
+    <h2 style="color:#00ff00; font-size: 15px">Терминалы работают без ошибок</h2>
+    <% } %>
+
+<% } %>
+</div>
+<% if(hasOwnProperty('data')){ %>
+
+    <% if(!hasOwnProperty('term_name') || term_name == ''){ %>
+    <div id="search_date"><form><label>C </label><input class="datePicker" type="text" name="search_from" id="search_from"value="<% if(hasOwnProperty('start_date')){ %><%= directDateFormat(start_date) %><% } %>"/>
+        <label> По </label><input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
+        <img src="images/search-icon.png" id="search_start"/></form></div>
+    <% } %>
+        <div style="clear: both"></div> <br>
+<table id="modal_bills" class="display">
+    <thead><tr><th>RECEIVE_TIME</th>
+        <% if(!hasOwnProperty('term_name') || term_name == '') { %>
+        <th>name</th>
+        <% } %>
+        <th>DEVICE_NAME</th><th>ERROR_TEXT</th>
+    </tr></thead><tbody>
+    <% if(hasOwnProperty('data')){ %>
+    <% data.forEach(function(raw){ %>
+    <tr><td><%= raw['RECEIVE_TIME'] %></td>
+        <% if(!hasOwnProperty('term_name') || term_name == '') { %>
+        <td><%= raw['name'] %></td>
+        <% } %>
+        <td><%= raw['DEVICE_NAME'] %></td>
+        <td><%= raw['ERROR_TEXT'] %></td>
+    </tr>
+    <% }); %>
+    <% } %>
+    </tbody>
+    <div id="modal-pager"></div>
+</table>
+<% } %>
+</div>

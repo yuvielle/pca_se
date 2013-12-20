@@ -1,0 +1,44 @@
+<div id="text" class="search_window">
+<img class="btn_close" src="images/x_button.png" alt="Close">
+<h1>Поиск платежей</h1>
+    <hr style="clear: both"/>
+<table id="modal_poisk"><col id="left_col"><col id="right_col"><tr><td>Начальная дата *</td><td><input class="datePicker" type="text" name="start_date" id="start_date" value="<% if(hasOwnProperty('start_date') && start_date !=''){ %><%= directDateFormat(start_date) %><% } %>"/></td></tr>
+    <tr><td>Конечная дата *</td><td><input onload="directDateFormat" class="datePicker" type="text" name="end_date" id="end_date" value="<% if(hasOwnProperty('end_date') && end_date != ''){ %><%= directDateFormat(end_date) %><% } %>"/></td></tr>
+	<tr><td>Терминал</td><td>
+
+        <select id="id_terminal">
+        <option value="">Не известен</option>
+        <% if(hasOwnProperty('points')){ %>
+        <% points.forEach(function(terminal){ %>
+        		<option value="<%= terminal['point_oid'] %>"<% if(hasOwnProperty('id_terminal') && terminal['point_oid'] == id_terminal){ %> selected<% } %>><%= terminal['name'] %></option>
+        <% }); %>
+        <% } %>
+        </select></td></tr>
+
+    <tr><td>Наименование поставщика</td><td><input type="text" name="pay_type" id="pay_type">
+    </td></tr>
+
+    <tr><td>Состояние</td><td><select id="pay_state">
+        <option value=""<% if(!hasOwnProperty('pay_state') || pay_state == ''){ %> selected<% } %>>Все</option>
+        <option value="6"<% if(hasOwnProperty('pay_state') && pay_state == 6){ %> selected<% } %>>Проведен</option>
+        <option value="1"<% if(hasOwnProperty('pay_state') && pay_state != 6 && pay_state != ''){ %> selected<% } %>>Не проведен</option>
+
+        </select></td></tr>
+        <tr><td>TID платежа</td><td><input type="text" name="tid" id="tid" value="<% if(hasOwnProperty('tid')){ %><%= tid %><% } %>"/></td></tr>
+        <tr><td>Транзакция</td><td><input type="text" name="transaction" id="transaction" value="<% if(hasOwnProperty('transaction')){ %><%= transaction %><% } %>"/></td></tr>
+        <tr><td>Счет клиента</td><td><input type="text" name="client_account" id="client_account" value="<% if(hasOwnProperty('client_account')){ %><%= client_account %><% } %>"/></td></tr>
+        <tr><td>Сумма с клиента</td><td><input type="text" name="client_amount" id="client_amount" value="<% if(hasOwnProperty('client_amount')){ %><%= client_amount %><% } %>"/></td></tr>
+    </table>
+<input type="submit" class="buttons" id="search_platej" value="Поиск"/><br/><div id="search_result"></div>
+        
+
+<% if(hasOwnProperty('data') && data.length > 0){ %>
+<table id="modal_bills" class="display">
+<thead><th>DatePay</th><th>tid</th><th>sub_tid</th><th>point_oid</th><th>ProviderName</th><th>state</th><th>ClientAccount</th><th>summary_amount</th><th>Commission</th><th>amount</th></thead>
+<tbody>
+<% data.forEach(function(raw){ %>
+     <tr><td><%= raw['DatePay'] %></td><td><%= raw['tid'] %></td><td><%= raw['sub_tid'] %></td><td><%= raw['point_oid'] %></td><td ><%= raw['ProviderName'] %></td><td><%= raw['state'] %></td><td><%= raw['ClientAccount'] %></td><td><%= raw['summary_amount'] %></td><td><%= raw['Commission'] %></td><td><%= raw['amount'] %></td></tr>
+<% }); %>
+</tbody><div id="modal-pager"></div></table>
+</div>
+<% } %>

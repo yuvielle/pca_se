@@ -1,0 +1,90 @@
+<div id="text" class="pop_window">
+    <img class="btn_close" src="images/x_button.png" alt="Close">
+    <% if(hasOwnProperty('data')) { %>
+    <h1>Детальная информация по платежу <%= data[0]['tid'] %></h1>
+    <% } %> <br><br><br><br>
+    <table style="margin: 5px 5px 5px 20px; font-size: 13px; text-align: left">
+        <tr>
+            <td style="border: 1px solid #757f90; width: 40%; height: 40px; padding: 5px"><b># Транзакции:</b>&nbsp;&nbsp; <%= data[0]['tid'] %></td>
+            <td style="border: 1px solid #757f90; width: 40%; height: 40px; padding: 5px"><b>Дата платежа:</b>&nbsp;&nbsp; <%= data[0]['DatePay'] %></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Посл. изменение:</b>&nbsp;&nbsp; <%= data[0]['DateLastChange'] %></td>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Номер счета:</b>&nbsp;&nbsp; <%= data[0]['ClientAccount'] %></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px">
+                <table><tr>
+                <td><%= data[0]['summary_amount'] %> - <br><i>(Сумма платежа)</i></td><td><%= data[0]['amount_commission_provider'] %> = <br><i>(Комиссия)</i></td><td><%= data[0]['amount_provider'] %><br><i>(К зачислению)</i></td>
+                </tr></table>
+            </td>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Статус платежа:</b>&nbsp;&nbsp; <%= data[0]['status_name'] %></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Поставщик:</b>&nbsp;&nbsp; <%= data[0]['ProviderName'] %></td>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>ФИО:</b>&nbsp;&nbsp; <%= data[0]['ClientFIO'] %></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>номер:</b>&nbsp;&nbsp; <%= data[0]['etid'] %></td>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>состояние:</b>&nbsp;&nbsp; <%= data[0]['descript'] %></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Адрес точки:</b>&nbsp;&nbsp; <%= data[0]['terminal_name'] %></td>
+            <td></td>
+        </tr>
+        <tr><td><button id="clipboard_copy"><b>скопировать в буфер обмена</b></button></td>
+            <td style="text-align: right"><a href="https://oplata.regplat.ru/webpay/paycheck.jsp?isprint=1&tid=<%= data[0]['tid'] %>&card_num=<%= data[0]['Card_number'] %>&type=4" title="Печать"><img src="images/print.png" alt="print"/></a></td>
+        </tr>
+    </table>
+    <br>
+
+    <% if(hasOwnProperty('state')){ %>
+    <br>
+    <h3>Изменение состояний</h3>
+        <table id="modal_bills" class="display dataTable">
+            <thead>
+            <tr>
+                <th>Дата изменения</th>
+                <th>предыдущее состояние</th>
+                <th>новое состояние</th>
+                <th>try state</th>
+                <th>код результата</th>
+                <th>Полученный текст</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% state.forEach(function(raw) { %>
+            <tr>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['date_change'] %></td>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['old_state'] %></td>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['new_state'] %></td>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['try_state'] %></td>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['result_code'] %></td>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['result_text'] %></td>
+            </tr>
+            <% }); %>
+            </tbody>
+        </table>
+    <% } %>
+    <% if(hasOwnProperty('data')){ %>
+    <br>
+    <h3>Информация pd4</h3>
+        <table class="display">
+            <thead>
+            <tr>
+                <th>Название</th><th>Значение</th><th>Описание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(function(raw) { %>
+            <tr>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['extentName'] %></td>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['purpose'] %></td>
+                <td class="center" style="background-color: #e1f1fe"><%= raw['Description'] %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+        </table>
+    <% } %>
+    <br>
+</div>

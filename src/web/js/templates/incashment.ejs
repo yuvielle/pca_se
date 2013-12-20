@@ -1,0 +1,93 @@
+<div id="text" class="pop_window">
+    <img class="btn_close" src="images/x_button.png" alt="Close">
+    <% if(hasOwnProperty('data')){ %>
+    <% if(hasOwnProperty('term_name') && term_name != '') { %>
+    <h1>Данные инкассаций терминала <% if(hasOwnProperty('term_name')){ %><%= term_name %><% } %></h1>
+    <hr style="clear: both"/> <br>
+    <table id="modal_bills" class="display">
+        <thead><tr>
+            <th width="10%">TERMINAL_DATE</th>
+            <th>RECEIVE_DATE</th><th>CASH_COUNT</th>
+            <th>CASH_AMOUNT</th><th>count</th>
+        </tr></thead>
+        <tbody>
+    <% data.forEach(function(raw){ %>
+    <tr><td><%= raw['TERMINAL_DATE'] %></td><td><%= raw['RECEIVE_DATE'] %></td><td><%= raw['CASH_COUNT'] %></td><td><%= raw['CASH_AMOUNT'] %></td>
+        <td>
+            1 х <%= raw['monet']['one'] %> шт. = <%= (raw['monet']['one']) %> руб.<br/>
+            2 х <%= raw['monet']['two'] %> шт. = <%= (raw['monet']['two']*2) %> руб.<br/>
+            5 х <%= raw['monet']['five'] %> шт. = <%= (raw['monet']['five']*5) %> руб.<br/>
+            10 х <%= raw['monet']['tenm'] %> шт. = <%= (raw['monet']['tenm']*10) %> руб.<br/>
+            10 х <%= raw['monet']['ten'] %> шт. = <%= (raw['monet']['ten']*10) %> руб.<br/>
+            50 х <%= raw['monet']['fifty'] %> шт. = <%= (raw['monet']['fifty']*50) %> руб.<br/>
+            100 х <%= raw['monet']['hundred'] %> шт. = <%= (raw['monet']['hundred']*100) %> руб.<br/>
+            500 х <%= raw['monet']['fiveh'] %> шт. = <%= (raw['monet']['fiveh']*500) %> руб.<br/>
+            1000 х <%= raw['monet']['onet'] %> шт. = <%= (raw['monet']['onet']*1000) %> руб.<br/>
+            5000 х <%= raw['monet']['fivet'] %> шт. = <%= (raw['monet']['fivet']*5000) %> руб.<br/>
+        </td>
+    </tr>
+    <% }); %>
+     </tbody>
+     <div id="modal-pager"></div>
+    </table>
+    <% } else { %>
+    <h1>Данные инкассаций терминалов </h1>
+    <hr style="clear: both"/>
+    <div id="error_message"/></div>
+    <table class=total_incass>
+    <thead>
+    <tr><th colspan="5">Купюры</th><th></th><th colspan="5">Монеты</th></tr>
+    </thead>
+       <tbody>
+          <tr><td>10</td><td>х</td><td><%= ten %> шт.</td><td>=</td><td><%= tenm*10 %> руб.</td><td class="empty"></td><td>1</td><td>х</td><td><%= one %> шт.</td><td>=</td><td><%= one %> руб.</td></tr>
+          <tr><td>50</td><td>х</td><td><%= fifty %> шт.</td><td>=</td><td><%= fifty*50 %> руб.</td><td class="empty"></td><td>2</td><td>х</td><td><%= two %> шт.</td><td>=</td><td><%= two*2 %> руб.</td></tr>
+          <tr><td>100</td><td>х</td><td><%= hundred %> шт.</td><td>=</td><td><%= hundred*100 %> руб.</td><td class="empty"></td><td>5</td><td>х</td><td><%= five %> шт.</td><td>=</td><td><%= five*5 %> руб.</td></tr>
+          <tr><td>500</td><td>х</td><td><%= fiveh %> шт.</td><td>=</td><td><%= fiveh*500 %> руб.</td><td class="empty"></td><td>10</td><td>х</td><td><%= ten %> шт.</td><td>=</td><td><%= ten*10 %> руб.</td></tr>
+          <tr><td>1000</td><td>х</td><td><%= onet %> шт.</td><td>=</td><td><%= onet*1000 %> руб.</td><td class="empty"></td><td></td><td></td></tr>
+          <tr><td>5000</td><td>х</td><td><%= fivet %> шт.</td><td>=</td><td><%= fivet*5000 %> руб.</td><td class="empty"></td><td></td><td></td></tr>
+       </tbody>
+    </table>
+    <br>
+    <div style="font-size: 16px; font-weight: bolder; color: #2B547E" id="group_filter">Фильтр по группе:
+        <select id="groups_incas"><option value="0">Все терминалы</option>
+            <% groups.forEach(function(group){ %>
+            <option value="<%= group['id_group'] %>" <% if(group['id_group'] == current_group){ %>selected<% } %>><%= group['group_name'] %></option>
+            <% }); %>
+        </select>
+    </div>
+    <div id="search_date"><form><span style="font-size: 16px; font-weight: bolder; color: #2B547E">&nbsp;&nbsp;По дате:</span><label>&nbsp;C </label><input class="datePicker" type="text" name="search_from" id="search_from"value="<% if(hasOwnProperty('start_date')){ %><%= directDateFormat(start_date) %><% } %>"/>
+    <label> По </label><input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
+    <img src="images/search-icon.png" id="search_start"/></form></div>
+   <div style="clear: both"></div>
+<table id="modal_bills" class="display">
+            <thead>
+            <tr>
+                <th>TERMINAL_DATE</th><th>name</th><th>CASH_AMOUNT</th><th>count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(function(raw){ %>
+                <tr>
+                    <td><%= raw['TERMINAL_DATE'] %></td>
+                    <td><%= raw['name'] %></td>
+                    <td><%= raw['CASH_AMOUNT'] %></td>
+                    <td>
+                        1 х <%= raw['monet']['one'] %> шт. = <%= (raw['monet']['one']) %> руб.<br/>
+                        2 х <%= raw['monet']['two'] %> шт. = <%= (raw['monet']['two']*2) %> руб.<br/>
+                        5 х <%= raw['monet']['five'] %> шт. = <%= (raw['monet']['five']*5) %> руб.<br/>
+                        10 х <%= raw['monet']['tenm'] %> шт. = <%= (raw['monet']['tenm']*10) %> руб.<br/>
+                        10 х <%= raw['monet']['ten'] %> шт. = <%= (raw['monet']['ten']*10) %> руб.<br/>
+                        50 х <%= raw['monet']['fifty'] %> шт. = <%= (raw['monet']['fifty']*50) %> руб.<br/>
+                        100 х <%= raw['monet']['hundred'] %> шт. = <%= (raw['monet']['hundred']*100) %> руб.<br/>
+                        500 х <%= raw['monet']['fiveh'] %> шт. = <%= (raw['monet']['fiveh']*500) %> руб.<br/>
+                        1000 х <%= raw['monet']['onet'] %> шт. = <%= (raw['monet']['onet']*1000) %> руб.<br/>
+                        5000 х <%= raw['monet']['fivet'] %> шт. = <%= (raw['monet']['fivet']*5000) %> руб.<br/>
+                    </td>
+                </tr>
+            <% }); %>
+            </tbody>
+        <div id="modal-pager"></div>
+        </table>
+    <% } %>
+    <% } %>
+</div>

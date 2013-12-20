@@ -1,0 +1,68 @@
+<?php   $terminalErrors = $this->terminalErrors;
+$current_time = time(); ?>
+<div class="terminal_errors">
+
+    <?php
+    if (mssql_num_rows($terminalErrors) > 0) {
+
+        while ($term = library_utils::MyIconv(mssql_fetch_array($terminalErrors))) {
+            if ($term['PointType'] == 3) {
+                $nTr = $term['PointID'];
+                $timetable = mssql_query("[pendjurina].[owebs_mini_GetTermTimetable] " . $nTr . "");
+                if (mssql_num_rows($timetable) > 0) {
+                    $rasp = array(array());
+                    $i = 0;
+                    while ($table = library_utils::MyIconv(mssql_fetch_array($timetable))) {
+                        $rasp[$i][0] = $table['start_time'];
+                        $rasp[$i][1] = $table['end_time'];
+                        $rasp[$i][2] = $table['period'];
+                        $i++;
+                    }
+                    $date = date('H', $current_time);
+                    for ($k = 0; $k < $i; $k++) {
+                        $time_from_connect2 = strtotime($term['LastDatePay']);
+                        $timedifference = $current_time - $time_from_connect2;
+                        $days = round($timedifference / 86400);
+                        $hours = round($timedifference / 3600);
+                        $minuts = round(($timedifference - $hours * 3600) / 60);
+                        $hours_f = round(($timedifference - $days * 86400) / 3600);
+
+                        $difference = $days * 24 + $hours_f * 60 + $minuts;
+
+                        if (($rasp[$k][0] < $rasp[$k][1]) and ($date > (int)$rasp[$k][0]) and ($date < (int)$rasp[$k][1])) {
+                            $max_time = $rasp[$k][2];
+
+
+                            if ($difference > $max_time) {
+                                echo '<p>Внимание! На терминале "' . $term['PointName'] . '" нет платежей более ' . $max_time . ' минут</p>';
+                            }
+                        } else
+                            if ($rasp[$k][0] >= $rasp[$k][1]) {
+                                if ($date < $rasp[$k][1])
+                                    if (($date > 0) and ($date < $rasp[$k][1])) {
+                                        $max_time = $rasp[$k][2];
+
+                                        if ($difference > $max_time) {
+                                            echo '<p>Внимание! На терминале "' . $term['PointName'] . '" нет платежей более ' . $max_time . ' минут</p>';
+                                        }
+                                    }
+                                if ($date > $rasp[$k][0])
+                                    if (($date < 24) and ($date < $rasp[$k][0])) {
+                                        $max_time = $rasp[$k][2];
+
+                                        if ($difference > $max_time) {
+                                            echo '<p>Внимание! На терминале "' . $term['PointName'] . '" нет платежей более ' . $max_time . ' минут</p>';
+                                        }
+                                    }
+                            }
+
+                    }
+
+                }
+
+                mssql_free_result($timetable);
+            }
+        }
+
+    }  ?>
+</div>

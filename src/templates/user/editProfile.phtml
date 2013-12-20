@@ -1,0 +1,40 @@
+<?php include(dirname(__FILE__) . '/../partials/_printHeader.phtml') ?>
+    <script src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
+    <script src="http://jquery.bassistance.de/validate/additional-methods.js"></script>
+            <div>
+            <form id="user_edit" action="index.php?module=user&action=editProfile" method="post" class="registration">
+            <fieldset>
+            <div><?php $this->result ?></div>
+            <legend>Профиль</legend>
+            <br/>
+            <div id="user_text"><label>Изменить имя</label></div>
+                   <input id="user" type="text" name="phone" />
+                   <div id="pas_text"><label>Введите новый пароль</label></div>
+                   <input id = "password" type="password" name="password" />
+                   <div id="pas_rep_text"><label>Повторите пароль</label></div>
+                   <input id = "password_again" type="password" name="password_again" />
+                   <input type="submit" value="Принять" id="button"/>
+                   </fieldset>
+               </form>
+            </div>
+            <?php if($this->error): ?>
+            <div class="error"><label id="er"><?php echo $this->error ?></label></div>
+            <?php endif ?>
+
+            <script>
+                jQuery.validator.setDefaults({
+                    debug: true,
+                    success: "valid"
+                });
+                $("#user_edit").validate({
+                    rules: {
+                        password: "required",
+                        password_again: {
+                            equalTo: "#password"
+                        }
+                    }
+                });
+            </script>
+         </body>
+    </html>
+<?php include(dirname(__FILE__) . '/../partials/_printFooter.phtml') ?>

@@ -1,0 +1,53 @@
+<div id="text" class="pop_window">
+    <img class="btn_close" src="images/x_button.png" alt="Close">
+    <h1>Информация о прибыли агента</h1>
+    <hr/>
+    <button id="clipboard_copy">скопировать в буфер обмена</button><span>номер счёта: <%= data[count_number] %></span><br>
+    <span>Дата платежа: <%= data[pay_date] %> Состояние платежа: <%= data[pay_state] %></span><br>
+    <span>Последнее изменение: <%= data[last_date] %> Поставщик: <%= data[provider] %></span><br>
+    <span>TID: <%= data[tid] %> Услуга: <%= data[serve] %></span><br>
+    <span>Транзакция: <%= data[transaction] %> Шаблон: <%= data[template] %></span><br>
+    <span>Дата платежа: <%= data[pay_date] %> Состояние платежа: <%= data[pay_state] %></span><br>
+    <div id="search_date">
+        <form>
+            <label>C </label>
+            <input type="text" name="search_from" id="search_from"/>
+            <label> По </label>
+            <input type="text" name="search_till" id="search_till"/>
+            <img src="images/search-icon.png" id="search_start"/>
+        </form>
+    </div>
+    <table id="modal_bills" class="display dataTable" style="float: left; width: 500px;">
+        <thead>
+        <tr>
+            <th>Дата изменения</th>
+            <th>предыдущее состояние</th>
+            <th>новое состояние</th>
+            <th>try state</th>
+            <th>код результата</th>
+            <th>Полученный текст</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% data.forEach(function(raw) { %>
+        <tr>
+            <td> <%= raw[change_date] %></td>
+            <td><%= raw[old_state] %></td>
+            <td><%= raw[new_state] %></td>
+            <td><%= raw[try_state] %></td>
+            <td><%= raw[result_code] %></td>
+            <td><%= raw[receive_text] %></td>
+        </tr>
+        <% }); %>
+    </table>
+    <table>
+        <tr>
+            <td>Название</td><td>Значение</td><td>Описание</td>
+        </tr>
+        <% pd4data.forEach(function(raw)) { %>
+        <tr>
+            <td><%= raw[name] %></td><td><%= raw[value] %></td><td><%= raw[description] %></td>
+        </tr>
+        <% }); %>
+    </table>
+</div>

@@ -1,0 +1,99 @@
+<?php include(dirname(__FILE__) . '/../partials/_header.phtml') ?>
+<?php $agent = $this->agent ?>
+<div class="overflow">
+    <table id="provider_info">
+    <?php if (mssql_num_rows($agent) > 0):
+
+   		while ($agent_info = library_utils::MyIconv(mssql_fetch_array($agent))):
+   			if ($agent_info['err_code'] == 401): ?>
+   				<script type="text/javascript">
+   					document.location.href = "login.php";
+   				</script>
+   			<?php else: ?>
+   				<tr>
+   					<td>Название:</td>
+   					<td><?php echo $agent_info['ProviderName'] ?></td>
+   					<td>Платежей за сегодня:</td>
+   					<td id="Pays_amount"><?php echo $agent_info['pays_amount'] ?></td>
+   				</tr>
+   				<tr>
+   					<td>ИНН:</td>
+   					<td><?php echo $agent_info['INN'] ?></td>
+   					<td>На сумму:</td>
+   					<td id="totalProviderPays"><?php echo$agent_info['pays_sum'] ?></td>
+   				</tr>
+   			<?php endif;
+   		endwhile;
+    else: ?> Ничего не найдено
+    <?php endif ?>
+   </table>
+</div>
+
+<?php include(dirname(__FILE__) . "/../partials/_searchForm.phtml") ?>
+
+<?php $pays = $this->pays ?>
+<div id='loader' style="text-align: center"><img src="images/loading.gif" alt="Идет поиск"/></div>
+<div id="colors_desc_top">
+   	<img src="images/x.png" alt="x"/> Платеж не проведен
+</div> <br><br>
+<div id="demo_gecko">
+    <p> Показано <?php echo mssql_num_rows($pays) ?>  строк</p>
+   <?php if (mssql_num_rows($pays) > 0):  ?>
+    <table class="display table-to-grid" id="example">
+        <thead>
+            <tr>
+                <th style="width:60px !important">trid</th>
+                <th style="width:240px !important">pay_date</th>
+                <th style = "width=20%">account_number</th>
+   				<th style = "width=20%">amount</th>
+   				<th style = "width=20%">pay_status</th>
+   				<th style = "width=20%">point_adress</th>
+                <th>detail</th>
+                <th>print</th>
+            </tr>
+        </thead>
+        <tbody>
+
+    <?php   $style = 1;
+            $terminal_amount = 0;
+   	        $total_sum = 0;
+   	        $total_com = 0;
+   	        $total_total = 0;
+
+
+   	   		  while ($row = library_utils::MyIconv(mssql_fetch_array($pays))):
+
+   			  $pay_status = $row['state'];
+   			  if ($pay_status != 6): ?><tr class="gradeX" id="<?php echo $row['tid'] ?>">
+   			  <?php else: ?><tr class="gradeA" id="<?php echo $row['tid'] ?>">
+              <?php endif ?>
+
+            <td><?php echo $row['tid'] ?></td>
+   			<td><?php echo date('d.m.Y H:i:s', strtotime($row['DatePay'])) ?></a></td>
+   		    <td><?php echo $row['ClientAccount'] ?></a></td>
+   			<td><?php echo $row['summary_amount'] ?></td>
+   			<td><?php echo $row['status_name'] ?></td>
+   			<td style="width:150px !important"><?php echo $row['terminal_name'] ?></td>
+   			<td><a class="detail" href="index.php?action=getDetail&id=<?php echo $row['tid'] ?>" title="Подробнее">Подробнее</a></td>
+   			<td><a href="https://oplata.regplat.ru/webpay/paycheck.jsp?isprint=1&tid=<?php echo $row['tid']?>&card_num=<?php echo $row['Card_number'] ?>&type=4" title="Печать"><img src="images/print.png" alt="print"/></a></td>
+   		</tr>
+
+   		<?php endwhile; ?>
+        </tbody>
+        <div id="table-pager"></div>
+    </table>
+   		<?php else:  ?> <br><br><br>
+                 <p>Ничего не найдено</p>
+        <?php endif ?>
+
+</div>
+
+<div class="clear"></div>
+<br/>
+<?php if (mssql_num_rows($pays) > 0):  ?>
+<div id="colors_desc_bot">
+   	<img src="images/x.png" alt="x"/> Платеж не проведен
+</div>
+<?php endif ?>
+<br/><br/><br/>
+<?php include(dirname(__FILE__) . '/../partials/_printFooter.phtml') ?>

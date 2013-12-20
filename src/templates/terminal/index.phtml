@@ -1,0 +1,226 @@
+<?php include(dirname(__FILE__) . '/../partials/_header.phtml') ?>
+<table id="owner_info">
+    <?php
+    $agent = $this->agent;
+    $group = $this->group;
+    if (mssql_num_rows($agent) > 0):
+        while ($agent_info = library_utils::MyIconv(mssql_fetch_array($agent))) {
+            if ($agent_info['err_code'] == 401): ?>
+
+            <?php else: ?>
+                <tr>
+                    <td>Баланс:</td>
+                    <td><?php echo $agent_info['balance_now'] ?></td>
+                </tr>
+                <tr>
+                    <td>Остаток на начало дня:</td>
+                    <td><?php echo $agent_info['balance_at_midnight'] ?></td>
+                </tr>
+                <tr>
+                    <td>Списано со счета:</td>
+                    <td> <?php echo $agent_info['sum_pays']?></td>
+                </tr>
+                <tr>
+                    <td>Начисленно:</td>
+                    <?php if ((int)$agent_info['sum_added'] == 0):
+                        $sum_added = '0.00'; else: $sum_added = $agent_info['sum_added']; endif; ?>
+                    <td><?php echo $sum_added ?></td>
+                </tr>
+            <?php endif;
+        } else: ?> Ничего не найдено
+    <?php endif ?>
+</table>
+<div class="but">
+    <button name="kupuri" class="buttons" id="kupuri">Купюроприемник</button>
+    <button name="oshibki" class="buttons" id="oshibki">Ошибки</button>
+    <button name="incassacii" class="buttons" id="incassacii">Инкассации</button>
+    <button class="buttons" id="poisk_plateja">Поиск платежа</button>
+    <button class="buttons" id="dohod">Доход</button>
+</div>
+
+<div id="group_filter">Фильтр по группе:
+    <select id="groups">
+        <option value="0">Все терминалы</option>
+        <?php    $agent = 13;
+        if (mssql_num_rows($group) > 0):
+            while ($groups = library_utils::MyIconv(mssql_fetch_array($group))): ?>
+                <option value="<?php echo $groups['id_group'] ?> "><?php echo $groups['group_name'] ?></option>
+            <?php  endwhile;
+        endif ?>
+    </select>
+    <a href="#" title="Создать" id="new_group"><img src="images/new.png" alt="new"/></a><a href="#" title="Изменить"
+                                                                                           id="edit_group"><img
+            src="images/edit-icon.png" alt="edit"/></a><a href="#" title="Удалить" id="delete_group"><img
+            src="images/delete.png" alt="delete"/></a>
+</div>
+<br/>
+<?php include(dirname(__FILE__) . '/../partials/_printErrors.phtml') ?>
+
+<?php $table_name = $this->table_name ?>
+
+<div id="colors_desc_top">
+    <img src="images/x.png" alt="x"/> Нет соединения более 30 минут
+    <img src="images/c.png" alt="с"/> Ошибка купюроприемника или принтера
+    <img src="images/u.png" alt="u"/> Нет платежей более 3 часов
+</div><br><br><br>
+<div id="demo_gecko">
+    <span id="count"></span>
+    <!---<table id="detail" style="width: 100%"></table><div id="pager_detail"></div>-->
+    <table class="display table-to-grid" id="<?php echo $table_name ?>">
+        <thead>
+        <tr>
+            <th style="width:60px !important">tid</th>
+            <th style="width:240px !important">term_name</th>
+            <th style="width=20%">pay</th>
+            <th style="width=20%">amount</th>
+            <th style="width=20%">comm</th>
+            <th style="width=20%">zach</th>
+            <th>C</th>
+            <th>K</th>
+            <th>P</th>
+            <th>B</th>
+            <th>O</th>
+            <th style="width=10%">last_pay</th>
+            <th style="width=20%">last_connect</th>
+            <th style="width=20%">cash</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <?php
+        $style = 1;
+        $terminal_amount = 0;
+        $total_sum = 0;
+        $total_com = 0;
+        $total_total = 0;
+        $total_pays = 0;
+        $total_kupurs = 0;
+
+
+        if (mssql_num_rows($this->Result) > 0):
+
+            while ($row = library_utils::MyIconv(mssql_fetch_array($this->Result))) { //todo remove to controller
+
+                if ($row['PointType'] == 3) {
+                    $terminal = $row['PointID'];
+                    $term_bills = 0;
+
+                    $last_connect = date('d.m.Y H:i:s', strtotime($row['LastSession']));
+                    $last_payment = date('d.m.Y H:i:s', strtotime($row['LastDatePay']));
+                    $current_time = time();
+
+                    $time_from_connect2 = strtotime($row['LastSession']);
+                    $time_from_payment2 = strtotime($row['LastDatePay']);
+
+                    $timedifference = $current_time - $time_from_connect2;
+                    $days = floor($timedifference / 86400);
+                    $hours = floor($timedifference / 3600);
+                    $hours_f_c = $hours - $days * 24;
+                    $minuts = round(($timedifference - round($hours * 3600)) / 60, 0);
+                    $difference = ($days * 24 * 60) + (($hours - $days * 24 - 1) * 60) + $minuts;
+
+                    $time_from_payment2 = strtotime($row['LastDatePay']);
+                    $days_p = floor(($current_time - $time_from_payment2) / 86400);
+                    $hours_p = floor(($current_time - $time_from_payment2) / 3600);
+                    $hours_f_p = $hours_p - $days_p * 24;
+
+                    $connect = 0;
+                    $payment_status = 1;
+
+                    if (($days != 0) || ($hours_f_c != 0) || ($minuts > 30)): //Если последнее соединение больше 30 минут назад
+                        $connect = 5; ?>
+                        <tr class="gradeX" id="<?php echo $row['PointID'] ?>">
+                    <?php elseif (($row['terminal_validator_state'] != 0) || ($row['terminal_printer_state'] != 0)): //Если есть ошибка купюроприемника или принтера  ?>
+                        <tr class="gradeC" id="<?php echo $row['PointID'] ?>">
+                    <?php elseif (($days_p != 0) || ($hours_f_p > 2)): //Если последний платеж больше 3 часа назад
+                        ?>
+                        <tr class="gradeU" id="<?php echo $row['PointID'] ?>">
+                        <?php $class = 'pay_no' ?>
+                    <?php else:
+                        $payment_status = 0; ?>
+                        <tr class="gradeA" id="<?php echo $row['PointID'] ?>">
+                        <?php $class = 'pay_yes' ?>
+                    <?php endif;
+
+                    if ($connect == 5) $connect_status = '<div class="notvisible">' . $connect . '</div><img src="images/red.png" alt="c"/>';
+                    else $connect_status = '<div class="notvisible">' . $connect . '</div><img  src="images/green.png" alt="c"/>';
+
+                    if ($row['terminal_validator_state'] == 0)
+                        $terminal_validator = '<div class="notvisible">' . $row['terminal_validator_state'] . '</div><img src="images/green.png" alt="b"/>';
+                    else $terminal_validator = '<div class="notvisible">1</div><img src="images/red.png" alt="b"/>';
+                    if ($row['terminal_printer_state'] == 0)
+                        $printer = '<div class="notvisible">' . $row['terminal_printer_state'] . '</div><img src="images/green.png" alt="p"/>';
+                    else $printer = '<div class="notvisible">2</div><img src="images/red.png" alt="p"/>';
+
+                    if ($row['update_installed'] == 0)
+                        $updates = '<div class="notvisible">' . $row['update_installed'] . '</div><img src="images/red.png" alt="u"/>';
+                    else $updates = '<div class="notvisible">' . $row['update_installed'] . '</div><img src="images/green.png" alt="u"/>';
+                    if ($row['balance_state'] == 0)
+                        $balance = '<div class="notvisible">' . $row['balance_state'] . '</div><img src="images/green.png" alt="bal"/>';
+                    else $balance = '<div class="notvisible">' . $row['balance_state'] . '</div><img src="images/red.png" alt="bal"/>';
+                    if (substr($row['pays_sum'], -2) == '00')
+                        $pays_sum = substr_replace($row['pays_sum'], '', -3, 3);
+                    else $pays_sum = $row['pays_sum'];
+                    if (substr($row['pays_com'], -2) == '00')
+                        $pays_com = substr_replace($row['pays_com'], '', -3, 3);
+                    else $pays_com = $row['pays_com'];
+                    if (substr($row['pays_total'], -2) == '00')
+                        $pays_total = substr_replace($row['pays_total'], '', -3, 3);
+                    else $pays_total = $row['pays_total'];
+                    if ((int)$row['max_kup'] != 0) {
+                        if ($row['kupurs_count'] > (int)$row['max_kup'])
+                            $kupurs_class = 'red_text toomuch';
+                        else $kupurs_class = 'current_sum';
+                    } else $kupurs_class = 'current_sum';
+                    $total_sum += $pays_sum;
+                    $total_com += $pays_com;
+                    $total_total += $pays_total;
+                    $total_pays += $row['pays_count'];
+                    $total_kupurs += $row['kupurs_sum'];
+                    $term_bills = 5; ?>
+                    <td style="width:60px !important"><?php echo $row['PointID'] ?></td>
+                    <td style="width:240px !important"><?php echo $row['PointName'] ?></td>
+                    <td class="center bills" style="width:65px !important"><?php echo $row['pays_count']?$row['pays_count']:0 ?></td>
+                    <td class="sum" style="width:65px !important"><?php echo $pays_sum?$pays_sum:0 ?></td>
+                    <td class="com" style="width:65px !important"><?php echo $pays_com?$pays_com:0 ?></td>
+                    <td class="total"><?php echo $pays_total?$pays_total:0 ?></td>
+                    <td class="center"><a class="connect_status" href="#"><?php echo $connect_status ?></a></td>
+                    <td class="center"><a class="bill_acceptor" href="#"><?php echo $terminal_validator ?></a></td>
+                    <td class="center"><a class="printer" href="#"><?php echo $printer ?></a></td>
+                    <td class="center"><a class="balance <?php echo $class ?>" href="#"><?php echo $balance ?></a></td>
+                    <td class="center"><a class="updates" href="#"><?php echo $updates ?></a></td>
+                    <td class="center last_payment"><?php echo $last_payment ?></td>
+                    <td class="center last_connect"><?php echo $last_connect ?></td>
+                    <td class="center <?php echo $kupurs_class ?>"><?php echo $row['kupurs_sum']?$row['kupurs_sum']:0 ?></td>
+                    </tr>
+                    <?php  $terminal_amount = 0;
+                }
+            } else: ?>Ничего не найдено <?php endif ?>
+
+        </tbody>
+        <div id="table-pager"></div>
+    </table>
+    <table class="total_bottom">
+        <tr>
+            <td id="empty1">Итого:</td>
+            <td id="total_pays"><?php echo $total_pays ?></td>
+            <td id="total_sum"><?php echo $total_sum ?></td>
+            <td id="total_com"><?php echo $total_com ?></td>
+            <td id="total_total"><?php echo $total_total ?></td>
+            <td id="empty2"></td>
+            <td id="total_kupurs"><?php echo $total_kupurs ?></td>
+        </tr>
+    </table>
+</div>
+
+<div class="clear"></div>
+<br/>
+
+<div id="colors_desc_bot">
+    <img src="images/x.png" alt="x"/> Нет соединения более 30 минут
+    <img src="images/c.png" alt="с"/> Ошибка купюроприемника или принтера
+    <img src="images/u.png" alt="u"/> Нет платежей более 3 часов
+</div>
+<br/><br/><br/>
+
+<?php include(dirname(__FILE__) . '/../partials/_printFooter.phtml') ?>

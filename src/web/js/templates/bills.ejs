@@ -1,0 +1,40 @@
+<div id="text" class="pop_window">
+<img src="images/x_button.png" class="btn_close" alt="Close" />
+<h1>Данные по платежам терминала <%= term_name %>: </h1><hr/>
+
+<div class="green">Общая сумма: <%= $total_amount %> рублей</div><br/><br/>
+<hr/><br/>
+<div class="green">Общее количество купюр: <%= $totalk %></div><br/>
+10 х  <%= $ten %> шт. =  <%= ($ten * 10) %> руб.<br/>
+50 х  <%= $fifty %> шт. = <%= ($fifty * 50) %> руб.<br/>
+100 х  <%= $hundred %> шт. = <%= ($hundred * 100) %> руб.<br/>
+500 х  <%= $fiveh %> шт. = <%= ($fiveh * 500) %> руб.<br/>
+1000 х  <%= $onet %> шт. = <%= ($onet * 1000) %> руб.<br/>
+5000 х  <%= $fivet %> шт. = <%= ($fivet * 5000) %> руб.<br/>
+<br/>
+<div class="green">Общее количество монет: <%= $totalm %></div><br/>
+1 х  <%= $one %> шт. = <%= ($one) %> руб.<br/>
+2 х  <%= $two %> шт. = <%= ($two * 2) %> руб.<br/>
+5 х  <%= $five %> шт. = <%= ($five * 5) %> руб.<br/>
+10 х  <%= $tenm %> шт. = <%= ($tenm * 10) %> руб.<br/>
+<table>
+    <thead>
+    <tr>
+        <th>Время вложения</th>
+        <th>Номинал</th>
+        <th>Название терминала</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% data.forEach(function (raw) { %>
+    <tr>
+        <td> <%= $row[RECEIVE_TIME] %></td>
+        <td><%= $row[CASH_NOMINAL] %></td>
+        <td><%= $row[name] %></td>
+        <td>0</td>
+    </tr>
+    <% }); %>
+</tbody>
+</table>
+</div>

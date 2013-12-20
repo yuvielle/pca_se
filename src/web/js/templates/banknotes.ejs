@@ -1,0 +1,81 @@
+<div id="text" class="pop_window">
+    <img class="btn_close" src="images/x_button.png" alt="Close">
+    <% if(hasOwnProperty('term_name') && term_name != '') { %>
+    <h1>Данные купюроприемника терминала <%= term_name %></h1>
+    <% } else { %>
+    <h1>Данные купюроприемников терминалов </h1>
+    <% } %>
+    <hr style="clear: both; width:100%"/>
+    <div id="search_date">
+        <form>
+            <label>C </label>
+            <input class="datePicker" type="text" name="search_from" id="search_from" value="<% if(hasOwnProperty('start_date')){ %><%= directDateFormat(start_date) %><% } %>"/>
+            <label> По </label>
+            <input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
+            <img src="images/search-icon.png" id="search_start"/>
+        </form>
+    </div>
+    <div id="ajax_loader" style="clear: both"></div>
+    <div style="float: left; width: 500px; padding-top: 16px">
+        <% if(hasOwnProperty('data')){ %>
+        <table id="modal_bills" class="display dataTable">
+            <thead><tr>
+                <th>RECEIVE_TIME</th>
+                <th>CASH_NOMINAL</th>
+                <% if(!hasOwnProperty('term_name') || term_name == '') { %>
+                <th>name</th>
+                <% } %>
+            </tr></thead>
+            <tbody>
+            <% data.forEach(function(raw){ %>
+            <tr>
+                <td><%= raw['RECEIVE_TIME'] %></td>
+                <td><%= raw['CASH_NOMINAL'] %></td>
+                <% if(!hasOwnProperty('term_name') || term_name == '') { %>
+                <td><%= raw['name'] %></td>
+                <% } %>
+            </tr>
+            <% }); %>
+            </tbody>
+            <div id="modal-pager"></div>
+        </table>
+        <% } %>
+    </div>
+        <% if(!hasOwnProperty('ten')){ var ten = 0 } %>
+        <% if(!hasOwnProperty('fifty')){ var fifty = 0 } %>
+        <% if(!hasOwnProperty('hundred')){ var hundred=0 } %>
+        <% if(!hasOwnProperty('fiveh')){ var fiveh=0 } %>
+        <% if(!hasOwnProperty('onet')){ var onet=0 } %>
+        <% if(!hasOwnProperty('fivet')){ var fivet=0 } %>
+        <% if(!hasOwnProperty('totalm')){ var totalm=0 } %>
+        <% if(!hasOwnProperty('one')){ var one=0 } %>
+        <% if(!hasOwnProperty('two')){ var two=0 } %>
+        <% if(!hasOwnProperty('five')){ var five=0 } %>
+        <% if(!hasOwnProperty('tenm')){ var tenm=0 } %>
+        <% if(!hasOwnProperty('total_amount')){ var total_amount=0 } %>
+        <% if(!hasOwnProperty('totalk')){ var totalk=0 } %>
+
+
+        <div class="left_table">
+            <div class="green">Общая сумма: <%= total_amount %> рублей</div>
+            <br/>
+            <hr/>
+
+            <div class="green">Общее количество купюр: <%= totalk %></div>
+            <br/>
+            10 х <%= ten %> шт. = <%= (ten*10) %> руб.<br/>
+            50 х <%= fifty %> шт. = <%= (fifty*50) %> руб.<br/>
+            100 х <%= hundred %> шт. = <%= (hundred*100) %> руб.<br/>
+            500 х <%= fiveh %> шт. = <%= (fiveh*500) %> руб.<br/>
+            1000 х <%= onet %> шт. = <%= (onet*1000) %> руб.<br/>
+            5000 х <%= fivet %> шт. = <%= (fivet*5000) %> руб.<br/>
+            <br/>
+
+            <div class="green">Общее количество монет: <%= totalm %></div>
+            <br/>
+            1 х <%= one %> шт. = <%= (one) %> руб.<br/>
+            2 х <%= two %> шт. = <%= (two*2) %> руб.<br/>
+            5 х <%= five %> шт. = <%= (five*5) %> руб.<br/>
+            10 х <%= tenm %> шт. = <%= (tenm*10) %> руб.<br/>
+        </div>
+    </div>

@@ -1,0 +1,46 @@
+<script src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
+<script src="http://jquery.bassistance.de/validate/additional-methods.js"></script>
+<div id="text" class="pop_window">
+    <img class="btn_close" src="images/x_button.png" alt="Close">
+    <h1>Настройки</h1>
+    <hr style="clear: both"/>
+    <div>
+        <form id="user_edit" action="index.php?module=user&action=editProfile" method="post" class="registration">
+            <fieldset>
+                <% if(hasOwnProperty('result')){ %>
+                <div><%= result %></div>
+                <% } %>
+                <legend>Профиль</legend>
+                <br/>
+
+                <div id="user_text"><label>Изменить имя</label></div>
+                <input id="user" type="text" name="phone"/>
+
+                <div id="pas_text"><label>Введите новый пароль</label></div>
+                <input id="password" type="password" name="password"/>
+
+                <div id="pas_rep_text"><label>Повторите пароль</label></div>
+                <input id="password_again" type="password" name="password_again"/>
+                <input type="submit" value="Принять" id="button"/>
+            </fieldset>
+        </form>
+    </div>
+    <% if(hasOwnProperty('error')){ %>
+    <div class="error"><label id="er"><%= error %></label></div>
+    <% } %>
+
+    <script>
+        jQuery.validator.setDefaults({
+            debug: true,
+            success: "valid"
+        });
+        $("#user_edit").validate({
+            rules: {
+                password: "required",
+                password_again: {
+                    equalTo: "#password"
+                }
+            }
+        });
+    </script>
+</div>

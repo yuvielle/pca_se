@@ -1,0 +1,29 @@
+<form action="timetable.php" id="time_form">
+    <table>
+        <tbody id="timetable">
+        <tr>
+            <td><label>Период уведомления</label></td>
+            <td><select id="time_select" onChange="findselected()">
+                <option value="0">Круглосуточно</option>
+                <option value="1">Задать рассписание</option>
+            </select></td>
+            <td></td>
+        </tr>
+        <tr class="rasp0">
+            <td></td>
+            <td><label>C </label><input type="text" class="from_till datePicker" id="timetable_input" disabled="disabled"
+                name="start_time0"/><label> По </label><input type="text" class="from_till datePicker"  id="timetable_input2"
+                disabled="disabled" name="end_time0"/></td>
+            <td></td>
+        </tr>
+        <tr class="rasp0">
+            <td><label>Уведомлять, если платежей нет дольше:</label></td>
+            <td><input type="text" class="from_till" id="time_input" name="max_time_from_pay0"/> минут</td>
+            <td><a href="#" id="add_setting" onclick="addTableRow()" disabled="disabled">Добавить настройку</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="hidden" id="default-id" value="0"/><input type="hidden" name="id_terminal" value="dataT[0]"/>
+    <input type="hidden" name="action" value="1"/><input type="submit" class="buttons" id="save_timetable" value="Сохранить"/>
+</form>
+

@@ -1,0 +1,11 @@
+<tr class="rasp<%= id %>">
+<td></td>
+<td><label>C </label><input type="text" class="from_till" id="timetable_input<%= id %>" name="start_time<%= id %>"/><label> По </label><input type="text" class="from_till" id="timetable_input2<%= id %>"  name="end_time<%= id %>"/></td>
+<td></td>
+</tr>
+<tr class="rasp<%= id %>">
+   <td><label>Уведомлять, если платежей нет дольше:</label></td>
+   <td><input type="text" class="from_till" id="time_input<%= id %>" name="max_time_from_pay<%= id %>"/> минут</td>
+   <td><a href="#" class="delete_setting" onclick="deleteTableRow(<%= id %>)">-Удалить эту настройку</a><br/>
+       <a href="#" id="add_setting" onclick="addTableRow()">Добавить новую настройку</a></td>
+</tr>

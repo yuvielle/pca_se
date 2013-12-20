@@ -1,0 +1,31 @@
+<div id="search_form">
+    <form method="post">
+        <table style="width: 95%">
+            <tr><th colspan="5">Фильтры:</th> </tr>
+            <tr>
+                <td colspan="2">Период<br><label>C </label><input value="<?php echo $this->search_from ?>" class="datePicker" type="text" name="search_from"/>
+                    <label> &nbsp;&nbsp;По </label><input value="<?php echo $this->search_till ?>" type="text" class="datePicker" name="search_till"/>
+                </td>
+                <td>Статус платежа<br>
+                    <select name="pay_state">
+                        <option value="" <?php if(!$this->pay_state): ?>selected="" <?php endif ?>>Любой</option>
+                        <option value="6" <?php if($this->pay_state == 6): ?>selected="" <?php endif ?>>Проведен</option>
+                        <option value="8" <?php if($this->pay_state == 8): ?>selected="" <?php endif ?>>Отменен</option>
+                        <option value="11" <?php if($this->pay_state == 11): ?>selected="" <?php endif ?>>Отложен</option>
+                        <option value="10" <?php if($this->pay_state == 10): ?>selected="" <?php endif ?>>Перепроведен</option>
+                     </select>
+                </td>
+
+                <td rowspan="2"><input type="submit" value="Поиск" class="buttons" id="start_search"/></td>
+                <td style="width: 10%"></td>
+                <td rowspan="2" style="text-align: right;"><a id="excell" href="#" title="Выгрузить в Excel"><img src="images/excel.png" alt="Выгрузить в Excel"/></a></td>
+            </tr>
+            <tr>
+                <td>Номер счета<br><input value="<?php echo $this->client_acount ?>" type="text" name="client_acount"/></td>
+                <td>Номер транзакции<br><input value="<?php echo $this->tid ?>" type="text" name="tid"/></td>
+                <td>Сумма платежа<br><input value="<?php echo $this->client_amount ?>" type="text" name="client_amount"/></td>
+                <td style="width: 10%"></td>
+            </tr>
+        </table>
+    </form>
+</div>
