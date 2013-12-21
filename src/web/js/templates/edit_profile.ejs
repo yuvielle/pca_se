@@ -1,5 +1,3 @@
-<script src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
-<script src="http://jquery.bassistance.de/validate/additional-methods.js"></script>
 <div id="text" class="pop_window">
     <img class="btn_close" src="images/x_button.png" alt="Close">
     <h1>Настройки</h1>
@@ -30,17 +28,34 @@
     <% } %>
 
     <script>
-        jQuery.validator.setDefaults({
-            debug: true,
-            success: "valid"
-        });
-        $("#user_edit").validate({
-            rules: {
-                password: "required",
-                password_again: {
-                    equalTo: "#password"
+        $(document).ready(function () {
+            $.validator.setDefaults({
+                debug: true,
+                success: "valid"
+            });
+            $("#user_edit").validate({
+                rules: {
+                    password: {
+                        required: true,
+                        minlength: 5,
+                        equalTo: "#password_again"
+                    },
+                    password_again:{
+                        required: true,
+                        equalTo: "#password"
+                    }
+                },
+                  messages: {
+                      password: {
+                          required: "Обязательно задайте пароль",
+                          minlength: "Минимальная длина пароля 5 символов",
+                          equalTo: "Значения полей &laquo;Ввведите новый пароль&raquo; и &laquo;Повторите пароль&raquo; должны быть одинаковыми"
+                      },
+                      password_again:{
+                          equalTo: "Значения полей &laquo;Ввведите новый пароль&raquo; и &laquo;Повторите пароль&raquo; должны быть одинаковыми"
+                      }
                 }
-            }
+            })
         });
     </script>
 </div>

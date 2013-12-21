@@ -5,7 +5,7 @@
     <% } else { %>
     <h1>Данные купюроприемников терминалов </h1>
     <% } %>
-    <hr style="clear: both; width:100%"/>
+    <hr style="clear: both; width:100%"/><br>
     <div id="search_date">
         <form>
             <label>C </label>
@@ -15,8 +15,9 @@
             <img src="images/search-icon.png" id="search_start"/>
         </form>
     </div>
+    <div style="position: relative; left: 115px; top: -3px;" class="dataTables_filter"><label>Поиск: <input id="modal_filter" aria-controls="example" type="text"></label></div>
     <div id="ajax_loader" style="clear: both"></div>
-    <div style="float: left; width: 500px; padding-top: 16px">
+    <div style="float: left; width: 500px; padding-top: 0px">
         <% if(hasOwnProperty('data')){ %>
         <table id="modal_bills" class="display dataTable">
             <thead><tr>

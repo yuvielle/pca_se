@@ -33,6 +33,8 @@
         
 
 <% if(hasOwnProperty('data') && data.length > 0){ %>
+<div style="clear: both;" class="dataTables_filter"><label>Поиск: <input id="modal_filter" aria-controls="example" type="text"></label></div>
+<br><br>
 <table id="modal_bills" class="display">
 <thead><th>DatePay</th><th>tid</th><th>sub_tid</th><th>point_oid</th><th>ProviderName</th><th>state</th><th>ClientAccount</th><th>summary_amount</th><th>Commission</th><th>amount</th></thead>
 <tbody>

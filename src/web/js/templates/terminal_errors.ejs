@@ -28,6 +28,7 @@
     <div id="search_date"><form><label>C </label><input class="datePicker" type="text" name="search_from" id="search_from"value="<% if(hasOwnProperty('start_date')){ %><%= directDateFormat(start_date) %><% } %>"/>
         <label> По </label><input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
         <img src="images/search-icon.png" id="search_start"/></form></div>
+        <div style="position: relative; left: 115px; top: -3px;" class="dataTables_filter"><label>Поиск: <input id="modal_filter" aria-controls="example" type="text"></label></div>
     <% } %>
         <div style="clear: both"></div> <br>
 <table id="modal_bills" class="display">

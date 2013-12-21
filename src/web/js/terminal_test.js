@@ -16,6 +16,10 @@ var pays_amount = '';
 var summa = '';
 var commission = '';
 var all = '';
+var columnNames = [];
+var modalNames = [];
+var colnames;
+var colmodel;
 
 $(document).ready(function () {
 
@@ -46,6 +50,7 @@ $(document).ready(function () {
         altRows: true,
         altclass: 'altRowClass',
         ignoreCase:true,
+        multiSort:true,
         //rownumbers: true,
         colNames: ['#', 'Название терминала', 'Платежи', 'Сумма', 'Ком.', 'Зачис.', 'С', 'К',
             'П', 'Б', 'О', 'Последний платеж', 'Последнее соединение', 'Наличные'],
@@ -128,22 +133,25 @@ $(document).ready(function () {
                 //height: '100px',
                 width: '800px'
             });
+        },
+        loadComplete: function(){
+            columnNames = [];
+            var columns = $(".table-to-grid").jqGrid('getGridParam','colModel');
+            for(key in columns){
+                if(columns[key]['name'] != 'subgrid') columnNames.push(columns[key]['name']);
+            }
         }
     });
     $("#count").html("показано " + jQuery(".table-to-grid").jqGrid('getGridParam', 'records') + " записей");
     $('.table-to-grid').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false, ignoreCase:true });
-    $(".table-to-grid").jqGrid('navGrid', '#table-pager', {edit: false, add: false, del: false}, {}, {}, {}, {multipleSearch: true, multipleGroup: true});
-    $(".table-to-grid").jqGrid('sortGrid', "C", true, "asc").jqGrid('sortGrid', "K", true, "asc").jqGrid('sortGrid', "P", true, "asc").jqGrid('sortGrid', "B", true, "asc");
-    $(".table-to-grid").trigger("reloadGrid");
+    $(".table-to-grid").jqGrid('navGrid', '#table-pager', {edit: false, add: false, del: false, view :true}, {}, {}, {}, {multipleSearch: true, multipleGroup: true});
+    $(".table-to-grid").sortGrid("C", true, "desc").sortGrid("K", true, "desc").sortGrid("P", true, "desc").sortGrid("B", true, "desc").trigger("reloadGrid");
 
     $("#detail").jqGrid({
         row: {},
         datatype: "json",
-        //rowNum:2,
-        //rowList:[2,5,10],
         height: 'auto',
-        //pager: '#pager_detail',
-        //scroll: 1,
+        ignoreCase:true,
         viewrecords: true,
         caption: "Invoice Detail",
         colNames: ['Транзакция', 'Время', 'Поставщик услуги', 'Номер счета', 'Состояние', 'Сумма', 'Комиссия', 'Зачислено'],
@@ -217,6 +225,11 @@ $(document).ready(function () {
             $("#" + rowId).removeClass('ui-state-highlight');
         }
     }
+
+    $(document).on('keyup', '#general_filter', function(e){
+        var vals = Array.apply(null, new Array(columnNames.length)).map(String.prototype.valueOf,$(this).val());
+        OnChangeGridSelect('.table-to-grid', columnNames, vals, 'OR', 'cn');
+    });
 
     //Нажатие на название терминала - Информация о терминале
     $(document).on("click", '#example tbody td .name', function (e) {
@@ -344,7 +357,10 @@ $(document).ready(function () {
                     rowNum: 10,
                     rowList: [10, 20, 50],
                     pager: '#modal-pager',
+                    ignoreCase:true,
                     altRows: true,
+                    colNames: colnames,
+                    colModel: colmodel,
                     altclass: 'altRowClass'
                 });
             }
@@ -358,8 +374,8 @@ $(document).ready(function () {
         var render_html = kupuriTemplate.render({term_name: term_name});
         $("#new_table").html(render_html);
         var url;
-        var colnames = ['Время вложения', 'Номинал'];
-        var colmodel = [{name: 'RECEIVE_TIME', index: 'RECEIVE_TIME', width: 70, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
+        colnames = ['Время вложения', 'Номинал'];
+        colmodel = [{name: 'RECEIVE_TIME', index: 'RECEIVE_TIME', width: 70, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
                         {name: 'CASH_NOMINAL', index: 'CASH_NOMINAL', width: 50, align: "right", sorttype: "int"}
                          ];
         if (term_id == '') {
@@ -388,9 +404,17 @@ $(document).ready(function () {
                     rowList: [10, 20, 50],
                     pager: '#modal-pager',
                     altRows: true,
+                    ignoreCase:true,
                     altclass: 'altRowClass',
                     colNames: colnames,
-                    colModel: colmodel
+                    colModel: colmodel,
+                    loadComplete: function(){
+                        modalNames = [];
+                        var columns = $("#modal_bills").jqGrid('getGridParam','colModel');
+                        for(key in columns){
+                            if(columns[key]['name'] != 'subgrid') modalNames.push(columns[key]['name']);
+                        }
+                    }
                 });
             },
             error: function (e) {
@@ -412,8 +436,8 @@ $(document).ready(function () {
         $("#new_table").html(render_html);
         var url;
         var error = '';
-        var colnames = ['Дата'];
-        var colmodel = [{name: 'RECEIVE_TIME', index: 'RECEIVE_TIME', width: 70, sorttype: "date", datefmt: 'd.m.Y H:i:s'}];
+        colnames = ['Дата'];
+        colmodel = [{name: 'RECEIVE_TIME', index: 'RECEIVE_TIME', width: 70, sorttype: "date", datefmt: 'd.m.Y H:i:s'}];
         if (term_name != '') {
             url = 'index.php?action=terminalErrors&id_terminal=' + term_id;
             alert(select_row.C);
@@ -462,7 +486,15 @@ $(document).ready(function () {
                     altRows: true,
                     altclass: 'altRowClass',
                     colNames: colnames,
-                    colModel: colmodel
+                    colModel: colmodel,
+                    ignoreCase:true,
+                    loadComplete: function(){
+                        modalNames = [];
+                            var columns = $("#modal_bills").jqGrid('getGridParam','colModel');
+                            for(key in columns){
+                                if(columns[key]['name'] != 'subgrid') modalNames.push(columns[key]['name']);
+                        }
+                    }
                 });
             }
         });
@@ -478,8 +510,8 @@ $(document).ready(function () {
         var render_html = incashmentTemplate.render([]);
         $("#new_table").html(render_html);
         var url;
-        var colnames = ['Время на терминале'];
-        var colmodel = [{name: 'TERMINAL_DATE', index: 'TERMINAL_DATE', width: 60, sorttype: "date", datefmt: 'd.m.Y H:i:s'}];
+        colnames = ['Время на терминале'];
+        colmodel = [{name: 'TERMINAL_DATE', index: 'TERMINAL_DATE', width: 60, sorttype: "date", datefmt: 'd.m.Y H:i:s'}];
         if (term_name != '') {
             url = 'index.php?id_terminal=' + term_id + '&action=encashment';
             colnames.push('Время на сервере', 'Количество купюр');
@@ -516,7 +548,15 @@ $(document).ready(function () {
                     altRows: true,
                     altclass: 'altRowClass',
                     colNames: colnames,
-                    colModel: colmodel
+                    colModel: colmodel,
+                    ignoreCase: true,
+                    loadComplete: function () {
+                        modalNames = [];
+                        var columns = $("#modal_bills").jqGrid('getGridParam', 'colModel');
+                        for (key in columns) {
+                            if (columns[key]['name'] != 'subgrid') modalNames.push(columns[key]['name']);
+                        }
+                    }
                 });
             }
         });
@@ -559,18 +599,18 @@ $(document).ready(function () {
         var transaction = $('#transaction').val();
         var client_account = $('#client_account').val();
         var client_amount = $('#client_amount').val();
-        var colnames = ['Дата', 'TID', 'Транзакция', 'Терминал', 'Поставщик', 'Состояние', 'Счет', 'Сумма', 'Комиссия', 'Зачисленно'];
-        var colmodel = [
+        colnames = ['Дата', 'TID', 'Транзакция', 'Терминал', 'Поставщик', 'Состояние', 'Счет', 'Сумма', 'Комиссия', 'Зачисленно'];
+        colmodel = [
             {name: 'DatePay', index: 'DatePay', width: 60, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
             {name: 'tid', index: 'tid', width: 50, align: "left", sorttype: "string"},
             {name: 'sub_tid', index: 'sub_tid', width: 60, align: "left", sorttype: "string"},
             {name: 'point_oid', index: 'point_oid', width: 40, align: "left", sorttype: "string"},
-            {name: 'ProviderName', index: 'ProviderName', width: 140, align: "left", sorttype: "string"},
+            {name: 'ProviderName', index: 'ProviderName', width: 130, align: "left", sorttype: "string"},
             {name: 'state', index: 'state', width: 50, align: "left", sorttype: "string"},
             {name: 'ClientAccount', index: 'ClientAccount', width: 80, align: "left", sorttype: "string"},
             {name: 'summary_amount', index: 'summary_amount', width: 40, align: "left", sorttype: "float", formatter: "number"},
             {name: 'Commission', index: 'Commission', width: 40, align: "left", sorttype: "float", formatter: "number"},
-            {name: 'amount', index: 'amount', width: 40, align: "left", sorttype: "float", formatter: "number"}
+            {name: 'amount', index: 'amount', width: 50, align: "left", sorttype: "float", formatter: "number"}
         ];
         if (((start_date != '') && (end_date != '')) && ((id_terminal != '') || (pay_type != '') || (pay_state != '') || (tid != '') || (transaction != '') || (client_account != '') || (client_amount != ''))) {
             $.ajax({
@@ -593,7 +633,15 @@ $(document).ready(function () {
                         altRows: true,
                         altclass: 'altRowClass',
                         colNames: colnames,
-                        colModel: colmodel
+                        colModel: colmodel,
+                        ignoreCase: true,
+                        loadComplete: function () {
+                            modalNames = [];
+                            var columns = $("#modal_bills").jqGrid('getGridParam', 'colModel');
+                            for (key in columns) {
+                                if (columns[key]['name'] != 'subgrid') modalNames.push(columns[key]['name']);
+                            }
+                        }
                     });
                 }
             });
@@ -633,8 +681,8 @@ $(document).ready(function () {
                 data['term_name'] = term_name;
                 data['id_terminal'] = term_id;
                 incomeTemplate.update('new_table', data);
-                var colnames = ['Дата', 'Количество платежей', 'Сумма платежей', 'Комиссия'];
-                var colmodel = [
+                colnames = ['Дата', 'Количество платежей', 'Сумма платежей', 'Комиссия'];
+                colmodel = [
                     {name: 'date', index: 'date', width: 60, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
                     {name: 'pays_amount', index: 'pays_amount', width: 40, align: "left", sorttype: "int"},
                     {name: 'summa', index: 'summa', width: 40, align: "left", sorttype: "float", formatter: "number"},
@@ -648,7 +696,15 @@ $(document).ready(function () {
                     altRows: true,
                     altclass: 'altRowClass',
                     colNames: colnames,
-                    colModel: colmodel
+                    colModel: colmodel,
+                    ignoreCase: true,
+                    loadComplete: function () {
+                        modalNames = [];
+                        var columns = $("#modal_bills").jqGrid('getGridParam', 'colModel');
+                        for (key in columns) {
+                            if (columns[key]['name'] != 'subgrid') modalNames.push(columns[key]['name']);
+                        }
+                    }
                 });
                 plot(data['x_axis'], data['y_axis']);
             }
@@ -701,7 +757,17 @@ $(document).ready(function () {
                     rowList: [10, 20, 50],
                     pager: '#modal-pager',
                     altRows: true,
-                    altclass: 'altRowClass'
+                    altclass: 'altRowClass',
+                    ignoreCase: true,
+                    colNames: colnames,
+                    colModel: colmodel,
+                    loadComplete: function () {
+                        modalNames = [];
+                        var columns = $("#modal_bills").jqGrid('getGridParam', 'colModel');
+                        for (key in columns) {
+                            if (columns[key]['name'] != 'subgrid') modalNames.push(columns[key]['name']);
+                        }
+                    }
                 });
                 plot(data['x_axis'], data['y_axis']);
             }
@@ -939,18 +1005,19 @@ $(document).ready(function () {
         return false;
     });
 
-    function OnChangeGridSelect(table_id, fieldNames, searchArray) {
-
+    function OnChangeGridSelect(table_id, fieldNames, searchArray, groupOp, op) {
+        groupOp = typeof groupOp !== 'undefined' ? groupOp : 'OR';
+        op = typeof op !== 'undefined' ? op : 'eq';
         var rules = [];
         for (var search in searchArray) {
-            rules.push({"field": fieldNames[search], "op": "eq", "data": searchArray[search]})
+            rules.push({"field": fieldNames[search], "op": op, "data": searchArray[search]})
         }
 
         var filters = JSON.stringify({
-            "groupOp": "OR",
+            "groupOp": groupOp,
             "rules": rules
         });
-        //alert(filters);
+
         var grid = jQuery(table_id);
         var postdata = grid.jqGrid('getGridParam', 'postData');
 
@@ -971,10 +1038,16 @@ $(document).ready(function () {
                 filters: filters
             });
         }
+        //alert(JSON.stringify(postdata));
         grid.jqGrid('setGridParam', { search: true, postData: postdata });
         grid.trigger("reloadGrid", [
             { page: 1}
         ]);
     }
+
+    $(document).on('keyup', '#modal_filter', function(e){
+        var vals = Array.apply(null, new Array(modalNames.length)).map(String.prototype.valueOf,$(this).val());
+        OnChangeGridSelect('#modal_bills', modalNames, vals, 'OR', 'cn');
+    });
 });
 

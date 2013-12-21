@@ -37,7 +37,6 @@
     <button class="buttons" id="poisk_plateja">Поиск платежа</button>
     <button class="buttons" id="dohod">Доход</button>
 </div>
-
 <div id="group_filter">Фильтр по группе:
     <select id="groups">
         <option value="0">Все терминалы</option>
@@ -62,9 +61,9 @@
     <img src="images/x.png" alt="x"/> Нет соединения более 30 минут
     <img src="images/c.png" alt="с"/> Ошибка купюроприемника или принтера
     <img src="images/u.png" alt="u"/> Нет платежей более 3 часов
-</div><br><br><br>
+</div><div style="padding-left: 20px" class="dataTables_filter"><label>Поиск: <input id="general_filter" aria-controls="example" type="text"></label></div> <br>
+<br>
 <div id="demo_gecko">
-    <span id="count"></span>
     <!---<table id="detail" style="width: 100%"></table><div id="pager_detail"></div>-->
     <table class="display table-to-grid" id="<?php echo $table_name ?>">
         <thead>
@@ -200,6 +199,7 @@
         </tbody>
         <div id="table-pager"></div>
     </table>
+    <span id="count"></span>
     <table class="total_bottom">
         <tr>
             <td id="empty1">Итого:</td>

@@ -191,7 +191,7 @@ class app_terminalController extends app_baseController
             if (mssql_num_rows($pays) > 0) {
                 while ($pay = library_utils::MyIconv(mssql_fetch_array($pays))) {
                     $sub_tid = explode('-', $pay['sub_inner_tid']);
-                    $pay['DatePay'] = (date('d-m-Y H:i:s', strtotime($pay['DatePay'])));
+                    $pay['DatePay'] = (date('d.m.Y H:i:s', strtotime($pay['DatePay'])));
                     $pay['sub_tid'] = @$sub_tid[2];
                     array_push($data, $pay);
                 }
@@ -227,7 +227,7 @@ class app_terminalController extends app_baseController
                 $month = date('m');
                 $date = 'Y-' . ($month - 1) . '-01 00:00:00';
                 $day_start = date($date);
-                $day_end = date('Y-m-01 23:59:59');
+                $day_end = date('Y-m-01 00:00:00');
                 break;
             case 4:
                 $day_start = date('Y-01-01 00:00:00');
