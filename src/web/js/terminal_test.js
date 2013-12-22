@@ -31,10 +31,8 @@ $(document).ready(function () {
     var incomeTemplate = new EJS({url: ' js/templates/income.ejs'});
     var terminalInfo = new EJS({url: ' js/templates/terminal_info.ejs'});
     var terminalScheduleAdd = new EJS({url: 'js/templates/terminal_schedule_add.ejs'});
-    var addTableRowTemplate = new EJS({url: 'js/templates/add_table_row.ejs'});
     var groupForm = new EJS({url: 'js/templates/group_form.ejs'});
     var detailTemplate = new EJS({url: 'js/templates/pay_detail.ejs'});
-    var editProfileTemplate = new EJS({url: 'js/templates/edit_profile.ejs'});
 
     var datePick = function (elem) {
         $("elem").datepicker();
@@ -76,14 +74,14 @@ $(document).ready(function () {
         afterInsertRow: function(rowId, data){
             var val = $(".table-to-grid").jqGrid('getRowData', rowId);
             //alert(val.B);
-            if (val.C == '<a class="connect_status" href="#"><div class="notvisible">5</div><img src="images/red.png" alt="c"></a>') {
+            if (val.C == '<a class="connect_status" href="#"><div class="notvisible a">5</div><img src="images/red.png" alt="c"></a>') {
                 //alert('k=' + val.K);
                 $('#' + rowId).children("td").css('background-color', "#ff7777");
             }
-            else if((val.K != '<a class="bill_acceptor" href="#"><div class="notvisible">0</div><img src="images/green.png" alt="b"></a>') || (val.P != '<a class="printer" href="#"><div class="notvisible">0</div><img src="images/green.png" alt="p"></a>')){
+            else if((val.K != '<a class="bill_acceptor" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="b"></a>') || (val.P != '<a class="printer" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="p"></a>')){
                 $('#' + rowId).children("td").css('background-color', "#FFDDAA");
             }
-            else if(val.B == '<a class="balance pay_no" href="#"><div class="notvisible">0</div><img src="images/green.png" alt="bal"></a>'){
+            else if(val.B == '<a class="balance pay_no" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="bal"></a>'){
                 $('#' + rowId).children("td").css('background-color', "#DDDDEE");
             }
         },
@@ -304,24 +302,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    function addTableRow() {
-        /* default-id — скрытый элемент формы, из которого берется id для первого создаваемого элемента */
-        var id = document.getElementById("default-id").value;
-        id++;
-        /* в форму с именем testform добавляем новый элемент */
-        var render_html = addTableRowTemplate.render({'id': id});
-        $("#timetable").append(render_html);
-        $('#timetable_input' + id).mask("99:99");
-        $('#timetable_input2' + id).mask("99:99");
-
-        /* увеличиваем счетчик элементов */
-        document.getElementById("default-id").value = id;
-    }
-
-    function deleteTableRow(id) {
-        $('.rasp' + id + '').remove();
-    }
 
     //Нажатие на ссылку Наличность - вызовет Данные купюроприемника
     $(document).on("click", '#example tbody td .current_sum', function () {
@@ -979,29 +959,6 @@ $(document).ready(function () {
                 }
             });
         }
-        return false;
-    });
-
-    $(document).on('click', ".edit_profile", function (e) {
-        $("#overlay").fadeIn();
-        $("#new_table").fadeIn();
-        e.preventDefault();
-        var render_html = editProfileTemplate.render({});
-        $("#new_table").html(render_html);
-        return false;
-    });
-
-    $(document).on('click', "#button", function (e) {
-        var post = $(e.target).parents('form').serialize();
-        $.ajax({
-            url: 'index.php?module=user&action=editProfile',
-            data: post,
-            type: "POST",
-            success: function (data) {
-                alert(data);
-                editProfileTemplate.update('new_table', JSON.parse(data));
-            }
-        });
         return false;
     });
 

@@ -47,9 +47,12 @@ class app_userController extends app_baseController {
     public function editProfile(library_request $request, library_session $session){
         $result_message ='';
         $error = '';
-        if($request->isPost() && ($_POST['phone'] || $_POST['password'] || $_POST['email'])){
+        if($request->isPost() && $this->checkEditForm()){
             try{
-                if(!$user_id = $session->getLoginId()) $this->redirect('login');
+                $user_id = $session->getLoginId();
+                if(!$user_id && $request->isXmlHttpRequest()) {
+                    header('HTTP/1.1 403 Forbidden');
+                } elseif(!$user_id) $this->redirect('login', array('module=' . 'user'));
                 $query = "SELECT * FROM dbo.owebs_mini_logins WHERE id_login = '" . $user_id . "'";
                 $data = $this->Query($query);
                 if (mssql_num_rows($data) > 0) {
@@ -85,6 +88,14 @@ class app_userController extends app_baseController {
         $this->view->result = $result_message;
         $this->view->error = $error;
         echo $this->view->render();
+    }
+
+    private function checkEditForm(){
+        if($_POST['phone'] || ($_POST['password'] && $_POST['password_again']) || $_POST['email']){
+            if($_POST['password'] !== $_POST['password_again']) return false;
+            return true;
+        }
+        return false;
     }
 
     private function check_user()

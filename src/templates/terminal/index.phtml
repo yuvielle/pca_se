@@ -141,22 +141,22 @@
                         <?php $class = 'pay_yes' ?>
                     <?php endif;
 
-                    if ($connect == 5) $connect_status = '<div class="notvisible">' . $connect . '</div><img src="images/red.png" alt="c"/>';
-                    else $connect_status = '<div class="notvisible">' . $connect . '</div><img  src="images/green.png" alt="c"/>';
+                    if ($connect == 5) $connect_status = '<div class="notvisible a">' . $connect . '</div><img src="images/red.png" alt="c"/>';
+                    else $connect_status = '<div class="notvisible b">' . $connect . '</div><img  src="images/green.png" alt="c"/>';
 
                     if ($row['terminal_validator_state'] == 0)
-                        $terminal_validator = '<div class="notvisible">' . $row['terminal_validator_state'] . '</div><img src="images/green.png" alt="b"/>';
-                    else $terminal_validator = '<div class="notvisible">1</div><img src="images/red.png" alt="b"/>';
+                        $terminal_validator = '<div class="notvisible b">' . $row['terminal_validator_state'] . '</div><img src="images/green.png" alt="b"/>';
+                    else $terminal_validator = '<div class="notvisible a">1</div><img src="images/red.png" alt="b"/>';
                     if ($row['terminal_printer_state'] == 0)
-                        $printer = '<div class="notvisible">' . $row['terminal_printer_state'] . '</div><img src="images/green.png" alt="p"/>';
-                    else $printer = '<div class="notvisible">2</div><img src="images/red.png" alt="p"/>';
+                        $printer = '<div class="notvisible b">' . $row['terminal_printer_state'] . '</div><img src="images/green.png" alt="p"/>';
+                    else $printer = '<div class="notvisible a">2</div><img src="images/red.png" alt="p"/>';
 
                     if ($row['update_installed'] == 0)
-                        $updates = '<div class="notvisible">' . $row['update_installed'] . '</div><img src="images/red.png" alt="u"/>';
-                    else $updates = '<div class="notvisible">' . $row['update_installed'] . '</div><img src="images/green.png" alt="u"/>';
+                        $updates = '<div class="notvisible a">' . $row['update_installed'] . '</div><img src="images/red.png" alt="u"/>';
+                    else $updates = '<div class="notvisible b">' . $row['update_installed'] . '</div><img src="images/green.png" alt="u"/>';
                     if ($row['balance_state'] == 0)
-                        $balance = '<div class="notvisible">' . $row['balance_state'] . '</div><img src="images/green.png" alt="bal"/>';
-                    else $balance = '<div class="notvisible">' . $row['balance_state'] . '</div><img src="images/red.png" alt="bal"/>';
+                        $balance = '<div class="notvisible b">' . $row['balance_state'] . '</div><img src="images/green.png" alt="bal"/>';
+                    else $balance = '<div class="notvisible a">' . $row['balance_state'] . '</div><img src="images/red.png" alt="bal"/>';
                     if (substr($row['pays_sum'], -2) == '00')
                         $pays_sum = substr_replace($row['pays_sum'], '', -3, 3);
                     else $pays_sum = $row['pays_sum'];

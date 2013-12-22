@@ -1,4 +1,4 @@
-<form action="timetable.php" id="time_form">
+<form action="index.php?action=insertTermTimetable" id="time_form">
     <table>
         <tbody id="timetable">
         <tr>
@@ -24,6 +24,61 @@
         </tbody>
     </table>
     <input type="hidden" id="default-id" value="0"/><input type="hidden" name="id_terminal" value="dataT[0]"/>
-    <input type="hidden" name="action" value="1"/><input type="submit" class="buttons" id="save_timetable" value="Сохранить"/>
+    <input type="hidden" name="action" value="insertTermTimetable"/><input type="submit" class="buttons" id="save_timetable" value="Сохранить"/>
 </form>
+<script>
+    var addTableRowTemplate = new EJS({url: 'js/templates/add_table_row.ejs'});
+
+    //Разблокировка ввода
+    function findselected(){
+    	var state = document.getElementById('time_select');
+    	var notus = document.getElementById('timetable_input');
+    	var notus2 = document.getElementById('timetable_input2');
+    	var notus3 = document.getElementById('add_setting');
+    	if (state.value == "1")
+    		{
+    		notus.disabled=false;
+    		notus2.disabled=false;
+    		notus3.disabled=false;
+    		}
+    	else {
+    		notus.disabled=true;
+    		notus2.disabled=true;
+    		notus3.disabled=true;
+    		}
+    	}
+
+    	function datesAble(radio) {
+    		var start = document.getElementById('search_from');
+    		var end = document.getElementById('search_till');
+    		if (radio.value =="5")
+    		{
+    			start.disabled=false;
+    			end.disabled=false;
+    		}
+    		else {
+    			start.disabled=true;
+    			end.disabled=true;
+    		}
+    	}
+
+    function addTableRow() {
+        alert('test');
+        /* default-id — скрытый элемент формы, из которого берется id для первого создаваемого элемента */
+        var id = document.getElementById("default-id").value;
+        id++;
+        /* в форму с именем testform добавляем новый элемент */
+        var render_html = addTableRowTemplate.render({'id': id});
+        $("#timetable").append(render_html);
+        $('#timetable_input' + id).mask("99:99");
+        $('#timetable_input2' + id).mask("99:99");
+
+        /* увеличиваем счетчик элементов */
+        document.getElementById("default-id").value = id;
+    }
+
+    function deleteTableRow(id) {
+        $('.rasp' + id + '').remove();
+    }
+</script>
 

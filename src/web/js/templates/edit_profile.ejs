@@ -2,39 +2,45 @@
     <img class="btn_close" src="images/x_button.png" alt="Close">
     <h1>Настройки</h1>
     <hr style="clear: both"/>
-    <div>
-        <form id="user_edit" action="index.php?module=user&action=editProfile" method="post" class="registration">
-            <fieldset>
+    <div class="ui-widget ui-widget-content ui-corner-all" style="margin: 10px 40px 10px 20px;">
+        <form id="user_edit" class="ui-corner-all" style="text-align: left; padding: 10px 30px; border: 0" action="index.php?module=user&action=editProfile" method="post">
                 <% if(hasOwnProperty('result')){ %>
                 <div><%= result %></div>
                 <% } %>
-                <legend>Профиль</legend>
-                <br/>
-
-                <div id="user_text"><label>Изменить имя</label></div>
-                <input id="user" type="text" name="phone"/>
-
-                <div id="pas_text"><label>Введите новый пароль</label></div>
-                <input id="password" type="password" name="password"/>
-
-                <div id="pas_rep_text"><label>Повторите пароль</label></div>
-                <input id="password_again" type="password" name="password_again"/>
-                <input type="submit" value="Принять" id="button"/>
-            </fieldset>
+                <h2>Профиль</h2>
+                <div class="ui-dialog-content" style="padding: 20px 0 10px 60px">
+                    <div id="user_text"><label>Изменить имя</label></div>
+                    <input id="phone" style="height: 25px; margin: 0 0 10px 0" type="text" name="phone"/>
+                    <div id="pas_text"><label>Введите новый пароль</label></div>
+                    <input id="password" style="height: 25px; margin: 0 0 10px 0" type="password" name="password"/>
+                    <div id="pas_rep_text"><label>Повторите пароль</label></div>
+                    <input id="password_again" style="height: 25px; margin: 0 0 10px 0" type="password" name="password_again"/>
+                </div>
+                <input class="ui-button ui-corner-all" style="margin-top: 50px" type="submit" value="Принять" id="button"/>
         </form>
     </div>
     <% if(hasOwnProperty('error')){ %>
     <div class="error"><label id="er"><%= error %></label></div>
     <% } %>
-
+</div>
     <script>
         $(document).ready(function () {
+            alert('test')
             $.validator.setDefaults({
                 debug: true,
                 success: "valid"
             });
+
+            $.validator.addMethod("usPhoneFormat", function (value, element) {
+                return this.optional(element) || /^\+7 \(\d{3}\) \d{3} \d{2} \d{2}?$/.test(value);
+            }, "<span>&nbsp;&nbsp;Введите правильный телефонный номер</span>");
+
             $("#user_edit").validate({
                 rules: {
+                    phone: {
+                        usPhoneFormat: true,
+                        required: true
+                    },
                     password: {
                         required: true,
                         minlength: 5,
@@ -45,17 +51,17 @@
                         equalTo: "#password"
                     }
                 },
-                  messages: {
-                      password: {
-                          required: "Обязательно задайте пароль",
-                          minlength: "Минимальная длина пароля 5 символов",
-                          equalTo: "Значения полей &laquo;Ввведите новый пароль&raquo; и &laquo;Повторите пароль&raquo; должны быть одинаковыми"
-                      },
-                      password_again:{
-                          equalTo: "Значения полей &laquo;Ввведите новый пароль&raquo; и &laquo;Повторите пароль&raquo; должны быть одинаковыми"
-                      }
+                messages: {
+                    password: {
+                        required: "<span>&nbsp;&nbsp;Обязательно задайте пароль</span>",
+                        minlength: "<span>&nbsp;&nbsp;Минимальная длина пароля 5 символов</span>",
+                        equalTo: "<span>&nbsp;&nbsp;Значения полей &laquo;Новый пароль&raquo; и &laquo;Повторите пароль&raquo; должны совпадать</span>"
+                    },
+                    password_again:{
+                        equalTo: "<span>&nbsp;&nbsp;Не совпадает с значением поля &laquo;Новый пароль&raquo;</span>"
+                    }
                 }
-            })
+            });
+            $('#phone').mask("+7 (999) 999 99 99");
         });
     </script>
-</div>

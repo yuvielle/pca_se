@@ -81,7 +81,7 @@ class library_session {
         $query = "select s.id_login AS id from dbo.owebs_mini_sessions s where hash = '" . $_SESSION['session_hash'] . "'";
         $result = $this->conn->Query($query);
         $result = MSSQL_FETCH_ARRAY($result);
-        return $result[0]['id'];
+        return $result['id'];
     }
 
     public function logout(){
