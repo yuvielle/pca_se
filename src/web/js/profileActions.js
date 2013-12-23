@@ -28,7 +28,7 @@ $(document).ready(function () {
                 data: post,
                 type: "POST",
                 success: function (data) {
-                    alert(data);
+                    //alert(data);
                     editProfileTemplate.update('new_table', JSON.parse(data));
                 }
             });

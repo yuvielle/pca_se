@@ -35,9 +35,8 @@
 <div id='loader' style="text-align: center"><img src="images/loading.gif" alt="Идет поиск"/></div>
 <div id="colors_desc_top">
    	<img src="images/x.png" alt="x"/> Платеж не проведен
-</div> <br><br>
+</div> <div style="padding-left: 20px" class="dataTables_filter"><label>Поиск: <input id="general_filter" aria-controls="example" type="text"></label></div><br><br>
 <div id="demo_gecko">
-    <p> Показано <?php echo mssql_num_rows($pays) ?>  строк</p>
    <?php if (mssql_num_rows($pays) > 0):  ?>
     <table class="display table-to-grid" id="example">
         <thead>

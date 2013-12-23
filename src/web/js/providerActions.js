@@ -12,7 +12,7 @@ var oTable;
 var giRedraw = false;
 var dataT;
 var colDefs = [ { "bSearchable": false, "bVisible": false, "aTargets": [15] }, { "bSearchable": false, "bVisible": false, "aTargets": [13] } ];
-var detailTemplate = new EJS({url: '/js/templates/pay_detail.ejs'});
+var detailTemplate = new EJS({url: 'js/templates/pay_detail.ejs'});
 
 $(document).ready(function () {
     // refresh captcha
@@ -63,14 +63,14 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                alert(data);
+                //alert(data);
                 data = JSON.parse(data);
                 var render_html = detailTemplate.render(data);
                 $("#new_table").html(render_html);
             },
             error: function (e) {
                 $('#ajax_loader').hide();
-                alert('error: ' + e.message);
+                //alert('error: ' + e.message);
             }
         });
         return false;
@@ -80,7 +80,7 @@ $(document).ready(function () {
                     url: 'index.php?action=excellWrite',
                     type: "GET",
                     success: function (data) {
-                        alert(data);
+                        //alert(data);
                     }
             });
 

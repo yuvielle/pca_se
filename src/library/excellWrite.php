@@ -54,6 +54,8 @@ class library_excellWrite
     public function save()
     {
         $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel2007');
-        $objWriter->save($this->tempPath . 'file.xlsx');
+        header("Content-Type: application/vnd.ms-excel");
+        header('Content-Disposition: attachment; filename="pays.xlsx"');
+        $objWriter->save('php://output');
     }
 }

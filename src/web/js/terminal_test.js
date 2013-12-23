@@ -33,6 +33,7 @@ $(document).ready(function () {
     var terminalScheduleAdd = new EJS({url: 'js/templates/terminal_schedule_add.ejs'});
     var groupForm = new EJS({url: 'js/templates/group_form.ejs'});
     var detailTemplate = new EJS({url: 'js/templates/pay_detail.ejs'});
+    var payDetailShort = new EJS({url: 'js/templates/pay_detail_short.ejs'});
 
     var datePick = function (elem) {
         $("elem").datepicker();
@@ -50,6 +51,7 @@ $(document).ready(function () {
         ignoreCase:true,
         multiSort:true,
         //rownumbers: true,
+        viewrecords: true,
         colNames: ['#', 'Название терминала', 'Платежи', 'Сумма', 'Ком.', 'Зачис.', 'С', 'К',
             'П', 'Б', 'О', 'Последний платеж', 'Последнее соединение', 'Наличные'],
         colModel: [
@@ -207,15 +209,15 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     $('#ajax_loader').hide();
-                    alert(data);
+                    //alert(data);
                     data = JSON.parse(data);
-                    alert(data['state'].length);
+                    //alert(data['state'].length);
                     var render_html = detailTemplate.render(data);
                     $("#new_table").html(render_html);
                 },
                 error: function (e) {
                     $('#ajax_loader').hide();
-                    alert('error: ' + e.message);
+                    //alert('error: ' + e.message);
                 }
             });
         } else if (e.which === 3) {
@@ -247,7 +249,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                alert(data);
+                //alert(data);
                 data = JSON.parse(data);
                 data['term_name'] = name;
                 data['id_terminal'] = id;
@@ -283,7 +285,7 @@ $(document).ready(function () {
                 url: 'index.php?id_timetable=' + id_timetable + '&action=terminalScheduleDelete',     // указываем URL
                 type: "GET",                     // метод
                 success: function (data) {
-                    alert(data);
+                    //alert(data);
                     document.location.reload();
                 }
             });
@@ -298,7 +300,7 @@ $(document).ready(function () {
             url: 'index.php?id_terminal=' + id + '&max_kup=' + max_kup + '&action=banknotesMaxCountChange',     // указываем URL
             type: "GET",                     // метод
             success: function (data) {
-                alert(data);
+                //alert(data);
                 document.location.reload();
             }
         });
@@ -329,7 +331,7 @@ $(document).ready(function () {
                 $('#modal_bills').html('<img src="images/loading.gif" alt="Идет поиск"/>');
             },
             success: function (data) {
-                alert(data);
+                //alert(data);
                 data = JSON.parse(data);
                 data['term_name'] = term_name;
                 search_template.update('new_table', data);
@@ -374,10 +376,10 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                alert(data);
+                //alert(data);
                 data = JSON.parse(data);
                 data['term_name'] = term_name;
-                alert('t=' + term_name);
+                //alert('t=' + term_name);
                 kupuriTemplate.update('new_table', data);
                 tableToGrid("#modal_bills", {
                     height: 'auto',
@@ -421,7 +423,7 @@ $(document).ready(function () {
         colmodel = [{name: 'RECEIVE_TIME', index: 'RECEIVE_TIME', width: 70, sorttype: "date", datefmt: 'd.m.Y H:i:s'}];
         if (term_name != '') {
             url = 'index.php?action=terminalErrors&id_terminal=' + term_id;
-            alert(select_row.C);
+            //alert(select_row.C);
             if ((select_row.C == '<a class="connect_status" href="#"><div class="notvisible">5</div><img src="images/red.png" alt="c"></a>') || (select_row.B == '<a class="bill_acceptor" href="#"><div class="notvisible">1</div><img src="images/red.png" alt="b"></a>') || (select_row.P == '<a class="printer" href="#"><div class="notvisible">2</div><img src="images/red.png" alt="p"></a>')) {
                 error = true;
             }
@@ -435,7 +437,7 @@ $(document).ready(function () {
             for (var key in datao) {
                 var val = datao[key];
                 if ((val.K != '<a class="bill_acceptor" href="#"><div class="notvisible">0</div><img src="images/green.png" alt="b"></a>') || (val.P != '<a class="printer" href="#"><div class="notvisible">0</div><img src="images/green.png" alt="p"></a>')) {
-                    alert('k=' + val.K);
+                    //alert('k=' + val.K);
                     terminals.push(val.tid);
                     count++;
                 }
@@ -454,7 +456,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                alert(data);
+                //alert(data);
                 data = JSON.parse(data);
                 data['term_name'] = term_name;
                 data['error'] = error;
@@ -517,7 +519,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                alert(data);
+                //alert(data);
                 data = JSON.parse(data);
                 data['term_name'] = term_name;
                 incashmentTemplate.update('new_table', data);
@@ -559,7 +561,7 @@ $(document).ready(function () {
             data: 'action=search',
             type: "GET",                     // метод
             success: function (data) {
-                alert(data);
+                //alert(data);
                 searchTemplate.update('new_table', JSON.parse(data));
             },
             error: function (e) {
@@ -604,7 +606,7 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     $('#ajax_loader').hide();
-                    alert(data);
+                    //alert(data);
                     searchTemplate.update('new_table', JSON.parse(data));
                     tableToGrid("#modal_bills", {
                         height: 'auto',
@@ -616,12 +618,37 @@ $(document).ready(function () {
                         colNames: colnames,
                         colModel: colmodel,
                         ignoreCase: true,
+                        subGrid: true,
                         loadComplete: function () {
                             modalNames = [];
                             var columns = $("#modal_bills").jqGrid('getGridParam', 'colModel');
                             for (key in columns) {
                                 if (columns[key]['name'] != 'subgrid') modalNames.push(columns[key]['name']);
                             }
+                        },
+                        subGridRowExpanded: function (subgrid_id, rowId) {
+                            var subgrid_table_id = subgrid_id + "_t";
+                            var sub_select_row = $('#modal_bills').jqGrid('getRowData', rowId);
+                            alert('i=' + rowId + ' s=' + JSON.stringify(sub_select_row));
+                            var url = 'index.php?action=getDetail&id=' + sub_select_row.tid;
+                            var html = '';
+                            $.ajax({
+                                url: url,
+                                type: "GET",
+                                async: false,
+                                success: function (data) {
+                                    data = JSON.parse(data);
+                                    html = payDetailShort.render(data);
+                                    //alert(html);
+                                },
+                                error: function (e) {
+                                    html = e.message;
+                                }
+                            });
+                            $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'>" +
+                                "<tr><td>" +
+                                 html
+                                + "</td></tr></table>");
                         }
                     });
                 }
@@ -657,7 +684,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                alert(data);
+                //alert(data);
                 data = JSON.parse(data);
                 data['term_name'] = term_name;
                 data['id_terminal'] = term_id;
@@ -704,7 +731,7 @@ $(document).ready(function () {
         var id_terminal = '';
         var terminal_name = '';
         if($('#id_terminal option:selected').val() != ''){
-            alert($('#id_terminal option:selected').val());
+            //alert($('#id_terminal option:selected').val());
             id_terminal = $('#id_terminal option:selected').val();
             terminal_name = $('#id_terminal option:selected').text();
         }
@@ -724,13 +751,13 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                alert(data);
+                //alert(data);
                 data = JSON.parse(data);
                 data['start_day'] = start_date;
                 data['end_day'] = end_date;
                 data['term_name'] = terminal_name;
                 data['id_terminal'] = id_terminal;
-                alert(data['start_day']);
+                //alert(data['start_day']);
                 incomeTemplate.update('new_table', data);
                 tableToGrid("#modal_bills", {
                     height: 'auto',
@@ -756,7 +783,7 @@ $(document).ready(function () {
     });
 
     function plot(x_axis, y_axis) {
-        alert(y_axis);
+        //alert(y_axis);
         var datasets = [
             {fillColor: "rgba(169,231,113,0.5)",
                 strokeColor: "rgba(169,231,113,1)",
@@ -905,7 +932,7 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     $('#ajax_loader').hide();
-                    alert(data);
+                    //alert(data);
                     data = JSON.parse(data);
                     data['group_name'] = group_name;
                     data['group_id'] = id_group;
@@ -920,7 +947,7 @@ $(document).ready(function () {
         e.preventDefault();
         alert($("#terminals").val());
         if ($("#terminals").val()) {
-            alert('test');
+            //alert('test');
             var selected = $('#terminals option:selected').val();
             var selected_name = $('#terminals option:selected').html();
             $('#terminals_in_group').append($('<option value="' + selected + '">' + selected_name + '</option>'));
@@ -951,7 +978,7 @@ $(document).ready(function () {
                 terminals.push($(this).val());
             });
             terminals = JSON.stringify(terminals);
-            alert(terminals + ' ' + group_name);
+            //alert(terminals + ' ' + group_name);
             $.ajax({
                 url: 'index.php?action=saveGroup',
                 data: 'terminals=' + terminals + '&group_name=' + group_name + id_string,
@@ -960,7 +987,7 @@ $(document).ready(function () {
                     alert(data);
                     $("#overlay").fadeOut();
                     $("#new_table").fadeOut();
-                    //document.location.reload();
+                    document.location.reload();
                 }
             });
         }

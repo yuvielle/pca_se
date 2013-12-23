@@ -816,16 +816,25 @@ img.btn_close {
 	margin-top: -3px;
 }
 #empty1 {
-	width: 280px;
+	width: 310px;
 	text-align: right;
-	padding: 2px;
+	padding: 2px 10px 2px 5px;
+    color: #397f3d;
 }
 #empty2 {
 	width: 400px;
 }
-#total_pays, #total_sum, #total_com, #total_total, #total_kupurs {
-	width: 65px;
-	padding: 2px;
+#total_sum, #total_com, #total_total, #total_kupurs {
+	width: 63px;
+    padding: 2px 10px 2px 5px;
+    text-align: right;
+    color: #397F3D;
+}
+#total_pays {
+    width: 40px;
+    padding: 2px 10px 2px 5px;
+    text-align: right;
+    color:#397F3D;
 }
 #total_kupurs {
 	text-align: left;

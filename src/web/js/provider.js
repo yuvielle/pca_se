@@ -94,7 +94,7 @@ $('.delete').click(function() {
 				url: 'admin.php?id='+dataT[7]+'&delete=1', 
 				type : "GET",                     
 				success: function (data) { 
-						alert(data);
+						//alert(data);
 						document.location.reload();
 				} 
 		});

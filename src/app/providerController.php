@@ -40,33 +40,37 @@ class app_providerController  extends app_baseController{
         $pays_data = array();
         $agent_data = array();
         $agent_header = array('name'=>'Провайдер', 'info'=>'описание', 'inn'=>'ИНН', 'agent_info'=>'данные агента');
-        $pays_header = array('pay_status'=>'', 'tid'=>'идентификатор', 'DatePay'=>'дата платежа', 'ClientAccount'=>'номер счёта', 'summary_amount'=>'сумма', 'status_name'=>'статус', 'terminal_name'=>'терминал');
+        $pays_header = array('pay_status'=>'код статуса платежа', 'tid'=>'идентификатор', 'DatePay'=>'дата платежа', 'ClientAccount'=>'номер счёта', 'summary_amount'=>'сумма', 'status_name'=>'статус', 'terminal_name'=>'терминал');
         if (mssql_num_rows($agent) > 0) {
+            $i = 2;
             while ($agent_info = library_utils::MyIconv(mssql_fetch_array($agent))) {
                 if ($agent_info['err_code'] == 401) {
-                    $agent_data[]['name'] = $agent_info['ProviderName'];
-                    $agent_data[]['info'] = $agent_info['pays_amount'];
-                    $agent_data[]['inn'] = $agent_info['INN'];
-                    $agent_data[]['agent_info'] = $agent_info['pays_sum'];
+                    $agent_data[$i]['name'] = $agent_info['ProviderName'];
+                    $agent_data[$i]['info'] = $agent_info['pays_amount'];
+                    $agent_data[$i]['inn'] = $agent_info['INN'];
+                    $agent_data[$i]['agent_info'] = $agent_info['pays_sum'];
                 }
+                $i++;
             }
         }
         if (mssql_num_rows($pays) > 0){
+            $i = 2;
             while ($row = library_utils::MyIconv(mssql_fetch_array($pays))) {
-                $pays_data[]['pay_status'] = $row['state'];
-                $pays_data[]['tid'] = $row['tid'];
-                $pays_data[]['DatePay'] = date('d.m.Y H:i:s', strtotime($row['DatePay']));
-                $pays_data[]['ClientAccount'] = $row['ClientAccount'];
-                $pays_data[]['summary_amount'] = $row['summary_amount'];
-                $pays_data[]['status_name'] = $row['status_name'];
-                $pays_data[]['terminal_name'] = $row['terminal_name'];
+                $pays_data[$i]['pay_status'] = $row['state'];
+                $pays_data[$i]['tid'] = $row['tid'];
+                $pays_data[$i]['DatePay'] = date('d.m.Y H:i:s', strtotime($row['DatePay']));
+                $pays_data[$i]['ClientAccount'] = $row['ClientAccount'];
+                $pays_data[$i]['summary_amount'] = $row['summary_amount'];
+                $pays_data[$i]['status_name'] = $row['status_name'];
+                $pays_data[$i]['terminal_name'] = $row['terminal_name'];
+                $i++;
             }
         }
         $doc = new library_excellWrite();
         $doc->setHeaders(null);
         $doc->addData($pays_header, $pays_data);
         $doc->save();
-        echo 'test';
+        //echo 'test';
     }
 
     public function logout()
@@ -79,20 +83,46 @@ class app_providerController  extends app_baseController{
     public function getDetail(library_request $request, library_session $session){
         $id = $request->id;
 
-        $query = "SELECT 0 as err_code, p.tid, p.Card_number, p.DatePay, gorod.dbo.PD4.ClientAccount, p.state AS state,
-                           pdesc.name as status_name, pe.value as purpose, pe.extent_tid as etid, pdesc.descr as descript,
-                           p.summary_amount, (select t.name  from gorod.dbo.point as t where t.point_oid=p.point_oid) as terminal_name
-                    FROM gorod.dbo.payment p LEFT OUTER JOIN
-                          gorod.dbo.PD4 ON gorod.dbo.PD4.tid = p.tid LEFT OUTER JOIN
-                          gorod.dbo.provider pr ON pr.provider_oid = p.provider_oid LEFT OUTER JOIN
-                          gorod.dbo.payment_state_desc pdesc ON pdesc.state = p.state LEFT OUTER JOIN
-                          gorod.dbo.payment_extent pe ON p.tid = pe.tid
-                    WHERE p.tid = " . $id . " AND p.provider_oid=" . $session->getAgentOid() . " order by p.datepay desc";
+        $query = "SELECT 0 as err_code, p.tid, p.Card_number, p.DatePay, p.DateLastChange, p.amount_commission_provider, p.amount_provider, pd.ClientAccount AS ClientAccount,
+                         pd.ClientFIO AS ClientFIO, pd.ProviderName AS ProviderName, p.state AS state, pdesc.name as status_name,
+                         pe.value as purpose, pe.extent_tid as etid, pdesc.descr as descript, p.summary_amount,
+                         (select t.name  from gorod.dbo.point as t where t.point_oid=p.point_oid) as terminal_name,
+                         e.Description, e.extentName
+                 FROM gorod.dbo.payment p LEFT OUTER JOIN
+                         gorod.dbo.PD4 pd ON pd.tid = p.tid LEFT OUTER JOIN
+                         gorod.dbo.provider pr ON pr.provider_oid = p.provider_oid LEFT OUTER JOIN
+                         gorod.dbo.payment_state_desc pdesc ON pdesc.state = p.state LEFT OUTER JOIN
+                         gorod.dbo.payment_extent pe ON p.tid = pe.tid LEFT OUTER JOIN
+                         gorod.dbo.extent e ON pe.extent_tid = e.extent_tid
+                 WHERE p.tid = " . $id . " AND p.provider_oid=" . $session->getAgentOid() . " order by p.datepay desc";
+
+        $states_query = "SELECT 0 as err_code, p.tid, ph.old_state, ph.new_state, ph.try_state,
+                               ph.result_code, ph.result_text, ph.date_change
+                         FROM gorod.dbo.payment p LEFT OUTER JOIN
+                              gorod.dbo.payment_history ph ON p.tid = ph.tid
+                         WHERE p.tid = " . $id . " AND p.provider_oid=" . $session->getAgentOid() . " order by p.datepay desc";
+
         $pay = $this->Query($query);
-        if (mssql_num_rows($pay) > 0){
-           	$row = library_utils::MyIconv(mssql_fetch_array($pay));
-            echo library_FastJSON::encode($row);
+        $states = $this->Query($states_query);
+        $data = array();
+        $state = array();
+        if (mssql_num_rows($pay) > 0) {
+            while ($row = library_utils::MyIconv(mssql_fetch_array($pay))) {
+                ;
+                $row['DatePay'] = date('d.m.Y H:i:s', strtotime($row['DatePay']));
+                $row['DateLastChange'] = date('d.m.Y H:i:s', strtotime($row['DateLastChange']));
+                array_push($data, $row);
+            }
+
         }
+        if (mssql_num_rows($states) > 0) {
+            while ($row = library_utils::MyIconv(mssql_fetch_array($states))) {
+                ;
+                $row['date_change'] = date('d.m.Y H:i:s', strtotime($row['date_change']));
+                array_push($state, $row);
+            }
+        }
+        echo library_FastJSON::encode(array('data' => $data, 'state' => $state));
     }
 
     private function getTableData(library_request $request, library_session $session, $type) {
@@ -123,5 +153,4 @@ class app_providerController  extends app_baseController{
         }
         return $query;
     }
-
 }
