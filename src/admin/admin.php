@@ -1,6 +1,6 @@
 <?php
 //this is old project of Pendjulina Katja. I did not refactor this
-require "../connect.php";
+require "../config/connect.php";
 $connect =  mssql_connect( $Server, $Login, $Password ) or	die( 'Could not open connection to server' );
 
 mssql_select_db( $DataBase, $connect ) or 	die( 'Could not select database '. $DataBase );
@@ -28,14 +28,14 @@ echo '<!DOCTYPE html>
            <html>
               <head>
                <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-			   <link rel="stylesheet" href="../css/demo_page.css" type="text/css" />
-               <link rel="stylesheet" href="../css/demo_table.css" type="text/css" />
-               <link rel="stylesheet" href="../css/style.css" type="text/css" />
+			   <link rel="stylesheet" href="../web/css/demo_page.css" type="text/css" />
+               <link rel="stylesheet" href="../web/css/demo_table.css" type="text/css" />
+               <link rel="stylesheet" href="../web/css/style.css" type="text/css" />
 
-               <script type="text/javascript" src="../js/jquery-1.7.1.js"></script>
-               <script type="text/javascript" src="../js/jquery.dataTables.js"></script>
-               <script type="text/javascript" src="../js/provider.js"></script>
-			   <script src="../js/jquery.maskedinput-1.3.js" type="text/javascript"></script>
+               <script type="text/javascript" src="../web/js/jquery-1.9.1.js"></script>
+               <script type="text/javascript" src="../web/js/jquery.dataTables.min.js"></script>
+               <script type="text/javascript" src="../web/js/provider.js"></script>
+			   <script src="../web/js/jquery.maskedinput.min.js" type="text/javascript"></script>
 			   	
                <title>regplat</title>
                </head>
@@ -43,13 +43,13 @@ echo '<!DOCTYPE html>
                <body id="dt_example">
 					<div id="container">
 						<div id="header">
-						  <img src="../images/regplat_small.png" alt="logo"/>
+						  <img src="../web/images/regplat_small.png" alt="logo"/>
 						  <h1>Мониторинг терминалов</h1>
 						</div>
-						<div class="exit"><a href="../login.php" title="Выход"><img src="../images/exit.png" alt="exit"/></a></div>
-						<div class="exit" id="exit_text"><a href="../login.php" title="Выход">Выход</a></div>
+						<div class="exit"><a href="../web/index.php" title="Выход"><img src="../web/images/exit.png" alt="exit"/></a></div>
+						<div class="exit" id="exit_text"><a href="../web/index.php" title="Выход">Выход</a></div>
 						<div id="agent" >Данные агентов <br/><br/>
-						<img alt="new" src="../images/new.png" id="new"/>
+						<img alt="new" src="../web/images/new.png" id="new"/>
 						<div class="notvisible" id="right">
 							<form action="#" method="post">
 							<table>
@@ -88,7 +88,7 @@ echo '<!DOCTYPE html>
 				if (mssql_num_rows($agent) > 0)
 					  {
 					  while ($agent_info = mssql_fetch_array($agent)) {
-						echo '<tr><td>'.$agent_info['agent_oid'].'</td><td>'. $agent_info['phone'].'</td><td>Зашифрованно</td><td>'.$agent_info[email].'</td><td>'.$agent_info[status].'</td><td><a href="#" class="edit"><img src="../images/edit.png"/></a></td><td><a href="#" class="delete"><img src="../images/delete.png"/></a></td><td>'.$agent_info['id_login'].'</td></tr>';
+						echo '<tr><td>'.$agent_info['agent_oid'].'</td><td>'. $agent_info['phone'].'</td><td>Зашифрованно</td><td>'.$agent_info['email'].'</td><td>'.$agent_info['status'].'</td><td><a href="#" class="edit"><img src="../web/images/edit.png"/></a></td><td><a href="#" class="delete"><img src="../web/images/delete.png"/></a></td><td>'.$agent_info['id_login'].'</td></tr>';
 						$count ++;
 					  }
 					  }
