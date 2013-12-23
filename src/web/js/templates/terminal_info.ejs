@@ -15,7 +15,16 @@
     </form></td></tr>
     <tr><td class="term_info_label" >Расписание уведомлений:</td>
         <td>
-             <% if(hasOwnProperty('rasp') && rasp.count >0 ) { %> <%= rasp %> <% } else { %> Не установлены <% } %>
+             <% if(hasOwnProperty('rasp')) { %>
+            <ul>
+                <% rasp.forEach(function(raw){ %>
+                    <li>
+                        Уведомлять С <%= raw[0] %> По <%= raw[1] %> об отсутсвии платежей более <%= raw[2] %> минут
+                        <img id="20" class="del_time" title="Удалить" alt="delete" src="images/red.png" />
+                    </li>
+                <% }); %>
+            </ul>
+            <% } else { %> Не установлены <% } %>
         </td>
 
     </tr>

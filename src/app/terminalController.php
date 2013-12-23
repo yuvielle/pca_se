@@ -8,7 +8,6 @@
  */
 class app_terminalController extends app_baseController
 {
-
     public function index()
     {
         $agent = $this->Query("exec [regplat-ru].dbo.owebs_mini_GetAgentInfo '" . $_SESSION['session_hash'] . "'");
@@ -332,7 +331,8 @@ class app_terminalController extends app_baseController
             while ($table = library_utils::MyIconv(mssql_fetch_array($timetable))) {
                 $rasp[$i][0] = $table['start_time'];
                 $rasp[$i][1] = $table['end_time'];
-                $rasp[$i][2] = $table['period'];;
+                $rasp[$i][2] = $table['period'];
+                $i++;
             }
         }
         echo library_FastJSON::encode(array('data'=>$data, 'rasp'=>$rasp, 'id_terminal'=>$_GET['id_terminal']));
@@ -419,27 +419,34 @@ class app_terminalController extends app_baseController
         $this->Query('exec [regplat-ru].pendjurina.owebs_mini_DeleteGroup "'.$_SESSION['session_hash'].'", '.$id_group.'');
     }
 
-    public function saveGroup(library_request $request) {
+    public function saveGroup(library_request $request) { // die(var_dump($_POST));
         if($request->isPost()){
-            $terminals = library_utils::mssql_real_escape_string($_GET['terminals']);
-            $group_name = library_utils::mssql_real_escape_string($_GET['group_name']);
-            $terminal = library_FastJSON::encode($terminals);
-            $id_group = null;
-            $new_group = $this->Query('exec [regplat-ru].pendjurina.owebs_mini_InsertGroup "' . $_SESSION['session_hash'] . '", "' . iconv('UTF-8', 'Windows-1251', $group_name) . '", 0');
-            if (mssql_num_rows($new_group) > 0) {
-                while ($group = library_utils::MyIconv(mssql_fetch_array($new_group))) {
-                    $id_group = $group['id_group'];
+            $result = '';
+            $group_name = library_utils::mssql_real_escape_string($_POST['group_name']);
+            $terminal = library_FastJSON::decode($_POST['terminals']);
+            $id_group = $_POST['group_id']?$_POST['group_id']:null;
+
+            $new = false;
+            if(!$id_group){
+                $new = true;
+                $new_group = $this->Query('exec [regplat-ru].pendjurina.owebs_mini_InsertGroup "' . $_SESSION['session_hash'] . '", "' . iconv('UTF-8', 'Windows-1251', $group_name) . '", 0');
+                if (mssql_num_rows($new_group) > 0) {
+                    while ($group = library_utils::MyIconv(mssql_fetch_array($new_group))) {
+                        $id_group = $group['group_id'];
+                    }
                 }
             }
-            if ($id_group != -1) {
+            if ($id_group != -1 || !$new) {
                 foreach ($terminal as $t) {
+                    $t = library_utils::mssql_real_escape_string($t);
                     if ($t != '')
                         $this->Query('exec [regplat-ru].pendjurina.owebs_mini_InsertTermInGroup ' . $t . ', ' . $id_group . ', 0');
                 }
-                echo 'Группа успешно созданна';
-            } else echo 'Группа с таким название уже существует';
+                $result = $new?'Группа успешно созданна':'Группа отредактирована';
+            } else $result = 'Группа с таким название уже существует';
         }
-        else echo "данные не отправлены";
+        else $result = "данные не отправлены";
+        echo $result;
     }
 
     public function groupFormShow(library_request $request, library_session $session){

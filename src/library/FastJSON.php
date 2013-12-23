@@ -51,11 +51,7 @@ class library_FastJSON {
 		$pos = 0;
 		$slen = is_string($encode) ? strlen($encode) : null;
 		if($slen !== null) {
-			$error = error_reporting(0);
-			set_error_handler(array('FastJSON', '__exit'));
 			$result = self::__decode($encode, $pos, $slen, $stdClass);
-			error_reporting($error);
-			restore_error_handler();
 		}
 		else
 			$result = null;
@@ -91,7 +87,7 @@ class library_FastJSON {
 	}
 
 	// private methods, uncommented, sorry
-    static private function __getStaticReplacement(){
+    static public function __getStaticReplacement(){
 		static $replacement = array('find'=>array(), 'replace'=>array());
 		if($replacement['find'] == array()) {
 			foreach(array_merge(range(0, 7), array(11), range(14, 31)) as $v) {
@@ -104,7 +100,7 @@ class library_FastJSON {
 		return $replacement;
 	}
 
-    static private function __decode(&$encode, &$pos, &$slen, &$stdClass){
+    static public function __decode(&$encode, &$pos, &$slen, &$stdClass){
         $result = null;
 		switch($encode{$pos}) {
 			case 't':
@@ -169,7 +165,7 @@ class library_FastJSON {
 		return $result;
 	}
 
-    static private function __decodeString(&$encode, &$pos) {
+    static public function __decodeString(&$encode, &$pos) {
 		$replacement = self::__getStaticReplacement();
 		$endString = self::__endString($encode, $pos, $pos);
 		$result = str_replace($replacement['replace'], $replacement['find'], substr($encode, $pos, $endString));
@@ -177,7 +173,7 @@ class library_FastJSON {
 		return $result;
 	}
 
-    static private function __endString(&$encode, $position, &$pos) {
+    static public function __endString(&$encode, $position, &$pos) {
 		do {
 			$position = strpos($encode, '"', $position + 1);
 		}while($position !== false && self::__slashedChar($encode, $position - 1));
@@ -190,7 +186,7 @@ class library_FastJSON {
 		exit($a.'FATAL: FastJSON decode method failure [malicious or incorrect JSON string]');
 	}
 
-    static private function __slashedChar(&$encode, $position) {
+    static public function __slashedChar(&$encode, $position) {
 		$pos = 0;
 		while($encode{$position--} === '\\')
 			$pos++;

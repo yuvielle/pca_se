@@ -15,7 +15,10 @@
                         <option value=""></option>
                         <% if(hasOwnProperty('terminals')){ %>
                         <% terminals.forEach(function(row){ %>
+                        <% var result = $.grep(selected_terminals, function(e){ return e.point_oid == row['point_oid']; }); %>
+                        <% if(result.length == 0){ %>
                         <option value="<%= row['point_oid'] %>"><%= row['name'] %></option>
+                        <% } %>
                         <% }); %>
                         <% } %>
                     </select>

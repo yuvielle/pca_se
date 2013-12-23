@@ -250,6 +250,7 @@ $(document).ready(function () {
                 alert(data);
                 data = JSON.parse(data);
                 data['term_name'] = name;
+                data['id_terminal'] = id;
                 terminalInfo.update('new_table', data);
             }
         });
@@ -882,7 +883,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                alert(data);
+                //alert(data);
                 groupForm.update('new_table', JSON.parse(data));
             }
         });
@@ -907,6 +908,7 @@ $(document).ready(function () {
                     alert(data);
                     data = JSON.parse(data);
                     data['group_name'] = group_name;
+                    data['group_id'] = id_group;
                     groupForm.update('new_table', data);
                 }
             });
@@ -936,26 +938,29 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('click', "#save_group", function (e) {		//Данные инкассаций
+    $(document).on('click', "#save_group", function (e) {
         e.preventDefault();
         var terminals = [];
         var group_name = $('#group_name').val();
-        if (group_name == '')
-            alert('Введите название');
+        var group_id = $('#group_id').val();
+        var id_string = '';
+        if(typeof group_id !== 'undefined') id_string = '&group_id=' + group_id;
+        if (group_name == '') alert('Введите название');
         else {
             $('#terminals_in_group option').each(function () {
-                terminals.add($(this).val());
+                terminals.push($(this).val());
             });
             terminals = JSON.stringify(terminals);
+            alert(terminals + ' ' + group_name);
             $.ajax({
                 url: 'index.php?action=saveGroup',
-                data: 'terminals=' + terminals + '&group_name=' + group_name,
+                data: 'terminals=' + terminals + '&group_name=' + group_name + id_string,
                 type: "POST",
                 success: function (data) {
                     alert(data);
                     $("#overlay").fadeOut();
                     $("#new_table").fadeOut();
-                    document.location.reload();
+                    //document.location.reload();
                 }
             });
         }
