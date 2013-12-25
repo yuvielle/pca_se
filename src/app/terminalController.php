@@ -437,6 +437,7 @@ class app_terminalController extends app_baseController
                 }
             }
             if ($id_group != -1 || !$new) {
+                $this->Query('delete from [dbo].[owebs_mini_agent_groups_ids] where [id_group] = ' . $id_group);
                 foreach ($terminal as $t) {
                     $t = library_utils::mssql_real_escape_string($t);
                     if ($t != '')

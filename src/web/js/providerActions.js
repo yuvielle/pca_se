@@ -70,7 +70,7 @@ $(document).ready(function () {
             },
             error: function (e) {
                 $('#ajax_loader').hide();
-                //alert('error: ' + e.message);
+                alert('error: ' + e.message);
             }
         });
         return false;
