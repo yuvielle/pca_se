@@ -58,8 +58,8 @@
     <div id="search_date" style="margin-bottom: -20px;"><form><span style="font-size: 16px; font-weight: bolder; color: #2B547E">&nbsp;&nbsp;По дате:</span><label>&nbsp;C </label><input class="datePicker" type="text" name="search_from" id="search_from"value="<% if(hasOwnProperty('start_date')){ %><%= directDateFormat(start_date) %><% } %>"/>
     <label> По </label><input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
     <img src="images/search-icon.png" id="search_start"/></form></div>
-    <div style="position: relative; float: right; left: 50px; top: -3px;" class="dataTables_filter"><label>Поиск: <input id="modal_filter" aria-controls="example" type="text"></label></div>
-   <div style="clear: both"></div>
+    <div style="position: relative; left: 15px; top: 20px; width: 300px;" class="dataTables_filter"><label>Поиск:&nbsp;<input id="modal_filter" style="width: 200px;" aria-controls="example" type="text"></label></div>
+   <div style="clear: both; height: 17px"></div>
 <table id="modal_bills" class="display">
             <thead>
             <tr>

@@ -265,8 +265,9 @@ $(document).ready(function () {
         var id = $('#id_terminal').val();
         var render_html = terminalScheduleAdd.render({'id_terminal': id});
         $("#new_rasp").append(render_html);
-        $('#timetable_input').mask("99:99");
-        $('#timetable_input2').mask("99:99");
+        $('.timePicker').click(function(event){
+            setTimePicker(event.target)
+        });
     });
 
     $(document).on("click", '#timetable_close', function () {
@@ -285,7 +286,7 @@ $(document).ready(function () {
                 url: 'index.php?id_timetable=' + id_timetable + '&action=terminalScheduleDelete',     // указываем URL
                 type: "GET",                     // метод
                 success: function (data) {
-                    //alert(data);
+                    alert(data);
                     document.location.reload();
                 }
             });
@@ -300,7 +301,7 @@ $(document).ready(function () {
             url: 'index.php?id_terminal=' + id + '&max_kup=' + max_kup + '&action=banknotesMaxCountChange',     // указываем URL
             type: "GET",                     // метод
             success: function (data) {
-                //alert(data);
+                alert(data);
                 document.location.reload();
             }
         });
@@ -629,7 +630,7 @@ $(document).ready(function () {
                         subGridRowExpanded: function (subgrid_id, rowId) {
                             var subgrid_table_id = subgrid_id + "_t";
                             var sub_select_row = $('#modal_bills').jqGrid('getRowData', rowId);
-                            alert('i=' + rowId + ' s=' + JSON.stringify(sub_select_row));
+                            //alert('i=' + rowId + ' s=' + JSON.stringify(sub_select_row));
                             var url = 'index.php?action=getDetail&id=' + sub_select_row.tid;
                             var html = '';
                             $.ajax({
@@ -945,7 +946,7 @@ $(document).ready(function () {
 
     $(document).on('click', '#add_in_group', function (e) {
         e.preventDefault();
-        alert($("#terminals").val());
+        //alert($("#terminals").val());
         if ($("#terminals").val()) {
             //alert('test');
             var selected = $('#terminals option:selected').val();

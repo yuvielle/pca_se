@@ -332,6 +332,7 @@ class app_terminalController extends app_baseController
                 $rasp[$i][0] = $table['start_time'];
                 $rasp[$i][1] = $table['end_time'];
                 $rasp[$i][2] = $table['period'];
+                $rasp[$i][3] = $table['id_timetable'];
                 $i++;
             }
         }
@@ -339,7 +340,7 @@ class app_terminalController extends app_baseController
     }
 
     public function terminalScheduleDelete(){
-        $time = $this->Query('exec [pendjurina].[owebs_mini_DeleteTimetable] '.library_utils::mssql_real_escape_string($_GET['id_timetable']));
+        $time = $this->Query('delete from [pendjurina].[owebs_mini_terminal_timetable] where id_timetable = ' . $_GET['id_timetable']);
         if ($time) echo 'Расписание успешно удалено';
         else echo 'Ошибка в удалении';
     }

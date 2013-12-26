@@ -24,7 +24,7 @@ class app_baseController {
     }
 
     public function __get($name){
-        if($name = "view"){
+        if($name == "view"){
             $callers=debug_backtrace();
             $controller = str_replace('app_', '', get_called_class());
             $defaultTemplateName = str_replace('Controller', '', $controller) . '/' .  $callers[1]['function'];

@@ -11,15 +11,15 @@
         </tr>
         <tr class="rasp0">
             <td></td>
-            <td><label>C </label><input type="text" class="from_till datePicker" id="timetable_input" disabled="disabled"
-                name="start_time0"/><label> По </label><input type="text" class="from_till datePicker"  id="timetable_input2"
+            <td><label>C </label><input type="text" class="from_till timePicker" id="timetable_input" disabled="disabled"
+                name="start_time0"/><label> По </label><input type="text" class="from_till timePicker"  id="timetable_input2"
                 disabled="disabled" name="end_time0"/></td>
             <td></td>
         </tr>
         <tr class="rasp0">
             <td><label>Уведомлять, если платежей нет дольше:</label></td>
             <td><input type="text" class="from_till" id="time_input" name="max_time_from_pay0"/> минут</td>
-            <td><a href="#" id="add_setting" onclick="addTableRow()" disabled="disabled">Добавить настройку</a></td>
+            <td><a href="#" class="add_setting" onclick="addTableRow()" disabled="disabled">Добавить настройку</a></td>
         </tr>
         </tbody>
     </table>
@@ -63,15 +63,12 @@
     	}
 
     function addTableRow() {
-        //alert('test');
         /* default-id — скрытый элемент формы, из которого берется id для первого создаваемого элемента */
         var id = document.getElementById("default-id").value;
         id++;
         /* в форму с именем testform добавляем новый элемент */
         var render_html = addTableRowTemplate.render({'id': id});
         $("#timetable").append(render_html);
-        $('#timetable_input' + id).mask("99:99");
-        $('#timetable_input2' + id).mask("99:99");
 
         /* увеличиваем счетчик элементов */
         document.getElementById("default-id").value = id;

@@ -56,14 +56,13 @@ $(document).ready(function () {
         window.location.reload();
     });
 
-    $("body").on("click", ".datePicker", function(){
+    $("body").on("click", ".datePicker", function () {
 
-            // multiple times, you can check for the "hasDatepicker" class...
-            if (!$(this).hasClass("hasDatepicker"))
-            {
-                $(this).datepicker({ dateFormat: "dd.mm.yy" });
-                $(this).datepicker("show");
-            }
+        // multiple times, you can check for the "hasDatepicker" class...
+        if (!$(this).hasClass("hasDatepicker")) {
+            $(this).datepicker({ dateFormat: "dd.mm.yy" });
+            $(this).datepicker("show");
+        }
     });
 
 
@@ -97,23 +96,27 @@ function directDateFormat(date){
         return date[2] + '.' + date[1] + '.' + date[0];
     }
 
-function getCmodel(name, type){
-    var field = cModel[type];
-    field['name'] = name;
-    field['index'] = name;
-    return field;
-}
-
-var cModel = {
-    '#':{width:20, sorttype:"int"},
-    'title':{width:100, align:"left",sorttype:"string"},
-    'count':{ width:25, align:"right",sorttype:"int", formatter:'integer', formatoptions: { defaultValue:0 }},
-    'money':{width:30, align:"right",sorttype:"float", formatter:"number"},
-    'symbol':{width:10, sorttype:"string", search:false},
-    'datetime':{width:50, sorttype:"date", datefmt:'d.m.Y H:i:s'},
-    'account_number':{width:70, sorttype:"string"},
-    'pay_status':{width:61, align:"right",sorttype:"string", formatter:"string"},
-    'text':{width:221, align:"left",sorttype:"string"},
-    'detail':{width:53,align:"right", sortable:false, search:false},
-    'print':{width:30, sortable:false, search:false}
+function setTimePicker(e) {
+    $(e).mask("99:99");
+    $(e).timepicker({
+        timeSeparator: ':',
+        periodSeparator: ' ',
+        showLeadingZero: true,
+        hourText: 'Часы',
+        minuteText: 'Минуты',
+        amPmText: ['', ''],
+        hours: {
+            starts: 0,                // First displayed hour
+            ends: 23                  // Last displayed hour
+        },
+        minutes: {
+            starts: 0,                // First displayed minute
+            ends: 55,                 // Last displayed minute
+            interval: 5,              // Interval of displayed minutes
+            manual: []                // Optional extra entries for minutes
+        },
+        rows: 4,                      // Number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
+        showHours: true,              // Define if the hours section is displayed or not. Set to false to get a minute only dialog
+        showMinutes: true
+    });
 }
