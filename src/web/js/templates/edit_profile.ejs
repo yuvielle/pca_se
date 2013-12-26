@@ -1,22 +1,21 @@
 <div id="text" class="pop_window">
     <img class="btn_close" src="images/x_button.png" alt="Close">
-    <h1>Настройки</h1>
+    <h1>Настройки пользователя</h1>
     <hr style="clear: both"/>
     <div class="ui-widget ui-widget-content ui-corner-all" style="margin: 10px 40px 10px 20px;">
         <form id="user_edit" class="ui-corner-all" style="text-align: left; padding: 10px 30px; border: 0" action="index.php?module=user&action=editProfile" method="post">
                 <% if(hasOwnProperty('result')){ %>
                 <div><%= result %></div>
-                <% } %>
-                <h2>Профиль</h2>
-                <div class="ui-dialog-content" style="padding: 20px 0 10px 60px">
-                    <div id="user_text"><label>Изменить имя</label></div>
-                    <input id="phone" style="height: 25px; margin: 0 0 10px 0" type="text" name="phone"/>
-                    <div id="pas_text"><label>Введите новый пароль</label></div>
-                    <input id="password" style="height: 25px; margin: 0 0 10px 0" type="password" name="password"/>
-                    <div id="pas_rep_text"><label>Повторите пароль</label></div>
-                    <input id="password_again" style="height: 25px; margin: 0 0 10px 0" type="password" name="password_again"/>
+                <% } %>                
+                <div class="ui-dialog-content" style="padding: 20px 0 10px 20px">
+                    <div id="user_text" style ="width:160px; float:left; margin-top:10px;"><label>Номер телефона</label></div>
+                    <div><input id="phone" style="height: 25px; margin: 0 0 10px 0" type="text" name="phone"/></div>
+                    <div id="pas_text" style ="width:160px; float:left;"><label>Введите новый пароль</label></div>
+                    <div><input id="password" style="height: 25px; margin: 0 0 10px 0" type="password" name="password"/></div>
+                    <div id="pas_rep_text" style ="width:160px; float:left; margin-top:10px;"><label>Повторите пароль</label></div>
+                    <div><input id="password_again" style="height: 25px; margin: 0 0 10px 0" type="password" name="password_again"/></div>
                 </div>
-                <input class="ui-button ui-corner-all" style="margin-top: 50px" type="submit" value="Принять" id="button"/>
+                <input class="ui-button ui-corner-all" style="margin-top: 50px" type="submit" value="Сохранить" id="button"/>
         </form>
     </div>
     <% if(hasOwnProperty('error')){ %>

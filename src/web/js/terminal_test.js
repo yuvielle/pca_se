@@ -582,7 +582,7 @@ $(document).ready(function () {
         var transaction = $('#transaction').val();
         var client_account = $('#client_account').val();
         var client_amount = $('#client_amount').val();
-        colnames = ['Дата', 'TID', 'Транзакция', 'Терминал', 'Поставщик', 'Состояние', 'Счет', 'Сумма', 'Комиссия', 'Зачисленно'];
+        colnames = ['Дата', 'TID', 'Транзакция', 'Терминал', 'Поставщик', 'Состояние', 'Счет', 'Сумма', 'Комиссия', 'Зачислено'];
         colmodel = [
             {name: 'DatePay', index: 'DatePay', width: 60, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
             {name: 'tid', index: 'tid', width: 50, align: "left", sorttype: "string"},

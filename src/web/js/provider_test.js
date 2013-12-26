@@ -27,7 +27,7 @@ $(document).ready(function () {
             ignoreCase:true,
             multiSort:true,
             viewrecords: true,
-            colNames:['# Транзакции','Дата платежа', 'Номер счета', 'Сумма платежа','Статус платежа','Адрес точки','Подробнее', 'Печать чека'],
+            colNames:['Транзакция','Дата платежа', 'Номер счета', 'Сумма платежа','Статус платежа','Адрес точки','Подробнее', 'Печать чека'],
             colModel:[
                   {name:'trid',index:'trid', width:60, sorttype:"string"},
                   {name:'pay_date',index:'pay_date', width:100, sorttype:"date", datefmt:'d.m.Y H:i:s', searchoptions:{dataInit:datePick, attr:{title:'Select Date'}}},

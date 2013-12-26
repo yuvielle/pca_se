@@ -117,7 +117,8 @@
 }
 #demo_gecko {
 	width:98%;
-	margin-left:1%
+	margin-left:1%;
+	padding-top: 10px;
 }
 #demo_info {
 	padding: 5px;

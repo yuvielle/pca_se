@@ -5,7 +5,7 @@
      <br><br><br><br>
     <table style="margin: 5px 5px 5px 20px; font-size: 13px; text-align: left">
         <tr>
-            <td style="border: 1px solid #757f90; width: 40%; height: 40px; padding: 5px"><b># Транзакции:</b>&nbsp;&nbsp; <%= data[0]['tid'] %></td>
+            <td style="border: 1px solid #757f90; width: 40%; height: 40px; padding: 5px"><b>Транзакция:</b>&nbsp;&nbsp; <%= data[0]['tid'] %></td>
             <td style="border: 1px solid #757f90; width: 40%; height: 40px; padding: 5px"><b>Дата платежа:</b>&nbsp;&nbsp; <%= data[0]['DatePay'] %></td>
         </tr>
         <tr>
@@ -25,15 +25,15 @@
             <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>ФИО:</b>&nbsp;&nbsp; <%= data[0]['ClientFIO'] %></td>
         </tr>
         <tr>
-            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>номер:</b>&nbsp;&nbsp; <%= data[0]['etid'] %></td>
-            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>состояние:</b>&nbsp;&nbsp; <%= data[0]['descript'] %></td>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Номер:</b>&nbsp;&nbsp; <%= data[0]['etid'] %></td>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Состояние:</b>&nbsp;&nbsp; <%= data[0]['descript'] %></td>
         </tr>
         <tr>
             <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Адрес точки:</b>&nbsp;&nbsp; <%= data[0]['terminal_name'] %></td>
             <td></td>
         </tr>
         <tr><td><button id="clipboard_copy"><b>скопировать в буфер обмена</b></button></td>
-            <td style="text-align: right"><a href="https://oplata.regplat.ru/webpay/paycheck.jsp?isprint=1&tid=<%= data[0]['tid'] %>&card_num=<%= data[0]['Card_number'] %>&type=4" title="Печать"><img src="images/print.png" alt="print"/></a></td>
+            <td style="text-align: right"><a href="https://oplata.regplat.ru/webpay/paycheck.jsp?isprint=1&tid=<%= data[0]['tid'] %>&card_num=<%= data[0]['Card_number'] %>&type=4" target="_blank" title="Печать"><img src="images/print.png" alt="print"/></a></td>
         </tr>
     </table>
     <br>
@@ -44,12 +44,12 @@
         <table id="modal_bills" class="display dataTable">
             <thead>
             <tr>
-                <th>Дата изменения</th>
-                <th>предыдущее состояние</th>
-                <th>новое состояние</th>
-                <th>try state</th>
-                <th>код результата</th>
-                <th>Полученный текст</th>
+                <th>Дата</th>
+            	<th>Старое состояние</th>
+            	<th>Новое состояние</th>
+           		<th>Хотел перейти в ...</th>
+            	<th>Код ошибки</th>
+            	<th>Описание ошибки</th>
             </tr>
             </thead>
             <tbody>
@@ -68,7 +68,7 @@
     <% } %>
     <% if(hasOwnProperty('data')){ %>
     <br>
-    <h3>Информация pd4</h3>
+    <h3>Дополнительная информация</h3>
         <table class="display">
             <thead>
             <tr>

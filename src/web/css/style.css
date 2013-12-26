@@ -395,7 +395,7 @@ h2 {
     margin-right: 240px;
 }
 #profile{
-    margin-right: 210px;
+    margin-right: 205px;
 }
 #header {
 	font-size: 2em;
@@ -409,7 +409,7 @@ h2 {
 }
 #header h1 {
 	float: left;
-	margin: 0 0 0 100px;
+	margin: 0 0 0 10px;
 }
 #pas_text {
   margin-top: 10px;
@@ -745,7 +745,7 @@ select.group_name {
 	float: left;
 }
 #id_terminal, #pay_type, #pay_state {
-	width: 300px;
+	width: 500px;
 	height: 30px;
 	border:1px solid #cccccc;
 	 margin:2px 0px 2px 2px;

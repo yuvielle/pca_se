@@ -74,7 +74,7 @@
    			<td><?php echo $row['status_name'] ?></td>
    			<td style="width:150px !important"><?php echo $row['terminal_name'] ?></td>
    			<td><a class="detail" href="index.php?action=getDetail&id=<?php echo $row['tid'] ?>" title="Подробнее">Подробнее</a></td>
-   			<td><a href="https://oplata.regplat.ru/webpay/paycheck.jsp?isprint=1&tid=<?php echo $row['tid']?>&card_num=<?php echo $row['Card_number'] ?>&type=4" title="Печать"><img src="images/print.png" alt="print"/></a></td>
+   			<td><a href="https://oplata.regplat.ru/webpay/paycheck.jsp?isprint=1&tid=<?php echo $row['tid']?>&card_num=<?php echo $row['Card_number'] ?>&type=4" target="_blank" title="Печать"><img src="images/print.png" alt="print"/></a></td>
    		</tr>
 
    		<?php endwhile; ?>
