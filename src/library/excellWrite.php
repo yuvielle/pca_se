@@ -56,7 +56,7 @@ class library_excellWrite
         $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
         PHPExcel_Settings::setZipClass('PHPExcel_Shared_ZipArchive');
         header("Content-Type: application/vnd.ms-excel");
-        header('Content-Disposition: attachment; filename="pays_" . date('Y-m-d') . ".xls"');
+        header('Content-Disposition: attachment; filename="pays_' . date('Y-m-d') . '.xls"');
         $objWriter->save('php://output');
     }
 }
