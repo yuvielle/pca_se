@@ -20,6 +20,7 @@ var columnNames = [];
 var modalNames = [];
 var colnames;
 var colmodel;
+var lastSel;
 
 $(document).ready(function () {
 
@@ -87,7 +88,17 @@ $(document).ready(function () {
                 $('#' + rowId).children("td").css('background-color', "#DDDDEE");
             }
         },
+        beforeSelectRow: function(rowId,status, e){
+            var selRow = $(".table-to-grid").jqGrid('getGridParam', 'selrow');
+            alert('s='+ selRow);
+            return true;
+        },
         onSelectRow: function (rowId, status, e) {
+            if(rowId && rowId!==lastSel){
+                jQuery('.table-to-grid').restoreRow(lastSel);
+                lastSel=rowId;
+                status = true;
+            }
             rowSelect(rowId, status, e);
         },
         subGrid: true,
@@ -174,22 +185,23 @@ $(document).ready(function () {
     $("#detail").trigger("reloadGrid");
 
     function rowSelect(rowId, status, e) {
-        if (!e || e.which === 1) {
+        alert(status);
+        if (!e || e.which === 1 && status == true) {
             term_id = ($(".table-to-grid").jqGrid('getRowData', rowId).tid);
             term_name = ($(".table-to-grid").jqGrid('getRowData', rowId).term_name);
             select_row = $(".table-to-grid").jqGrid('getRowData', rowId);
-            //alert('t0=' + term_name);
+            alert('status=' + $(".table-to-grid").jqGrid('getGridParam', 'selrow'));
             $("#" + rowId).addClass('ui-state-highlight');
             $("#detail").jqGrid('setGridParam', {url: "index.php?action=payDetail&id=" + term_id, page: 1});
             $("#detail").jqGrid('setCaption', "Платежи терминала: " + term_id).trigger('reloadGrid');
-        } else if (e.which === 3) {
+        } else if (e.which === 3 || status == false) {
+            alert('status1=' + $(".table-to-grid").jqGrid('getGridParam', 'selrow'));
             $(".table-to-grid").jqGrid('setSelection', rowId, false);
             $("#" + rowId).removeClass('ui-state-highlight');
             term_id = '';
             term_name = '';
             select_row = null;
         }
-        //e.dblclick();
     }
 
     function subRowSelect(rowId, status, e, subgrid_table_id){
