@@ -32,7 +32,7 @@
             <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Адрес точки:</b>&nbsp;&nbsp; <%= data[0]['terminal_name'] %></td>
             <td></td>
         </tr>
-        <tr><td><button id="clipboard_copy"><b>скопировать в буфер обмена</b></button></td>
+        <tr><td>&nbsp;<!--<button id="clipboard_copy"><b>скопировать в буфер обмена</b></button>--></td>
             <td style="text-align: right"><a href="https://oplata.regplat.ru/webpay/paycheck.jsp?isprint=1&tid=<%= data[0]['tid'] %>&card_num=<%= data[0]['Card_number'] %>&type=4" target="_blank" title="Печать"><img src="images/print.png" alt="print"/></a></td>
         </tr>
     </table>

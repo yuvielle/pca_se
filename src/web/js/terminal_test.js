@@ -89,8 +89,8 @@ $(document).ready(function () {
             }
         },
         beforeSelectRow: function(rowId,status, e){
-            var selRow = $(".table-to-grid").jqGrid('getGridParam', 'selrow');
-            alert('s='+ selRow);
+            //var selRow = $(".table-to-grid").jqGrid('getGridParam', 'selrow');
+            //alert('s='+ selRow);
             return true;
         },
         onSelectRow: function (rowId, status, e) {
@@ -185,17 +185,17 @@ $(document).ready(function () {
     $("#detail").trigger("reloadGrid");
 
     function rowSelect(rowId, status, e) {
-        alert(status);
+        //alert(status);
         if (!e || e.which === 1 && status == true) {
             term_id = ($(".table-to-grid").jqGrid('getRowData', rowId).tid);
             term_name = ($(".table-to-grid").jqGrid('getRowData', rowId).term_name);
             select_row = $(".table-to-grid").jqGrid('getRowData', rowId);
-            alert('status=' + $(".table-to-grid").jqGrid('getGridParam', 'selrow'));
+           // alert('status=' + $(".table-to-grid").jqGrid('getGridParam', 'selrow'));
             $("#" + rowId).addClass('ui-state-highlight');
             $("#detail").jqGrid('setGridParam', {url: "index.php?action=payDetail&id=" + term_id, page: 1});
             $("#detail").jqGrid('setCaption', "Платежи терминала: " + term_id).trigger('reloadGrid');
         } else if (e.which === 3 || status == false) {
-            alert('status1=' + $(".table-to-grid").jqGrid('getGridParam', 'selrow'));
+            //alert('status1=' + $(".table-to-grid").jqGrid('getGridParam', 'selrow'));
             $(".table-to-grid").jqGrid('setSelection', rowId, false);
             $("#" + rowId).removeClass('ui-state-highlight');
             term_id = '';
