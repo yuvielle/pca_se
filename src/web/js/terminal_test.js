@@ -267,9 +267,10 @@ $(document).ready(function () {
         var id = $('#id_terminal').val();
         var render_html = terminalScheduleAdd.render({'id_terminal': id});
         $("#new_rasp").append(render_html);
-        $('.timePicker').click(function(event){
-            setTimePicker(event.target)
-        });
+    });
+
+    $(document).on('click', '.timePicker', function(event){
+        setTimePicker(event.target)
     });
 
     $(document).on("click", '#timetable_close', function () {

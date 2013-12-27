@@ -31,39 +31,21 @@
 
     //Разблокировка ввода
     function findselected(){
-    	var state = document.getElementById('time_select');
-    	var notus = document.getElementById('timetable_input');
-    	var notus2 = document.getElementById('timetable_input2');
-    	var notus3 = document.getElementById('add_setting');
-    	if (state.value == "1")
-    		{
-    		notus.disabled=false;
-    		notus2.disabled=false;
-    		notus3.disabled=false;
+    	var state = $('#time_select').val();
+    	if (state == "1"){
+                $('#timetable_input').prop('disabled', false);
+                $('#timetable_input2').prop('disabled', false);
     		}
     	else {
-    		notus.disabled=true;
-    		notus2.disabled=true;
-    		notus3.disabled=true;
-    		}
-    	}
-
-    	function datesAble(radio) {
-    		var start = document.getElementById('search_from');
-    		var end = document.getElementById('search_till');
-    		if (radio.value =="5")
-    		{
-    			start.disabled=false;
-    			end.disabled=false;
-    		}
-    		else {
-    			start.disabled=true;
-    			end.disabled=true;
-    		}
-    	}
+            $('.rasp').remove();
+            $('#timetable_input').prop('disabled', true);
+            $('#timetable_input2').prop('disabled', true);
+        }
+    }
 
     function addTableRow() {
         /* default-id — скрытый элемент формы, из которого берется id для первого создаваемого элемента */
+        if($('#time_select').val() == 0) return;
         var id = document.getElementById("default-id").value;
         id++;
         /* в форму с именем testform добавляем новый элемент */
