@@ -115,11 +115,11 @@ body{
 
 }
 #er {
-     width:500px;
-     color: #ff0000;
+    width:500px;
+    color: #C4152A;
     text-align:center;
     padding-left:50px;
-	margin-top: 0;
+	margin-top: -20px;
 
 }
 form.registration{
@@ -343,9 +343,9 @@ h2 {
 	text-align: left;
 }
 #provider_info {
-	width: 60%;
+	width: 70%;
 	color: #2B547E;
-    font-size: 1.2em;
+    font-size: 13px;
 	font-weight: bold;
     margin-left: 15px;
     margin-bottom: 20px;
@@ -646,9 +646,10 @@ select.group_name {
 	margin: 0px auto;
 }
 #term_info {
-	font-size: 1.2em;
+	font-size: 13px;
 	text-align: left;
 	overflow: hidden;
+	border-spacing: 8px;
 }
 #term_info tr {
 	border: 1px solid #4863A0;

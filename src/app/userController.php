@@ -27,12 +27,12 @@ class app_userController extends app_baseController {
                 $try++;
                 $this->view->try = $try;
             }
-            if (!isset($_POST["username"]) || !isset($_POST["password"])) $this->view->error = 'не введён логин или пароль';
+            if (!isset($_POST["username"]) || !isset($_POST["password"])) $this->view->error = 'Не введён логин или пароль';
 
             elseif ($this->check_user($try) && $try <= 3) {
                 $this->redirect('index');
             }
-            else{$this->view->error = "не правильный логин или пароль!";}
+            else{$this->view->error = "Неверный логин или пароль";}
         }
         echo $this->view->render();
     }
@@ -79,7 +79,7 @@ class app_userController extends app_baseController {
         }
         elseif($request->isPost()) {
             $result_message = "Данные не отправлены!";
-            $error = 'форма не заполнена!';
+            $error = 'Форма не заполнена!';
         }
         if($request->isXmlHttpRequest()){
             echo library_FastJSON::encode(array('error'=>$error, 'result'=>$result_message));
