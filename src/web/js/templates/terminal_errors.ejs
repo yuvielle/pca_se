@@ -5,19 +5,19 @@
     <hr style="clear: both"/>
     <div id="error_message">
     <% if(hasOwnProperty('error') && error != ''){ %>
-        <h2 style="color:#ff0000; font-size: 15px">Терминал работает с ошибкой</h2>
+        <h2 style="color:#ff0000; font-size:13px">Терминал работает с ошибкой</h2>
     <% } else { %>
-        <h2 style="color:#00ff00; font-size: 15px">Терминал работает без ошибок</h2>
+        <h2 style="color:#2B547E; font-size:13px">Терминал работает без ошибок</h2>
     <% } %>
 <% } else { %>
 <h1>Последние ошибки терминалов </h1>
     <hr style="clear: both"/>
-    <div id="error_message">
+    <div id="error_message" style="padding: 10px;>
     <% if(hasOwnProperty('data')){ %>
-     <h2 style="color:#ff0000; font-size: 15px">"На терминале &laquo;<%= data[0]['name'] %>&raquo;" <%= data[0]['ERROR_TEXT'] %></h2>
-     <h2 style="color:#ff0000; font-size: 15px">"На терминале &laquo;<%= data[1]['name'] %>&raquo;" <%= data[1]['ERROR_TEXT'] %></h2>
+     <h2 style="color:#ff0000; font-size: 13px">"На терминале &laquo;<%= data[0]['name'] %>&raquo;" <%= data[0]['ERROR_TEXT'] %></h2>
+     <h2 style="color:#ff0000; font-size: 13px">"На терминале &laquo;<%= data[1]['name'] %>&raquo;" <%= data[1]['ERROR_TEXT'] %></h2>
      <% } else { %>
-    <h2 style="color:#00ff00; font-size: 15px">Терминалы работают без ошибок</h2>
+    <h2 style="color:#2B547E; font-size: 13px">Терминалы работают без ошибок</h2>
     <% } %>
 
 <% } %>

@@ -18,7 +18,7 @@
             <% if(hasOwnProperty('rasp')) { %>
             <ul>
                 <% rasp.forEach(function(raw){ %>
-                    <li>
+                    <li style="list-style-type: none;">
                         Уведомлять С <%= raw[0] %> По <%= raw[1] %> об отсутсвии платежей более <%= raw[2] %> минут
                         <img id="<%= raw[3] %>" class="del_time" title="Удалить" alt="delete" src="images/red.png" />
                     </li>

@@ -319,7 +319,8 @@ form.registration select{
     text-align: center;
 }
 .green {
-    background-color: #ccffcc;
+    font-weight: bold;
+	color: #2B547E;
 }
 h1 {
     font-size:1.5em;
@@ -333,7 +334,7 @@ h2 {
 }
 #owner_info {
 	width: 300px;
-	color: #606060;
+	color: #2B547E;
     font-size: 1.2em;
 	font-weight: bold;
     margin-left: 15px;
@@ -342,8 +343,8 @@ h2 {
 	text-align: left;
 }
 #provider_info {
-	width: 100%;
-	color: #606060;
+	width: 60%;
+	color: #2B547E;
     font-size: 1.2em;
 	font-weight: bold;
     margin-left: 15px;
@@ -547,7 +548,7 @@ a.connect_status {
 #error_message {
 	color: red;
 	overflow: hidden;
-	font-size: 1.5em;
+	font-size: 13px;
 }
 .left {
 	text-align: left;
@@ -770,6 +771,7 @@ select.group_name {
 }
 #search_platej {
 	float: right;
+	margin-right: 270px;
 }
 #modal_poisk {
 	width: 100%;
@@ -859,7 +861,7 @@ img.btn_close {
 	text-align: left;
 }
 #draw_graph {
-	margin: 18px auto;
+	margin: 13px 0 0 13px;
 }
 #plot_table {
 	margin-top: 30px auto;

@@ -48,7 +48,7 @@
        </tbody>
     </table>
     <br>
-    <div style="font-size: 16px; font-weight: bolder; color: #2B547E; margin-bottom: -20px;" id="group_filter">Фильтр по группе:
+    <div style="font-size: 14px; font-weight: bolder; color: #2B547E; margin-bottom: -20px;" id="group_filter">Фильтр по группе:
         <select id="groups_incas" style="width:250px;"><option value="0">Все терминалы</option>
             <% groups.forEach(function(group){ %>
             <option value="<%= group['id_group'] %>" <% if(group['id_group'] == current_group){ %>selected<% } %>><%= group['group_name'] %></option>
@@ -63,8 +63,8 @@
             <label> По </label>
             <input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
     <img src="images/search-icon.png" id="search_start"/></form></div>
-    <div style="position: relative; left: 15px; top: 20px; width: 300px;" class="dataTables_filter"><label>Поиск:&nbsp;<input id="modal_filter" style="width: 200px;" aria-controls="example" type="text"></label></div>
-   <div style="clear: both; height: 17px"></div>
+    <div style="position: relative; top: 20px; width: 300px;" class="dataTables_filter"><label>Поиск:&nbsp;<input id="modal_filter" style="width: 200px;" aria-controls="example" type="text"></label></div>
+   <div style="clear: both; height: 23px"></div>
 <table id="modal_bills" class="display">
             <thead>
             <tr>
