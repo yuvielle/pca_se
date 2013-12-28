@@ -1,17 +1,18 @@
 <div id="text" class="pop_window">
     <img src="images/x_button.png" class="btn_close" alt="Close"/>
+	<h1>Работа с группой</h1>
     <hr style="clear: both; width:100%"/>
     <br>
 
     <div class="center">
-        <form action="index.php?action=saveGroup"><label class="group_name">Название</label>
+        <form action="index.php?action=saveGroup"><label class="group_name">Название&nbsp;</label>
             <input class="group_name" name="group_name" id="group_name" type="text" value="<% if(hasOwnProperty('group_name')){ %><%= group_name %><% } %>"/>
             <input name="group_id" id="group_id" type="hidden" value="<% if(hasOwnProperty('group_id')){ %><%= group_id %><% } %>"/>
         <div class="clear"></div>
         <br>
             <table><tr>
                 <td>
-                    <select name="terminals" id="terminals" size="10">
+                    <select name="terminals" id="terminals" size="12">
                         <option value=""></option>
                         <% if(hasOwnProperty('terminals')){ %>
                         <% terminals.forEach(function(row){ %>
@@ -28,7 +29,7 @@
                         <input id="delete_from_group" value="<" type="submit"></form>
                     </div>
                 </td><td>
-                    <select name="terminals_in_group" id="terminals_in_group" size="10">
+                    <select name="terminals_in_group" id="terminals_in_group" size="12">
                         <option value=""></option>
                         <% if(hasOwnProperty('selected_terminals')){ %>
                         <% selected_terminals.forEach(function(row){ %>
