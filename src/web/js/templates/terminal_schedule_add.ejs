@@ -17,14 +17,14 @@
             <td></td>
         </tr>
         <tr class="rasp0">
-            <td><label>Уведомлять, если платежей нет дольше:</label></td>
+            <td><label>Уведомлять, если платежей нет более:</label></td>
             <td><input type="text" class="from_till" id="time_input" name="max_time_from_pay0"/> минут</td>
             <td><a href="#" class="add_setting" onclick="addTableRow()" disabled="disabled">Добавить настройку</a></td>
         </tr>
         </tbody>
     </table>
     <input type="hidden" id="default-id" value="0"/><input type="hidden" name="id_terminal" value="<%= id_terminal %>"/>
-    <input type="hidden" name="action" value="insertTermTimetable"/><input type="submit" class="buttons" id="save_timetable" value="Сохранить"/>
+    <input type="hidden" name="action" value="insertTermTimetable"/><input type="submit" class="buttons" id="save_timetable" style="margin-bottom: 10px;" value="Сохранить"/>
 </form>
 <script>
     var addTableRowTemplate = new EJS({url: 'js/templates/add_table_row.ejs'});
