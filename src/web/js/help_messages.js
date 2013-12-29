@@ -77,32 +77,36 @@ function helpMessages() {
 
     });
 
-
     // Наведение на поле "Последнее соединение"
     $('td[aria-describedby=example_last_connect]').mouseover(function () {
             var rowId = $(this).parents('tr').attr("id");
             var last_connect = $(".table-to-grid").jqGrid('getRowData', rowId).last_connect;
-            $.ajax({
+            $(this).attr('title', jQuery.timeago(dateFormatV2(last_connect)));
+            /*$.ajax({
                 url: 'index.php?action=getTime&time=' + last_connect,     // указываем URL
                 type: "GET",                     // метод
                 success: function (data) {
                     $(this).attr('title', data);
                 }
-            });
+            }); */
         }
     );
 
-    // Наведение на поле "Последний платеж"    example_last_pay
+    // Наведение на поле "Последний платеж"
     $('td[aria-describedby=example_last_pay]').mouseover(function () {
             var rowId = $(this).parents('tr').attr("id");
             var last_pay = $(".table-to-grid").jqGrid('getRowData', rowId).last_pay;
-            $.ajax({
+            //$(this).removeAttr("title");
+            //alert(dateFormatV2(last_pay));
+            $(this).attr('title', jQuery.timeago(dateFormatV2(last_pay)));
+            /*$.ajax({
                 url: 'index.php?action=getTime&time=' + last_pay,     // указываем URL
                 type: "GET",                     // метод
+                async: false,
                 success: function (data) {
-                    $(this).attr('title', data);
+                    $(this).setAttribute('title', data);
                 }
-            });
+            });*/
         }
     );
 }

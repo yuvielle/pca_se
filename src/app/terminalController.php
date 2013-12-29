@@ -424,7 +424,7 @@ class app_terminalController extends app_baseController
         if($request->isPost()){
             $result = '';
             $group_name = library_utils::mssql_real_escape_string($_POST['group_name']);
-            $terminal = library_FastJSON::decode($_POST['terminals']);
+            $terminal = $_POST['terminals'];//library_FastJSON::decode($_POST['terminals']);
             $id_group = $_POST['group_id']?$_POST['group_id']:null;
 
             $new = false;
@@ -433,12 +433,12 @@ class app_terminalController extends app_baseController
                 $new_group = $this->Query('exec [regplat-ru].pendjurina.owebs_mini_InsertGroup "' . $_SESSION['session_hash'] . '", "' . iconv('UTF-8', 'Windows-1251', $group_name) . '", 0');
                 if (mssql_num_rows($new_group) > 0) {
                     while ($group = library_utils::MyIconv(mssql_fetch_array($new_group))) {
-                        $id_group = $group['group_id'];
+                        $id_group = $group['id_group'];
                     }
                 }
             }
-            if ($id_group != -1 || !$new) {
-                $this->Query('delete from [dbo].[owebs_mini_agent_groups_ids] where [id_group] = ' . $id_group);
+            if ($id_group != -1) {
+                if(!$new) $this->Query('delete from [dbo].[owebs_mini_agent_groups_ids] where [id_group] = ' . $id_group);
                 foreach ($terminal as $t) {
                     $t = library_utils::mssql_real_escape_string($t);
                     if ($t != '')

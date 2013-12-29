@@ -7,20 +7,21 @@
               <link rel="stylesheet" href="css/demo_page.css" type="text/css" />
               <link rel="stylesheet" href="css/demo_table.css" type="text/css" />
               <link rel="stylesheet" href="css/style.css" type="text/css" />
-              <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.js"></script>
               <link rel="stylesheet" type="text/css" media="screen" href="css/redmond/jquery-ui-1.10.3.custom.css" />
               <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
              <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ui.timepicker.css" />
+             <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.js"></script>
               <script type="text/javascript" src="js/ejs_production.js"></script>
               <script type="text/javascript" src="http://yandex.st/json2/2011-10-19/json2.min.js"></script>
               <script type="text/javascript" src="js/utils.js"></script>
               <script type="text/javascript" src="js/help_messages.js"></script>
          <?php if($this->environtment == 'terminal'): ?>
+              <script type="text/javascript" src="js/jquery.timeago.js"></script>
+              <script type="text/javascript" src="js/jquery.timeago.ru.js"></script>
               <script type="text/javascript" src="js/terminal_test.js"></script>
          <?php elseif($this->environtment == 'provider'): ?>
               <script type="text/javascript" src="js/provider_test.js"></script>
          <?php endif ?>
-              <script src="js/jquery-1.9.1.js" type="text/javascript"></script>
               <script src="js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
               <script src="js/jquery.ui.timepicker.js" type="text/javascript"></script>
               <script src="js/jquery.ui.datepicker-ru.js" type="text/javascript"></script>

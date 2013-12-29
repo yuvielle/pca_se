@@ -975,18 +975,23 @@ $(document).ready(function () {
         var terminals = [];
         var group_name = $('#group_name').val();
         var group_id = $('#group_id').val();
-        var id_string = '';
-        if(typeof group_id !== 'undefined') id_string = '&group_id=' + group_id;
+        //var id_string = '';
+        if(typeof group_id == 'undefined') group_id='';//id_string = '&group_id=' + group_id;
         if (group_name == '') alert('Введите название');
         else {
             $('#terminals_in_group option').each(function () {
                 terminals.push($(this).val());
             });
-            terminals = JSON.stringify(terminals);
+            //terminals = JSON.stringify(terminals);
             //alert(terminals + ' ' + group_name);
             $.ajax({
                 url: 'index.php?action=saveGroup',
-                data: 'terminals=' + terminals + '&group_name=' + group_name + id_string,
+                //data: 'terminals=' + terminals + '&group_name=' + group_name + id_string,
+                data: {
+                    terminals: terminals,
+                    group_name: group_name,
+                    group_id: group_id
+                },
                 type: "POST",
                 success: function (data) {
                     alert(data);

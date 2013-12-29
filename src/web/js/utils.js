@@ -91,6 +91,13 @@ function dateFormat(date){
         return date[2] + '-' + date[1] + '-' + date[0];
     }
 
+function dateFormatV2(date){
+        if(date == '') return date
+        fulldate = date.split(' ');
+        date = fulldate[0].split('.');
+        return date[2] + '-' + date[1] + '-' + date[0] + ' ' + fulldate[1];
+    }
+
 function directDateFormat(date){
         date = date.split('-');
         return date[2] + '.' + date[1] + '.' + date[0];
