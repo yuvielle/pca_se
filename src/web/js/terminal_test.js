@@ -139,6 +139,7 @@ $(document).ready(function () {
             });
         },
         loadComplete: function(){
+            helpMessages();
             columnNames = [];
             var columns = $(".table-to-grid").jqGrid('getGridParam','colModel');
             for(key in columns){

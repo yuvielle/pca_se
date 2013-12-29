@@ -14,9 +14,10 @@ class library_dispatcher //very simple dispatcher
             $rights = $session->hasRights();
             $module = @$_GET['module'];
             $action = @$get['action']?$get['action']:'index';
+            //die($module . '   ' .  $action . '   ' . in_array($action, $freeActions[$module]));
             if(!$module && $rights && in_array($rights, array_keys($defaultControllers))){
                 $module = $defaultControllers[$rights];
-            } elseif ($module && in_array($module, $freeActions) && in_array($action, $freeActions[$module])) {
+            } elseif ($module && in_array($module, array_keys($freeActions)) && in_array($action, $freeActions[$module])) {
                    // echo 'test<br>';
             } elseif ($rights === false && $request->isXmlHttpRequest()) {
                 header('HTTP/1.1 403 Forbidden');
