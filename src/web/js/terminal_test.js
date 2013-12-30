@@ -602,7 +602,7 @@ $(document).ready(function () {
         var transaction = $('#transaction').val();
         var client_account = $('#client_account').val();
         var client_amount = $('#client_amount').val();
-        colnames = ['Дата', 'TID', 'Транзакция', 'Терминал', 'Поставщик', 'Состояние', 'Счет', 'Сумма', 'Комиссия', 'Зачислено'];
+        colnames = ['Дата', 'TID', 'Транзакция', 'Терминал', 'Поставщик', 'Состояние', 'Счет', 'Сумма', 'Комиссия', 'Зачисл.'];
         colmodel = [
             {name: 'DatePay', index: 'DatePay', width: 50, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
             {name: 'tid', index: 'tid', width: 50, align: "left", sorttype: "string"},
@@ -613,7 +613,7 @@ $(document).ready(function () {
             {name: 'ClientAccount', index: 'ClientAccount', width: 60, align: "left", sorttype: "string"},
             {name: 'summary_amount', index: 'summary_amount', width: 40, align: "left", sorttype: "float", formatter: "number"},
             {name: 'Commission', index: 'Commission', width: 35, align: "left", sorttype: "float", formatter: "number"},
-            {name: 'amount', index: 'amount', width: 50, align: "left", sorttype: "float", formatter: "number"}
+            {name: 'amount', index: 'amount', width: 35, align: "left", sorttype: "float", formatter: "number"}
         ];
         if (((start_date != '') && (end_date != '')) && ((id_terminal != '') || (pay_type != '') || (pay_state != '') || (tid != '') || (transaction != '') || (client_account != '') || (client_amount != ''))) {
             $.ajax({
