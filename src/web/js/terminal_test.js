@@ -77,15 +77,29 @@ $(document).ready(function () {
         afterInsertRow: function(rowId, data){
             var val = $(".table-to-grid").jqGrid('getRowData', rowId);
             //alert(val.B);
-            if (val.C == '<a class="connect_status" href="#"><div class="notvisible a">5</div><img src="images/red.png" alt="c"></a>') {
-                //alert('k=' + val.K);
-                $('#' + rowId).children("td").css('background-color', "#ff7777");
+            if(!$.browser.msie){
+                if (val.C == '<a class="connect_status" href="#"><div class="notvisible a">5</div><img src="images/red.png" alt="c"></a>') {
+                    //alert('k=' + val.K);
+                    $('#' + rowId).children("td").css('background-color', "#ff7777");
+                }
+                else if((val.K != '<a class="bill_acceptor" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="b"></a>') || (val.P != '<a class="printer" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="p"></a>')){
+                    $('#' + rowId).children("td").css('background-color', "#FFDDAA");
+                }
+                else if(val.B == '<a class="balance pay_no" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="bal"></a>'){
+                    $('#' + rowId).children("td").css('background-color', "#DDDDEE");
+                }
             }
-            else if((val.K != '<a class="bill_acceptor" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="b"></a>') || (val.P != '<a class="printer" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="p"></a>')){
-                $('#' + rowId).children("td").css('background-color', "#FFDDAA");
-            }
-            else if(val.B == '<a class="balance pay_no" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="bal"></a>'){
-                $('#' + rowId).children("td").css('background-color', "#DDDDEE");
+            else {
+                if (val.C == '<a class="connect_status" href="#"><div class="notvisible a">5</div><img alt="c" src="images/red.png"></a>') {
+                    //alert('k=' + val.K);
+                    $('#' + rowId).children("td").css('background-color', "#ff7777");
+                }
+                else if ((val.K != '<a class="bill_acceptor" href="#"><div class="notvisible b">0</div><img alt="b" src="images/green.png"></a>') || (val.P != '<a class="printer" href="#"><div class="notvisible b">0</div><img alt="p" src="images/green.png"></a>')) {
+                    $('#' + rowId).children("td").css('background-color', "#FFDDAA");
+                }
+                else if (val.B == '<a class="balance pay_no" href="#"><div class="notvisible b">0</div><img alt="bal" src="images/green.png"></a>') {
+                    $('#' + rowId).children("td").css('background-color', "#DDDDEE");
+                }
             }
         },
         onSelectRow: function (rowId, status, e) {
