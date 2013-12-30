@@ -195,7 +195,7 @@ $(document).ready(function () {
 
     function rowSelect(rowId, status, e) {
         lastStatus = status;
-        if (!e || e.which === 1 && status == true) {
+        if (!e || e.which === 1 && status == true) { alert($(".table-to-grid").jqGrid('getRowData', rowId).tid);
             term_id = ($(".table-to-grid").jqGrid('getRowData', rowId).tid);
             term_name = ($(".table-to-grid").jqGrid('getRowData', rowId).term_name);
             select_row = $(".table-to-grid").jqGrid('getRowData', rowId);
