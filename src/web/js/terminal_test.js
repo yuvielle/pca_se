@@ -54,7 +54,7 @@ $(document).ready(function () {
         //rownumbers: true,
         viewrecords: true,
         colNames: ['#', 'Название терминала', 'Платежи', 'Сумма', 'Ком.', 'Зачис.', 'С', 'К',
-            'П', 'Б', 'О', 'Последний платеж', 'Последнее соединение', 'Наличные'],
+            'П', 'Б', 'О', 'Последний платеж', 'Последнее соединение','', 'Наличные'],
         colModel: [
             {name: 'tid', index: 'tid', width: 20, sorttype: "int", align:"right"},
             {name: 'term_name', index: 'term_name', width: 100, align: "right", sorttype: "string",
@@ -72,6 +72,7 @@ $(document).ready(function () {
             {name: 'O', index: 'O', width: 10, sorttype: "string", search: false},
             {name: 'last_pay', index: 'last_pay', width: 47, sorttype: "date", datefmt: 'd.m.Y H:i:s', align: "right"},
             {name: 'last_connect', index: 'last_connect', width: 47, sorttype: "date", datefmt: 'd.m.Y H:i:s', align: "right"},
+            {name: 'kupurs_count', hidden:true},
             {name: 'cash', index: 'cash', width: 36, align: "right", sorttype: "int", formatter: 'integer'}
         ],
         afterInsertRow: function(rowId, data){

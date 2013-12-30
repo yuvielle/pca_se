@@ -20,6 +20,7 @@ class app_userController extends app_baseController {
                     $try = 0;
                 } else {
                     $this->view->error = 'Ошибка капчи';
+                    $this->view->try = $try;
                     echo $this->view->render();
                     return;
                 }

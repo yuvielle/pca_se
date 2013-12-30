@@ -81,6 +81,7 @@
             <th>O</th>
             <th style="width=10%">last_pay</th>
             <th style="width=20%">last_connect</th>
+            <th>kupurs_count</th>
             <th style="width=20%">cash</th>
         </tr>
         </thead>
@@ -190,6 +191,7 @@
                     <td class="center"><a class="updates" href="#"><?php echo $updates ?></a></td>
                     <td class="center last_payment"><?php echo $last_payment ?></td>
                     <td class="center last_connect"><?php echo $last_connect ?></td>
+                    <td><?php echo $row['kupurs_count'] ?></td>
                     <td class="center <?php echo $kupurs_class ?>"><?php echo $row['kupurs_sum']?$row['kupurs_sum']:0 ?></td>
                     </tr>
                     <?php  $terminal_amount = 0;
