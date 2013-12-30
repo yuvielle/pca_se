@@ -66,14 +66,14 @@ function helpMessages() {
     $('td[aria-describedby=example_amount]').mouseover(function () {
         var rowId = $(this).parents('tr').attr("id");
         var cash = $(".table-to-grid").jqGrid('getRowData', rowId).cash;
-        $(this).attr('title', 'Купюр: ' + cash);
+        $(this).attr('title', 'Сумма: ' + cash);
 
     });
 
     $('td[aria-describedby=example_cash]').mouseover(function () {
         var rowId = $(this).parents('tr').attr("id");
-        var cash = $(".table-to-grid").jqGrid('getRowData', rowId).cash;
-        $(this).attr('title', 'Купюр: ' + cash);
+        var kupurs_count = $(".table-to-grid").jqGrid('getRowData', rowId).kupurs_count;
+        $(this).attr('title', 'Купюр: ' + kupurs_count);
 
     });
 
