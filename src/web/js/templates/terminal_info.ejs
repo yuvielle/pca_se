@@ -10,7 +10,7 @@
         <td><form action="index.php?action=insertTermTimetable">
         <input type="hidden" name="action" value="2"/>
         <input id="id_terminal" type="hidden" name="id_terminal" value="<%= id_terminal %>"/>
-        <input type="text" id="max_kup" value="<% if(hasOwnProperty('data')) { %><%= data['max_kup'] %><% } %>"/>
+        <input type="text" id="max_kup" value="<% if(hasOwnProperty('data') && data['max_kup'] > 0) { %><%= data['max_kup'] %><% } %>"/>
         <input type="submit" class="buttons" id="change_maxkup" value="Изменить"/>
     </form></td></tr>
     <tr><td class="term_info_label" >Расписание уведомлений:</td>
