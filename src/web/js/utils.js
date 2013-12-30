@@ -82,7 +82,7 @@ $(document).ready(function () {
 });
 
 $(document).ajaxError(function() {
-    alert('error handle');
+    alert('Ваша сессия истекла, повторите вход в систему!');
     });
 
 function dateFormat(date){

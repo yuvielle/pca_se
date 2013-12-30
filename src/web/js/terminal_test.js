@@ -604,15 +604,15 @@ $(document).ready(function () {
         var client_amount = $('#client_amount').val();
         colnames = ['Дата', 'TID', 'Транзакция', 'Терминал', 'Поставщик', 'Состояние', 'Счет', 'Сумма', 'Комиссия', 'Зачислено'];
         colmodel = [
-            {name: 'DatePay', index: 'DatePay', width: 60, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
+            {name: 'DatePay', index: 'DatePay', width: 50, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
             {name: 'tid', index: 'tid', width: 50, align: "left", sorttype: "string"},
             {name: 'sub_tid', index: 'sub_tid', width: 60, align: "left", sorttype: "string"},
             {name: 'point_oid', index: 'point_oid', width: 40, align: "left", sorttype: "string"},
-            {name: 'ProviderName', index: 'ProviderName', width: 130, align: "left", sorttype: "string"},
-            {name: 'state', index: 'state', width: 50, align: "left", sorttype: "string"},
-            {name: 'ClientAccount', index: 'ClientAccount', width: 80, align: "left", sorttype: "string"},
+            {name: 'ProviderName', index: 'ProviderName', width: 100, align: "left", sorttype: "string"},
+            {name: 'state', index: 'state', width: 45, align: "left", sorttype: "string"},
+            {name: 'ClientAccount', index: 'ClientAccount', width: 60, align: "left", sorttype: "string"},
             {name: 'summary_amount', index: 'summary_amount', width: 40, align: "left", sorttype: "float", formatter: "number"},
-            {name: 'Commission', index: 'Commission', width: 40, align: "left", sorttype: "float", formatter: "number"},
+            {name: 'Commission', index: 'Commission', width: 35, align: "left", sorttype: "float", formatter: "number"},
             {name: 'amount', index: 'amount', width: 50, align: "left", sorttype: "float", formatter: "number"}
         ];
         if (((start_date != '') && (end_date != '')) && ((id_terminal != '') || (pay_type != '') || (pay_state != '') || (tid != '') || (transaction != '') || (client_account != '') || (client_amount != ''))) {
