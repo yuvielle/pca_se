@@ -56,12 +56,12 @@
 <?php include(dirname(__FILE__) . '/../partials/_printErrors.phtml') ?>
 
 <?php $table_name = $this->table_name ?>
-
+<div style="padding-left: 15px; padding-top: 8px;" class="dataTables_filter"><label>Поиск: <input id="general_filter" aria-controls="example" type="text"></label></div> <br>
 <div id="colors_desc_top">
     <img src="images/x.png" alt="x"/> Нет соединения более 30 минут
     <img src="images/c.png" alt="с"/> Ошибка купюроприемника или принтера
     <img src="images/u.png" alt="u"/> Нет платежей более 3 часов
-</div><div style="padding-left: 15px; padding-top: 8px;" class="dataTables_filter"><label>Поиск: <input id="general_filter" aria-controls="example" type="text"></label></div> <br>
+</div>
 <br>
 <div id="demo_gecko">
     <!---<table id="detail" style="width: 100%"></table><div id="pager_detail"></div>-->
