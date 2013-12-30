@@ -17,7 +17,12 @@ class app_terminalController extends app_baseController
         $this->view->environtment = 'terminal';
         $terminalErrors = $this->Query('exec [regplat-ru].dbo.owebs_mini_GetPointList "' . $_SESSION['session_hash'] . '"');
         $this->view->terminalErrors = $terminalErrors;
-        $this->view->Result = $this->Query("exec [regplat-ru].dbo.owebs_mini_GetPointList '" . $_SESSION['session_hash'] . "'");
+        $result = $this->Query("exec [regplat-ru].dbo.owebs_mini_GetPointList '" . $_SESSION['session_hash'] . "'");
+        $res = array();
+        while ($row = library_utils::MyIconv(mssql_fetch_array($result))) {
+            array_push($res, $row);
+        }
+        $this->view->Result = $res;
         $this->view->table_name = 'example';
         echo $this->view->render();
         mssql_free_result($terminalErrors);

@@ -63,6 +63,12 @@ $current_time = time(); ?>
                 mssql_free_result($timetable);
             }
         }
+        if (count($this->Result) > 0):
+            foreach($this->Result as $element) {
 
+               if ((int)$element['max_kup'] !=0 && $element['kupurs_count'] > (int)$element['max_kup']){
+                   echo '<div class="red_text"><a href="#" class="toomuch">На терминале ' . $element['PointName'] . '(' . $element['PointID'] . ')' .  ' превышено максимальное количество купюр. '.$element['kupurs_count'].' при максимуме ' . $element['max_kup'] . '</a></div>';}
+           }
+    endif;
     }  ?>
 </div>

@@ -96,10 +96,8 @@
         $total_pays = 0;
         $total_kupurs = 0;
 
-
-        if (mssql_num_rows($this->Result) > 0):
-
-            while ($row = library_utils::MyIconv(mssql_fetch_array($this->Result))) { //todo remove to controller
+        if (count($this->Result) > 0):
+            foreach($this->Result as $row) {
 
                 if ($row['PointType'] == 3) {
                     $terminal = $row['PointID'];
@@ -178,7 +176,7 @@
                     $total_pays += $row['pays_count'];
                     $total_kupurs += $row['kupurs_sum'];
                     $term_bills = 5; ?>
-                    <td style="width:60px !important"><?php echo $row['PointID'] ?></td>
+                    <td style="width:60px !important"><?php echo $row[''] ?></td>
                     <td style="width:240px !important"><?php echo $row['PointName'] ?></td>
                     <td class="center bills" style="width:65px !important"><?php echo $row['pays_count']?$row['pays_count']:0 ?></td>
                     <td class="sum" style="width:65px !important"><?php echo $pays_sum?$pays_sum:0 ?></td>
