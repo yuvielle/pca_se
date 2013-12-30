@@ -61,18 +61,18 @@ $(document).ready(function () {
                 formatter: function (cellvalue, options, rowObject) {
                     return '<a id="'+ rowObject.tid + '" class="name" href="#">' + $.jgrid.htmlEncode(cellvalue) + "</a>";
                 }},
-            {name: 'pay', index: 'pay', width: 25, align: "right", sorttype: "int", formatter: 'integer', formatoptions: { defaultValue: 0 }},
-            {name: 'amount', index: 'amount', width: 30, align: "right", sorttype: "float", formatter: "number"},
-            {name: 'comm', index: 'comm', width: 30, align: "right", sorttype: "float", formatter: "number"},
-            {name: 'zach', index: 'zach', width: 30, align: "right", sorttype: "float", formatter: "number"},
+            {name: 'pay', index: 'pay', width: 30, align: "right", sorttype: "int", formatter: 'integer', formatoptions: { defaultValue: 0 }},
+            {name: 'amount', index: 'amount', width: 28, align: "right", sorttype: "float", formatter: "number"},
+            {name: 'comm', index: 'comm', width: 28, align: "right", sorttype: "float", formatter: "number"},
+            {name: 'zach', index: 'zach', width: 28, align: "right", sorttype: "float", formatter: "number"},
             {name: 'C', index: 'C', width: 10, sorttype: "string", search: false},
             {name: 'K', index: 'K', width: 10, sorttype: "string", search: false},
             {name: 'P', index: 'P', width: 10, sorttype: "string", search: false},
             {name: 'B', index: 'B', width: 10, sorttype: "string", search: false},
             {name: 'O', index: 'O', width: 10, sorttype: "string", search: false},
-            {name: 'last_pay', index: 'last_pay', width: 50, sorttype: "date", datefmt: 'd.m.Y H:i:s', align: "right"},
-            {name: 'last_connect', index: 'last_connect', width: 50, sorttype: "date", datefmt: 'd.m.Y H:i:s', align: "right"},
-            {name: 'cash', index: 'cash', width: 30, align: "right", sorttype: "int", formatter: 'integer'}
+            {name: 'last_pay', index: 'last_pay', width: 47, sorttype: "date", datefmt: 'd.m.Y H:i:s', align: "right"},
+            {name: 'last_connect', index: 'last_connect', width: 47, sorttype: "date", datefmt: 'd.m.Y H:i:s', align: "right"},
+            {name: 'cash', index: 'cash', width: 36, align: "right", sorttype: "int", formatter: 'integer'}
         ],
         afterInsertRow: function(rowId, data){
             var val = $(".table-to-grid").jqGrid('getRowData', rowId);
@@ -443,7 +443,7 @@ $(document).ready(function () {
         if (term_name != '') {
             url = 'index.php?action=terminalErrors&id_terminal=' + term_id;
             //alert(select_row.C);
-            if ((select_row.C == '<a class="connect_status" href="#"><div class="notvisible">5</div><img src="images/red.png" alt="c"></a>') || (select_row.B == '<a class="bill_acceptor" href="#"><div class="notvisible">1</div><img src="images/red.png" alt="b"></a>') || (select_row.P == '<a class="printer" href="#"><div class="notvisible">2</div><img src="images/red.png" alt="p"></a>')) {
+            if ((select_row.C == '<a class="connect_status" href="#"><div class="notvisible a">5</div><img src="images/red.png" alt="c"></a>') || (select_row.B == '<a class="bill_acceptor" href="#"><div class="notvisible">1</div><img src="images/red.png" alt="b"></a>') || (select_row.P == '<a class="printer" href="#"><div class="notvisible">2</div><img src="images/red.png" alt="p"></a>')) {
                 error = true;
             }
         }
@@ -455,7 +455,7 @@ $(document).ready(function () {
             var count = 0;
             for (var key in datao) {
                 var val = datao[key];
-                if ((val.K != '<a class="bill_acceptor" href="#"><div class="notvisible">0</div><img src="images/green.png" alt="b"></a>') || (val.P != '<a class="printer" href="#"><div class="notvisible">0</div><img src="images/green.png" alt="p"></a>')) {
+                if ((val.K != '<a class="bill_acceptor" href="#"><div class="notvisible b">0</div><img src="images/green.png" alt="b"></a>') || (val.P != '<a class="printer" href="#"><div class="notvisible">0</div><img src="images/green.png" alt="p"></a>')) {
                     //alert('k=' + val.K);
                     terminals.push(val.tid);
                     count++;
