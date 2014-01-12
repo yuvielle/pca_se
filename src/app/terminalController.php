@@ -230,6 +230,10 @@ class app_terminalController extends app_baseController
             case 3:
                 $month = date('m');
                 $date = 'Y-' . ($month - 1) . '-01 00:00:00';
+                if($month == '01') {
+                    $y= date('Y');
+                    $date = $y-1  . '-12-01 00:00:00';
+                }
                 $day_start = date($date);
                 $day_end = date('Y-m-01 00:00:00');
                 break;

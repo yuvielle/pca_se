@@ -42,7 +42,7 @@ $(document).ready(function () {
     $('#loader').html('');
 
     tableToGrid(".table-to-grid", {
-        rowNum: 40,
+        rowNum: 70,
         rowList: [20, 40, 70, 100],
         caption: "Терминалы",
         pager: '#table-pager',
@@ -708,6 +708,18 @@ $(document).ready(function () {
                 data = JSON.parse(data);
                 data['term_name'] = term_name;
                 data['id_terminal'] = term_id;
+                var  pays_amount = 0;
+                var summa = 0;
+                var commission = 0;
+                var arr = data['data'];
+                arr.forEach(function(row){
+                   pays_amount = pays_amount + parseInt(row['pays_amount']);
+                   summa = summa + parseFloat(row['summa']);
+                   commission = commission + parseFloat(row['commission']);
+                });
+                data['pays_amount'] = pays_amount;
+                data['summa'] = summa;
+                data['commission'] = commission;
                 incomeTemplate.update('new_table', data);
                 colnames = ['Дата', 'Количество платежей', 'Сумма платежей', 'Комиссия'];
                 colmodel = [
@@ -777,6 +789,18 @@ $(document).ready(function () {
                 data['end_day'] = end_date;
                 data['term_name'] = terminal_name;
                 data['id_terminal'] = id_terminal;
+                var  pays_amount = 0;
+                var summa = 0;
+                var commission = 0;
+                var arr = data['data'];
+                arr.forEach(function (row) {
+                    pays_amount = pays_amount + parseInt(row['pays_amount']);
+                    summa = summa + parseFloat(row['summa']);
+                    commission = commission + parseFloat(row['commission']);
+                });
+                data['pays_amount'] = pays_amount;
+                data['summa'] = summa;
+                data['commission'] = commission;
                 //alert(data['start_day']);
                 incomeTemplate.update('new_table', data);
                 tableToGrid("#modal_bills", {
@@ -1063,5 +1087,7 @@ $(document).ready(function () {
         var vals = Array.apply(null, new Array(modalNames.length)).map(String.prototype.valueOf,$(this).val());
         OnChangeGridSelect('#modal_bills', modalNames, vals, 'OR', 'cn');
     });
+
+    $("#js_total_com").html($('#total_com').text());
 });
 
