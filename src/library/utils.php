@@ -59,8 +59,9 @@ class library_utils
         $five = 0;
         $tenm = 0;
         $result = array();
-
+        $names = array();
         while ($aRow = library_utils::MyIconv(mssql_fetch_array($query))) {
+            array_push($names, $aRow['name']);
             if(@$aRow['RECEIVE_TIME']) $aRow['RECEIVE_TIME'] = date('d.m.Y H:i:s', strtotime(@$aRow['RECEIVE_TIME']));
             if(@$aRow['RECEIVE_DATE']) $aRow['RECEIVE_DATE'] = date('d.m.Y H:i:s', strtotime(@$aRow['RECEIVE_DATE']));
             if(@$aRow['TERMINAL_DATE']) $aRow['TERMINAL_DATE'] = date('d.m.Y H:i:s', strtotime(@$aRow['TERMINAL_DATE']));
@@ -160,11 +161,13 @@ class library_utils
             }
             array_push($result, $aRow);
         }
+        $names = array_unique($names);
+        $count = count($names);
         return array('one'=>$one, 'two'=>$two, 'five'=>$five,
                         'ten'=>$ten, 'tenm'=>$tenm, 'fifty'=>$fifty, 'hundred'=>$hundred,
                         'fiveh'=>$fiveh, 'onet'=>$onet, 'fivet'=>$fivet , 'data'=> $result,
                         'total_amount'=>$total_amount, 'totalm'=>$totalm, 'totalk'=>$totalk,
-                        'end_date'=>$end_date, 'start_date'=>$start_date);
+                        'end_date'=>$end_date, 'start_date'=>$start_date, 't_count'=>$count);
     }
 
 

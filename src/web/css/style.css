@@ -843,6 +843,11 @@ img.btn_close {
 #total_kupurs {
 	text-align: left;
 	}
+.green {
+    font-weight: bold;
+    font-size: 1.1em;
+    color:#397F3D;
+}
 #graph_param {
 	width: 100%;
 	overflow: hidden;
