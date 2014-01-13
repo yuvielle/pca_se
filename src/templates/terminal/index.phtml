@@ -26,6 +26,10 @@
                         $sum_added = '0.00'; else: $sum_added = $agent_info['sum_added']; endif; ?>
                     <td><?php echo $sum_added ?></td>
                 </tr>
+                <tr>
+                    <td>Комиссия:</td>
+                    <td id="js_total_com"></td>
+                </tr>
             <?php endif;
         } else: ?> Ничего не найдено
     <?php endif ?>
@@ -133,11 +137,11 @@
                     <?php elseif (($days_p != 0) || ($hours_f_p > 2)): //Если последний платеж больше 3 часа назад
                         ?>
                         <tr class="gradeU" id="<?php echo $row['PointID'] ?>">
-                        <?php $class = 'pay_no' ?>
+                        <?php $class = ' pay_no' ?>
                     <?php else:
                         $payment_status = 0; ?>
                         <tr class="gradeA" id="<?php echo $row['PointID'] ?>">
-                        <?php $class = 'pay_yes' ?>
+                        <?php $class = ' pay_yes' ?>
                     <?php endif;
 
                     if ($connect == 5) $connect_status = '<div class="notvisible a">' . $connect . '</div><img src="images/red.png" alt="c"/>';

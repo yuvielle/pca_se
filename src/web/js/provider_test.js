@@ -17,7 +17,7 @@ $(document).ready(function () {
     $('#loader').html('');
 
         tableToGrid(".table-to-grid", {
-            rowNum:40,
+            rowNum:70,
             rowList:[20,40,70,100],
             pager: '#table-pager',
             caption: "Платежи",
