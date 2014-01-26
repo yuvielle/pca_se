@@ -543,4 +543,12 @@ class app_terminalController extends app_baseController
         }
         echo library_FastJSON::encode(array('data' =>$data, 'state'=>$state));
     }
+
+    public function statusChange(library_request $request, library_session $session){
+        $status = $request->Expr1; //get string todo convert to id of status
+        $id = $request->id;
+        $query = "EXEC [gorod].[dbo].[Set_State_Payment_Ex]  " . $id . ", NULL, NULL, " . $status . ", NULL, NULL, NULL, NULL, NULL, NULL,NULL, NULL";
+        $err_code = $this->Query($query);
+        echo $err_code;
+    }
 }

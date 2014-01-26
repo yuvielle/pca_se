@@ -51,21 +51,24 @@
        </tbody>
     </table>
     <br>
-    <div style="font-size: 14px; font-weight: bolder; color: #2B547E; margin-bottom: -20px;" id="group_filter">Фильтр по группе:
-        <select id="groups_incas" style="width:250px;"><option value="0">Все терминалы</option>
-            <% groups.forEach(function(group){ %>
-            <option value="<%= group['id_group'] %>" <% if(group['id_group'] == current_group){ %>selected<% } %>><%= group['group_name'] %></option>
-            <% }); %>
-        </select>
-    </div>
-    <div id="search_date" style="margin-bottom: -20px;">
-        <form>
-            <div style="font-size: 14px; font-weight: bolder; color: #2B547E; float: left; margin-left: 430px;">&nbsp;&nbsp;По дате:</div>
-            <label>&nbsp;C </label>
-            <input class="datePicker" type="text" name="search_from" id="search_from"value="<% if(hasOwnProperty('start_date')){ %><%= directDateFormat(start_date) %><% } %>"/>
-            <label> По </label>
-            <input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
-    <img src="images/search-icon.png" id="search_start"/></form></div>
+    <form>
+        <div style="font-size: 14px; font-weight: bolder; color: #2B547E; margin-bottom: -20px;" id="group_filter">Фильтр по группе:
+            <select id="groups_incas" style="width:250px;"><option value="0">Все терминалы</option>
+                <% groups.forEach(function(group){ %>
+                <option value="<%= group['id_group'] %>" <% if(group['id_group'] == current_group){ %>selected<% } %>><%= group['group_name'] %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div id="search_date" style="margin-bottom: -20px;  margin-left: 430px;">
+                <div style="font-size: 14px; font-weight: bolder; color: #2B547E; float: left;">&nbsp;&nbsp;По дате:</div>
+                <label>&nbsp;C </label>
+                <input class="datePicker" type="text" name="search_from" id="search_from"value="<% if(hasOwnProperty('start_date')){ %><%= directDateFormat(start_date) %><% } %>"/>
+                <label> По </label>
+                <input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
+        <img src="images/search-icon.png" id="search_start"/>
+
+        </div>
+    </form>
     <div style="position: relative; top: 25px; width: 300px;" class="dataTables_filter"><label>Поиск:&nbsp;<input id="modal_filter" style="width: 200px;" aria-controls="example" type="text"></label></div>
    <div style="clear: both; height: 35px"></div>
 <table id="modal_bills" class="display">

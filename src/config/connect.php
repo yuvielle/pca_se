@@ -1,5 +1,5 @@
 <?php
-$Server="192.168.1.5";
+$Server="192.168.1.11";
 $DataBase = "[regplat-ru]";
-$Password = "1";
-$Login = "test";
+$Password = "Fastbreak17";
+$Login = "admin";

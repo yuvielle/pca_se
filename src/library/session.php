@@ -48,18 +48,21 @@ class library_session {
         $_SESSION['name'] = $value;
     }
 
-    public function hasRights() {
+    public function hasRights($update=1) {
 
         if(!@$_SESSION['session_hash']) return false;
         $pas_check = "SELECT count(*) FROM [regplat-ru].dbo.owebs_mini_Sessions WHERE hash='" . $_SESSION['session_hash'] . "'";
+        $session_update_query="UPDATE [regplat-ru].dbo.owebs_mini_Sessions SET time_lastchange='" . date('Y-m-d H:i:s.000') . "' WHERE hash='" . $_SESSION['session_hash'] . "'";
         if (($this->username == '') && ($this->password == '')) return false;
         $result = $this->conn->Query($pas_check);
         list ($numrows) = MSSQL_FETCH_ROW($result);
         if($numrows ==0) return false;
         if(@$_SESSION['status'] === 1){
+            if($update == 1) $this->conn->Query($session_update_query);
             return 'terminal_rights';
         }
         elseif(@$_SESSION['status'] === 2){
+            if($update == 1) $this->conn->Query($session_update_query);
             return 'provider_rights';
         }
         else{

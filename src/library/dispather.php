@@ -11,7 +11,8 @@ class library_dispatcher //very simple dispatcher
         try{
             $session = library_session::init($env);
             $get = $_GET;
-            $rights = $session->hasRights();
+            $update = array_key_exists('update', $_GET)?$_GET['update']:1;
+            $rights = $session->hasRights($update);
             $module = @$_GET['module'];
             $action = @$get['action']?$get['action']:'index';
             //die($module . '   ' .  $action . '   ' . in_array($action, $freeActions[$module]));

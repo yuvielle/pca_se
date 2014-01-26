@@ -32,7 +32,35 @@
             <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Адрес точки:</b>&nbsp;&nbsp; <%= data[0]['terminal_name'] %></td>
             <td></td>
         </tr>
-        <tr><td>&nbsp;<!--<button id="clipboard_copy"><b>скопировать в буфер обмена</b></button>--></td>
+        <tr><td>&nbsp;<!--<button id="clipboard_copy"><b>скопировать в буфер обмена</b></button>-->
+            <form name="status_change" action="">
+                <label for="state_change">Статус платежа</label>
+                <input name="tid" id="tid" type="hidden" value="<%= data[0]['tid'] %>">
+                <% if(data[0]['state'] == 12){ %>
+                    <select id="state_change" name="state_change">
+                        <option value="0">Новый, деньги не списаны</option>
+                        <option value="1">Новый, деньги списаны</option>
+                        <option value="2">Запрос отмены платежа у ПУ, деньги списаны</option>
+                        <option value="3">Ожидание ответа от поставщика услуг</option>
+                        <option value="4">Запрос отмены платежа у ПУ, деньги возвращены</option>
+                        <option value="5">Отправлен поставщику услуг, деньги не списаны</option>
+                        <option value="6">Проведен</option>
+                        <option value="7">Не проведен</option>
+                        <option value="8">Отменен</option>
+                        <option value="9">Возвращены деньги</option>
+                        <option value="10">Перепроведен</option>
+                        <option value="11">Отложен</option>
+                        <option value="12" selected>Отменен ПУ</option>
+                    </select>
+                    <button name="submit" value="submit">Изменить</button>
+                <% } else { %>
+                    <select id="state_change" name="state_change" disabled>
+                        <option value="<%= data[0]['state'] %>" selected><%= data[0]['status_name'] %></option>
+                    </select>
+                    <button id="status_change_submit" name="submit" value="submit" disabled>Изменить</button>
+                <% } %>
+            </form>
+            </td>
             <td style="text-align: right"><a href="https://oplata.regplat.ru/webpay/paycheck.jsp?isprint=1&tid=<%= data[0]['tid'] %>&card_num=<%= data[0]['Card_number'] %>&type=4" target="_blank" title="Печать"><img src="images/print.png" alt="print"/></a></td>
         </tr>
     </table>

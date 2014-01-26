@@ -136,7 +136,36 @@ $(document).ready(function () {
                     {name: 'DatePay', index: 'DatePay', width: 100, sorttype: "date", datefmt: 'd.m.Y H:i:s'},
                     {name: 'ProviderName', index: 'ProviderName', width: 250, align: "left", sorttype: "string"},
                     {name: 'ClientAccount', index: 'ClientAccount', width: 120, align: "left", sorttype: "string"},
-                    {name: 'Expr1', index: 'Expr1', width: 100, align: "left", sorttype: "string"},
+                    {name: 'Expr1', index: 'Expr1', width: 100, align: "left", sorttype: "string", editable: false
+                        /*, edittype:'select',
+                            editoptions:{value:{
+                                0:"Новый, деньги не списаны",
+                                1:"Новый, деньги списаны",
+                                2:"Запрос отмены платежа у ПУ, деньги списаны",
+                                3:"Ожидание ответа от поставщика услуг",
+                                4:"Запрос отмены платежа у ПУ, деньги возвращены",
+                                5:"Отправлен поставщику услуг, деньги не списаны",
+                                6:"Проведен",
+                                7:"Не проведен",
+                                8:"Отменен",
+                                9:"Возвращены деньги",
+                                10:"Перепроведен",
+                                11:"Отложен",
+                                12:"Отменен ПУ"
+                            }} ,
+                            formatter: function (cellvalue) {
+                                return $.jgrid.htmlEncode(cellvalue);} */
+                    },
+                    /*{name: 'action', index: 'action', width: 20,
+                        formatter: function (options, rowObject, rowId) {
+                            //if(cellvalue == "Отменен ПУ"){
+                            var be = "<input style='height:22px;width:20px;' type='button' value='E' onclick=\"preEditRow();\" />";
+                            var se = "<input style='height:22px;width:20px;' type='button' value='S' onclick=\"$(this).setStatus('#' + subgrid_table_id, rowId)\" />";
+                            return "<span>" + be + se + "</span>";
+                            //}
+                            //else{ return $.jgrid.htmlEncode(cellvalue); }
+                        }
+                    },*/
                     {name: 'summary_amount', index: 'summary_amount', width: 80, align: "right", sorttype: "float", formatter: "number"},
                     {name: 'Commission', index: 'Commission', width: 80, align: "right", sorttype: "float", formatter: "number"},
                     {name: 'amount', index: 'amount', width: 80, align: "right", sorttype: "float", formatter: "number"}
@@ -149,6 +178,7 @@ $(document).ready(function () {
                     cell: "cell",
                     id: "id"
                 },
+                //editurl: 'index.php?action=statusChange',
                 //height: '100px',
                 width: '800px'
             });
@@ -166,6 +196,11 @@ $(document).ready(function () {
     $('.table-to-grid').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false, ignoreCase:true });
     $(".table-to-grid").jqGrid('navGrid', '#table-pager', {edit: false, add: false, del: false, view :true}, {}, {}, {}, {multipleSearch: true, multipleGroup: true});
     $(".table-to-grid").sortGrid("C", true, "desc").sortGrid("K", true, "desc").sortGrid("P", true, "desc").sortGrid("B", true, "desc").trigger("reloadGrid");
+
+    $.fn.setStatus = function (subgrid_table_id, rowId){
+        alert('testtt');
+        //jQuery("#" + subgrid_table_id).saveRow(rowId);
+    }
 
     $("#detail").jqGrid({
         row: {},
@@ -248,6 +283,12 @@ $(document).ready(function () {
         var vals = Array.apply(null, new Array(columnNames.length)).map(String.prototype.valueOf,$(this).val());
         OnChangeGridSelect('.table-to-grid', columnNames, vals, 'OR', 'cn');
     });
+
+    function preEditRow (){
+        var subgrid_table_id = $(this).parents('table').attr('id');
+        var rowId = $(this).parents('tr').attr('id');
+        jQuery("#" + subgrid_table_id).editRow(rowId, true);
+    }
 
     //Нажатие на название терминала - Информация о терминале
     $(document).on("click", '#example tbody td .name', function (e) {
@@ -704,7 +745,6 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#ajax_loader').hide();
-                //alert(data);
                 data = JSON.parse(data);
                 data['term_name'] = term_name;
                 data['id_terminal'] = term_id;
@@ -756,6 +796,15 @@ $(document).ready(function () {
         var period = $('input[name=period]:checked').val();
         var start_date = '';
         var end_date = '';
+        var pays_amount = 0;
+        var summa = 0;
+        var commission = 0;
+        var pays_amount_value = '';
+        var summa_value = '';
+        var commission_value = '';
+        if($('#pays_amount').is(':checked')) pays_amount_value = $('#pays_amount').val();
+        if($('#summa').is(':checked')) summa_value = $('#summa').val();
+        if($('#commission').is(':checked')) commission_value = $('#commission').val();
         if (period == 5) {
             start_date = $('#search_from').val();
             end_date = $('#search_till').val();
@@ -770,9 +819,9 @@ $(document).ready(function () {
         else { id_terminal = term_id; terminal_name = term_name; }
         var data;
         if (id_terminal != '') {
-            data = 'period=' + period + '&start_date=' + dateFormat(start_date) + '&end_date=' + dateFormat(end_date) + '&pays_amount=' + pays_amount + '&summa=' + summa + '&commission=' + commission + '&all=' + all + '&terminal_id=' + id_terminal;
+            data = 'period=' + period + '&start_date=' + dateFormat(start_date) + '&end_date=' + dateFormat(end_date) + '&pays_amount=' + pays_amount_value + '&summa=' + summa_value + '&commission=' + commission_value + '&all=' + all + '&terminal_id=' + id_terminal;
         } else {
-            data = 'period=' + period + '&start_date=' + dateFormat(start_date) + '&end_date=' + dateFormat(end_date) + '&pays_amount=' + pays_amount + '&summa=' + summa + '&commission=' + commission + '&all=' + all;
+            data = 'period=' + period + '&start_date=' + dateFormat(start_date) + '&end_date=' + dateFormat(end_date) + '&pays_amount=' + pays_amount_value + '&summa=' + summa_value + '&commission=' + commission_value + '&all=' + all;
         }
         $.ajax({
             url: 'index.php?action=income',     // указываем URL
@@ -801,7 +850,10 @@ $(document).ready(function () {
                 data['pays_amount'] = pays_amount;
                 data['summa'] = summa;
                 data['commission'] = commission;
-                //alert(data['start_day']);
+                data['pays_amount_value'] = pays_amount_value;
+                data['summa_value'] = summa_value;
+                data['commission_value'] = commission_value;
+                //alert(data['commission']);
                 incomeTemplate.update('new_table', data);
                 tableToGrid("#modal_bills", {
                     height: 'auto',
@@ -1089,5 +1141,30 @@ $(document).ready(function () {
     });
 
     $("#js_total_com").html($('#total_com').text());
+
+    function statusChange(pid, status_id) {
+        $.ajax({
+            url: 'index.php?action=statusChange',
+            type: "POST",
+            data: 'pid=' + pid + "&ststus_id=" + status_id,
+            beforeSend: function () {
+                $('#search_result').html('<img src="images/loading.gif" alt="Выполняется запрос"/>');
+            },
+            success: function (data) {
+                $('#ajax_loader').hide();
+                if(data == 0) return true;
+                else return data;
+            }
+        });
+    }
+
+    $(document).on('click', '#status_change_submit', function(e){
+        var status_id = $("#state_change option:selected").val();
+        //alert($("#state_change option:selected").val());
+        var tid_value = $('#tid').val();
+        var data = statusChange(tid_value, status_id);
+        //alert(data);
+        return false;
+    });
 });
 
