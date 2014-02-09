@@ -44,6 +44,7 @@ class library_dbConnect {
     public function Query($query) {
         try{
             $result = mssql_query($query);
+            if(!$result) throw new Exception('запрос выполнен с ошибкой');
         }
         catch(Exception $e){
             throw new Exception('При обработке запроса выброшено исключение: ' . $e->getMessage());

@@ -195,7 +195,7 @@ $(document).ready(function () {
     $("#count").html("показано " + jQuery(".table-to-grid").jqGrid('getGridParam', 'records') + " записей");
     $('.table-to-grid').jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false, ignoreCase:true });
     $(".table-to-grid").jqGrid('navGrid', '#table-pager', {edit: false, add: false, del: false, view :true}, {}, {}, {}, {multipleSearch: true, multipleGroup: true});
-    $(".table-to-grid").sortGrid("C", true, "desc").sortGrid("K", true, "desc").sortGrid("P", true, "desc").sortGrid("B", true, "desc").trigger("reloadGrid");
+    $(".table-to-grid").sortGrid("C", true, "desc").sortGrid("K", true, "desc").sortGrid("P", true, "desc").sortGrid("B", true, "desc").sortGrid("last_pay", true, "asc").trigger("reloadGrid");
 
     $.fn.setStatus = function (subgrid_table_id, rowId){
         alert('testtt');
@@ -1148,22 +1148,23 @@ $(document).ready(function () {
             type: "POST",
             data: 'pid=' + pid + "&ststus_id=" + status_id,
             beforeSend: function () {
-                $('#search_result').html('<img src="images/loading.gif" alt="Выполняется запрос"/>');
+                $('#ajax_load').html('<img src="images/loading.gif" alt="Выполняется запрос"/>');
             },
             success: function (data) {
-                $('#ajax_loader').hide();
-                if(data == 0) return true;
-                else return data;
+                $('#ajax_load').hide();
+                if(data == 0){
+                    alert('запрос выполнен успешно');
+                    $('#state_change').attr("disabled", true);
+                }
+                alert('запрос выполнен с ошибкой. Код:  ' + data);
             }
         });
     }
 
     $(document).on('click', '#status_change_submit', function(e){
         var status_id = $("#state_change option:selected").val();
-        //alert($("#state_change option:selected").val());
-        var tid_value = $('#tid').val();
-        var data = statusChange(tid_value, status_id);
-        //alert(data);
+        var tid_value = $('#current_tid').val();
+        statusChange(tid_value, status_id);
         return false;
     });
 });

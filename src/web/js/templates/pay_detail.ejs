@@ -35,7 +35,7 @@
         <tr><td>&nbsp;<!--<button id="clipboard_copy"><b>скопировать в буфер обмена</b></button>-->
             <form name="status_change" action="">
                 <label for="state_change">Статус платежа</label>
-                <input name="tid" id="tid" type="hidden" value="<%= data[0]['tid'] %>">
+                <input name="tid" id="current_tid" type="hidden" value="<%= data[0]['tid'] %>">
                 <% if(data[0]['state'] == 12){ %>
                     <select id="state_change" name="state_change">
                         <option value="0">Новый, деньги не списаны</option>

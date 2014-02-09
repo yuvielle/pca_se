@@ -52,10 +52,11 @@
     </table>
     <br>
     <form>
-        <div style="font-size: 14px; font-weight: bolder; color: #2B547E; margin-bottom: -20px;" id="group_filter">Фильтр по группе:
+        <div style="font-size: 14px; font-weight: bolder; color: #2B547E; margin-bottom: -20px;" id="group_filter">
+            <span>Фильтр по группе:</span>
             <select id="groups_incas" style="width:250px;"><option value="0">Все терминалы</option>
                 <% groups.forEach(function(group){ %>
-                <option value="<%= group['id_group'] %>" <% if(group['id_group'] == current_group){ %>selected<% } %>><%= group['group_name'] %></option>
+                <option value="<%= group['id_group'] %>" <% if(group['id_group'] == current_group){ %> selected<% } %>><%= group['group_name'] %></option>
                 <% }); %>
             </select>
         </div>
@@ -65,7 +66,7 @@
                 <input class="datePicker" type="text" name="search_from" id="search_from"value="<% if(hasOwnProperty('start_date')){ %><%= directDateFormat(start_date) %><% } %>"/>
                 <label> По </label>
                 <input class="datePicker" type="text" name="search_till" id="search_till" value="<% if(hasOwnProperty('end_date')){ %><%= directDateFormat(end_date) %><% } %>"/>
-        <img src="images/search-icon.png" id="search_start"/>
+                <img src="images/search-icon.png" id="search_start"/>
 
         </div>
     </form>
