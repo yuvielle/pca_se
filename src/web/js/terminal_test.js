@@ -124,8 +124,8 @@ $(document).ready(function () {
             $("#" + subgrid_table_id).jqGrid({
                 url: "index.php?action=payDetail&id=" + t_id,
                 datatype: "json",
-                rowNum:5,
-                rowList:[5,10,20],
+                rowNum:70,
+                rowList:[70,100,150],
                 height: 'auto',
                 pager: '#pager_detail',
                 loadonce: true,
