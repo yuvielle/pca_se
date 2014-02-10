@@ -125,6 +125,7 @@ $(document).ready(function () {
                 $('#ajax_loader').hide();
                 //alert(data);
                 data = JSON.parse(data);
+                data['provider'] = true;
                 var render_html = detailTemplate.render(data);
                 $("#new_table").html(render_html);
             },
