@@ -39,9 +39,8 @@
                     <input name="tid" id="current_tid" type="hidden" value="<%= data[0]['tid'] %>">
                     <% if(data[0]['state'] == 12){ %>
                     <select id="state_change" name="state_change">
-                        <option value="8">Отменен</option>
-                        <option value="9">Возвращены деньги</option>
-                        <option value="10">Перепроведен</option>
+                        <option value="8">Деньги вернули клиенту</option>
+                        <option value="10">Отменен, породил новый платеж</option>
                         <option value="12" selected>Отменен ПУ</option>
                     </select>
                     <button id="status_change_submit" name="submit" value="submit">Изменить</button>
