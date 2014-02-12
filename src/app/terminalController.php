@@ -545,10 +545,21 @@ class app_terminalController extends app_baseController
     }
 
     public function statusChange(library_request $request, library_session $session){
-        $status = $request->status_id; //get string todo convert to id of status
+        $status = $request->status_id;
         $id = $request->pid;
+        $state_check = null;
         $query = "EXEC [gorod].[dbo].[Set_State_Payment_Ex] '" . $id . "', NULL, NULL, '" . $status . "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL";
         $err_code = $this->Query($query);
+        //because of this pl_sql script returns error code 1 independent from result of record update, check db update with additional query
+        $query = "SELECT 0 as err_code, p.state FROM gorod.dbo.payment p where p.tid = '" . $id . "'";
+        $check = $this->Query($query);
+        if (mssql_num_rows($check) > 0) {
+            while ($status_record = library_utils::MyIconv(mssql_fetch_array($check))) {
+                $state_check = $status_record['state'];
+            }
+        }
+        if((int)$state_check == (int)$status) $err_code = 0;
+        else $err_code = $state_check. ' != ' . $status;
         echo $err_code;
     }
 }

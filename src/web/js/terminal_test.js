@@ -1146,7 +1146,7 @@ $(document).ready(function () {
         $.ajax({
             url: 'index.php?action=statusChange',
             type: "POST",
-            data: 'pid=' + pid + "&ststus_id=" + status_id,
+            data: 'pid=' + pid + "&status_id=" + status_id,
             beforeSend: function () {
                 $('#ajax_load').html('<img src="images/loading.gif" alt="Выполняется запрос"/>');
             },
@@ -1156,7 +1156,7 @@ $(document).ready(function () {
                     alert('запрос выполнен успешно');
                     $('#state_change').attr("disabled", true);
                 }
-                alert('запрос выполнен с ошибкой. Код:  ' + data);
+                else alert('запрос выполнен с ошибкой. Код:  ' + data);
             }
         });
     }
