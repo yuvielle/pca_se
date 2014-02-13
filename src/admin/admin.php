@@ -8,6 +8,7 @@ $view = new view_viewer();
 $view->setTemplate("admin/index");
 $request = library_request::init();
 $message = '';
+$color = '#ffffff';
 mssql_select_db($DataBase, $connect) or die('Could not select database ' . $DataBase);
 if ((isset($_GET['delete'])) and ($_GET['delete'] == 1)) {
     $query = mssql_query('exec[dbo].[owebs_mini_DeleteAgent] ' . library_utils::mssql_real_escape_string($_GET['id']) . '');

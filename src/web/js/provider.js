@@ -68,7 +68,7 @@ oTable = $('#agent_info').dataTable({"oLanguage": {
 		
 $('#new').click(function(e) {
 	e.preventDefault();
-	$('.notvisible').fadeIn();
+	$('.notvisible').toggle("slow");
 	});
 	
 $('.edit').click(function() {

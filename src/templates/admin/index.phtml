@@ -23,8 +23,9 @@
     </div>
     <div class="exit"><a href="../web/index.php" title="Выход"><img src="../web/images/exit.png" alt="exit"/></a></div>
     <div class="exit" id="exit_text"><a href="../web/index.php" title="Выход">Выход</a></div>
-    <div id="agent">Данные агентов <br/><br/>
-        <img alt="new" src="../web/images/new.png" id="new"/>
+    <div id="agent">
+        <h2>Данные агентов</h2>
+        <div style="float: right; padding-right: 20px; font-size: 12px;"><img alt="new" src="../web/images/new.png" id="new"/><br>добавить нового агента</div>
 
         <div class="notvisible" id="right">
             <form action="#" method="post">
@@ -41,7 +42,9 @@
                                     }
                                 } ?>
 
-                            </select></td>
+                            </select>
+                            <p style="text-align: left; font-size: 10px">количество провайдеров:<?php echo(mssql_num_rows($agent)); ?></p>
+                        </td>
                     </tr>
                     <tr>
                         <td>ID Агента</td>
@@ -69,8 +72,9 @@
                 <input type="submit" value="Сохранить"/></form>
         </div>
 
-        <?php $count = 0; echo(mssql_num_rows($agent)); ?>
+        <?php $count = 0; ?>
         <div id="demo_gecko">
+
             <p style="color: <?php echo $this->color ?>"><?php echo $this->message ?></p>
             <table class="display" id="agent_info">
                 <thead>
