@@ -78,7 +78,7 @@ $(document).ready(function () {
         afterInsertRow: function(rowId, data){
             var val = $(".table-to-grid").jqGrid('getRowData', rowId);
             //alert(val.B);
-            if(!$.browser.msie){
+            if(!navigator.userAgent.match(/msie /i)){
                 if (val.C == '<a class="connect_status" href="#"><div class="notvisible a">5</div><img src="images/red.png" alt="c"></a>') {
                     //alert('k=' + val.K);
                     $('#' + rowId).children("td").css('background-color', "#ff7777");
