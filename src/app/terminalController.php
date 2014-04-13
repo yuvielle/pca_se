@@ -429,7 +429,7 @@ class app_terminalController extends app_baseController
         $this->Query('exec [regplat-ru].pendjurina.owebs_mini_DeleteGroup "'.$_SESSION['session_hash'].'", '.$id_group.'');
     }
 
-    public function saveGroup(library_request $request) { // die(var_dump($_POST));
+    public function saveGroup(library_request $request) {
         if($request->isPost()){
             $result = '';
             $group_name = library_utils::mssql_real_escape_string($_POST['group_name']);
