@@ -9,7 +9,7 @@ var columnNames = [];
 $(document).ready(function () {
 
     var detailTemplate = new EJS({url: 'js/templates/pay_detail.ejs'});
-
+    var lastStatus = false;
     var datePick = function(elem)
         {
             $("elem").datepicker();
@@ -39,13 +39,15 @@ $(document).ready(function () {
                   {name:'print',index:'print', width:30, sortable:false, search:false}
             ],
             onSelectRow: function (rowId, status, e) {
-                if (!e || e.which === 1) {
-                    //alert($(".table-to-grid").jqGrid('getRowData', rowId).trid);
+                if(status === false && lastStatus ===false){
+                    status = true;
+                }
+                if ((!e || e.which === 1)&&(status === true)) {
                     $("#" + rowId).addClass('ui-state-highlight');
-                } else if (e.which === 3) {
-                    $(".table-to-grid").jqGrid('setSelection', rowId, false);
+                } else if (e.which === 3 || status == false){
                     $("#" + rowId).removeClass('ui-state-highlight');
                 }
+                lastStatus = status;
             },
             afterInsertRow: function (rowId, data) {
                 var val = $(".table-to-grid").jqGrid('getRowData', rowId);

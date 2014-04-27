@@ -168,7 +168,6 @@ class app_terminalController extends app_baseController
             $client_account = ($request->client_account != '') ? library_utils::mssql_real_escape_string($request->client_account) : "%";
             $client_amount = ((int)$request->client_amount != 0) ? library_utils::mssql_real_escape_string($request->client_amount) : "'%'";
             //$pays = $this->Query('exec [pendjurina].[owebs_mini_FindPays] "' . $_SESSION['session_hash'] . '", "' . $start_date . '", "' . $end_date . '", ' . $id_terminal . ', ' . $pay_type . ', ' . $pay_state . ', ' . $tid . ', ' . $transaction . ', ' . $client_account . ', ' . $client_amount . '');
-            //todo свалить всё это в процедуру
             $pays = $this->Query("
                 SELECT    0 as err_code, p.tid, p.sub_inner_tid, p.point_oid, p.DatePay, pr.ProviderName, gorod.dbo.PD4.ClientAccount,
                             CAST(--CAST(p.state AS varchar(2)) + '-' +

@@ -22,7 +22,7 @@ body{
 	display: none;
 }
 #new_table {
-    position:absolute;
+    position:fixed;
     opacity : 1;
     top: 0;
     left: 50%;
@@ -202,7 +202,7 @@ form.registration select{
 }
 #button, #button1, #button1:visited, #button:visited{
      float:right;
-     background: #4682B4 url(img/overlay.png) repeat-x;
+     background: #4682B4 url(../img/overlay.png) repeat-x;
      font-weight:bold;
      display: inline-block;
      padding: 5px 10px 6px;
@@ -242,7 +242,7 @@ form.registration select{
      -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.5);
      -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.5);
      text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
-     background:#2daebf url(images/overlay.png) repeat-x scroll 50% 50%;
+     background:#2daebf url(../img/overlay.png) repeat-x scroll 50% 50%;
      color:#fff;
      font-weight:normal;
 }
@@ -465,7 +465,7 @@ h2 {
 }
 #captcha-wrap .captcha-action{
 	float:right; width:117px; 
-	background:url(images/logos.jpg) top right no-repeat; 
+	background:url(../images/logos.jpg) top right no-repeat;
 	height:44px; 
 	margin-top:10px;
 }
@@ -561,7 +561,7 @@ a.connect_status {
 	font-size: 1.8em;
 }
 .green {
-	color: '008800';
+	color: #008800;
 }
 .left_table {							 
  color: black;
@@ -582,7 +582,7 @@ img {
 }
 #group_filter {
 	float: left;
-	font-size: 1.3 em;
+	font-size: 1.3em;
 	overflow: hidden;
 	margin-bottom: 10px;
 }
@@ -719,8 +719,8 @@ select.group_name {
 	height: 40px;
 }
 .red_text a{
-	color: red;.current_sum
-	font-weight: bold;
+	color: red;
+ .current_sum: font-weight: bold;
 }
 .toomuch  a{
 	color: red;
