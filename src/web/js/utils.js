@@ -79,6 +79,7 @@ $(document).ready(function () {
     			end.disabled=true;
     		}
     });
+    $("#new_table").draggable();
 });
 
 $(document).ajaxError(function() {

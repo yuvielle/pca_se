@@ -719,8 +719,9 @@ select.group_name {
 	height: 40px;
 }
 .red_text a{
-	color: red;
- .current_sum: font-weight: bold;
+	color: red;}
+
+ .current_sum{ font-weight: bold;
 }
 .toomuch  a{
 	color: red;

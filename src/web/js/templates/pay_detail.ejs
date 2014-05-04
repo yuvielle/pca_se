@@ -25,12 +25,8 @@
             <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>ФИО:</b>&nbsp;&nbsp; <%= data[0]['ClientFIO'] %></td>
         </tr>
         <tr>
-            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Номер:</b>&nbsp;&nbsp; <%= data[0]['etid'] %></td>
-            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Состояние:</b>&nbsp;&nbsp; <%= data[0]['descript'] %></td>
-        </tr>
-        <tr>
             <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Адрес точки:</b>&nbsp;&nbsp; <%= data[0]['terminal_name'] %></td>
-            <td></td>
+            <td style="border: 1px solid #757f90; height: 40px; padding: 5px"><b>Состояние:</b>&nbsp;&nbsp; <%= data[0]['descript'] %></td>
         </tr>
         <tr><td>&nbsp;<!--<button id="clipboard_copy"><b>скопировать в буфер обмена</b></button>-->
                 <% if( !hasOwnProperty('provider')) {%>

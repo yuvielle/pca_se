@@ -99,12 +99,6 @@ class app_terminalController extends app_baseController
                           order by receive_time desc";
             $rResult = $this->Query($sQuery);
         } elseif (@$_GET['terminals']) {
-            //$sQuery = "exec [regplat-ru].dbo.owebs_mini_Get3DayErrors '" . $cur_day_start . "', '" . $cur_day_end . "', '" . $_SESSION['session_hash'] . "'";
-            //$sQuery_deiail = "SELECT DISTINCT 0 as err_code, name, [TERMINAL_CODE], [RECEIVE_TIME] ,[DEVICE_NAME] ,[ERROR_TEXT]
-            //  FROM [ipt].[dbo].[EVENTS_DEVICE_ERROR] AS e LEFT OUTER JOIN gorod.dbo.point as p on p.point_oid=e.terminal_code
-            //  where receive_time <= '" . $day_end . "' and receive_time >= '" . $day_start . "' and p.agent_oid='" . $oid . "' and p.point_type_id = 3
-            //  and e.terminal_code in (" . implode($term_with_er, ', ') . ") order by receive_time desc";
-            //$rResult_detail = $this->Query($sQuery_deiail);
             $sQuery = "SELECT 0 as err_code, name, [TERMINAL_CODE], [RECEIVE_TIME] ,[DEVICE_NAME] ,[ERROR_TEXT]
                FROM [ipt].[dbo].[EVENTS_DEVICE_ERROR] AS e LEFT OUTER JOIN gorod.dbo.point as p on p.point_oid=e.terminal_code
                where receive_time <= '" . $day_end . "' and receive_time >= '" . $day_start . "' and p.agent_oid='" . $oid . "' and p.point_type_id = 3
@@ -505,7 +499,8 @@ class app_terminalController extends app_baseController
 
     public function getDetail(library_request $request, library_session $session) {
         $id = $request->id;
-        $query = "SELECT 0 as err_code, p.tid, p.Card_number, p.DatePay, p.DateLastChange, p.amount_commission_provider, p.amount_provider, pd.ClientAccount AS ClientAccount,
+        $query = "SELECT 0 as err_code, p.tid, p.Card_number, p.DatePay, p.DateLastChange, p.amount_commission_provider,
+                               p.amount_provider, pd.ClientAccount AS ClientAccount,
                                pd.ClientFIO AS ClientFIO, pd.ProviderName AS ProviderName, p.state AS state, pdesc.name as status_name,
                                pe.value as purpose, pe.extent_tid as etid, pdesc.descr as descript, p.summary_amount,
                                (select t.name  from gorod.dbo.point as t where t.point_oid=p.point_oid) as terminal_name,
@@ -517,11 +512,13 @@ class app_terminalController extends app_baseController
                               gorod.dbo.payment_extent pe ON p.tid = pe.tid LEFT OUTER JOIN
                               gorod.dbo.extent e ON pe.extent_tid = e.extent_tid
                         WHERE p.tid = " . $id . " order by p.datepay desc";
-        $states_query = "SELECT 0 as err_code, p.tid, ph.old_state, ph.new_state, ph.try_state,
+        /*$states_query = "SELECT 0 as err_code, p.tid, ph.old_state, ph.new_state, ph.try_state,
                               ph.result_code, ph.result_text, ph.date_change
                          FROM gorod.dbo.payment p LEFT OUTER JOIN
                               gorod.dbo.payment_history ph ON p.tid = ph.tid
-                         WHERE p.tid = " . $id . " order by p.datepay desc";
+                         WHERE p.tid = " . $id . " order by p.datepay desc";*/
+        //$query = "[dbo].[owebs_mini_GetPaymentDetails] ' ". $id ."'";
+        $states_query = "[dbo].[owebs_mini_GetPaymentStates]' " . $id . "'";
         $pay = $this->Query($query);
         $states = $this->Query($states_query);
         $data = array();
@@ -548,9 +545,9 @@ class app_terminalController extends app_baseController
         $id = $request->pid;
         $state_check = null;
         $query = "EXEC [gorod].[dbo].[Set_State_Payment_Ex] '" . $id . "', NULL, NULL, '" . $status . "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL";
-        $err_code = $this->Query($query);
+        //$err_code = $this->Query($query);
         //because of this pl_sql script returns error code 1 independent from result of record update, check db update with additional query
-        $query = "SELECT 0 as err_code, p.state FROM gorod.dbo.payment p where p.tid = '" . $id . "'";
+        //$query = "SELECT 0 as err_code, p.state FROM gorod.dbo.payment p where p.tid = '" . $id . "'";
         $check = $this->Query($query);
         if (mssql_num_rows($check) > 0) {
             while ($status_record = library_utils::MyIconv(mssql_fetch_array($check))) {
