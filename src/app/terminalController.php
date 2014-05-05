@@ -545,9 +545,9 @@ class app_terminalController extends app_baseController
         $id = $request->pid;
         $state_check = null;
         $query = "EXEC [gorod].[dbo].[Set_State_Payment_Ex] '" . $id . "', NULL, NULL, '" . $status . "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL";
-        //$err_code = $this->Query($query);
+        $err_code = $this->Query($query);
         //because of this pl_sql script returns error code 1 independent from result of record update, check db update with additional query
-        //$query = "SELECT 0 as err_code, p.state FROM gorod.dbo.payment p where p.tid = '" . $id . "'";
+        $query = "SELECT 0 as err_code, p.state FROM gorod.dbo.payment p where p.tid = '" . $id . "'";
         $check = $this->Query($query);
         if (mssql_num_rows($check) > 0) {
             while ($status_record = library_utils::MyIconv(mssql_fetch_array($check))) {
