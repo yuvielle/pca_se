@@ -158,10 +158,15 @@ class app_terminalController extends app_baseController
                 $string = ' and pdesc.state <> 6 ';
             }
             $tid = ((int)$request->tid != 0) ? library_utils::mssql_real_escape_string($request->tid) : "'%'";
+            //$tid = ((int)$request->tid != 0) ? library_utils::mssql_real_escape_string($request->tid) : null;
             $transaction = ((int)$request->transaction != 0) ? '"' . library_utils::mssql_real_escape_string($request->transaction) . '"' : "'%'";
             $client_account = ($request->client_account != '') ? library_utils::mssql_real_escape_string($request->client_account) : "%";
             $client_amount = ((int)$request->client_amount != 0) ? library_utils::mssql_real_escape_string($request->client_amount) : "'%'";
-            //$pays = $this->Query('exec [pendjurina].[owebs_mini_FindPays] "' . $_SESSION['session_hash'] . '", "' . $start_date . '", "' . $end_date . '", ' . $id_terminal . ', ' . $pay_type . ', ' . $pay_state . ', ' . $tid . ', ' . $transaction . ', ' . $client_account . ', ' . $client_amount . '');
+            /*$pays = $this->Query("exec [pendjurina].[owebs_mini_FindPays] '" . $_SESSION['session_hash'] . "', '" .
+                $request->start_date . "', '" . $request->end_date . "', '" . $request->id_terminal . "', '" .
+                $request->pay_type . "', '" . $request->pay_state . "', '" .
+                $request->tid . "', '" . $request->transaction . "', '" .
+                $request->client_account . "', '" .  $request->client_amount . "'");*/
             $pays = $this->Query("
                 SELECT    0 as err_code, p.tid, p.sub_inner_tid, p.point_oid, p.DatePay, pr.ProviderName, gorod.dbo.PD4.ClientAccount,
                             CAST(--CAST(p.state AS varchar(2)) + '-' +
@@ -499,7 +504,7 @@ class app_terminalController extends app_baseController
 
     public function getDetail(library_request $request, library_session $session) {
         $id = $request->id;
-        $query = "SELECT 0 as err_code, p.tid, p.Card_number, p.DatePay, p.DateLastChange, p.amount_commission_provider,
+        /*$query = "SELECT 0 as err_code, p.tid, p.Card_number, p.DatePay, p.DateLastChange, p.amount_commission_provider,
                                p.amount_provider, pd.ClientAccount AS ClientAccount,
                                pd.ClientFIO AS ClientFIO, pd.ProviderName AS ProviderName, p.state AS state, pdesc.name as status_name,
                                pe.value as purpose, pe.extent_tid as etid, pdesc.descr as descript, p.summary_amount,
@@ -512,12 +517,12 @@ class app_terminalController extends app_baseController
                               gorod.dbo.payment_extent pe ON p.tid = pe.tid LEFT OUTER JOIN
                               gorod.dbo.extent e ON pe.extent_tid = e.extent_tid
                         WHERE p.tid = " . $id . " order by p.datepay desc";
-        /*$states_query = "SELECT 0 as err_code, p.tid, ph.old_state, ph.new_state, ph.try_state,
+        $states_query = "SELECT 0 as err_code, p.tid, ph.old_state, ph.new_state, ph.try_state,
                               ph.result_code, ph.result_text, ph.date_change
                          FROM gorod.dbo.payment p LEFT OUTER JOIN
                               gorod.dbo.payment_history ph ON p.tid = ph.tid
                          WHERE p.tid = " . $id . " order by p.datepay desc";*/
-        //$query = "[dbo].[owebs_mini_GetPaymentDetails] ' ". $id ."'";
+        $query = "[dbo].[owebs_mini_GetPaymentDetails] ' ". $id ."'";
         $states_query = "[dbo].[owebs_mini_GetPaymentStates]' " . $id . "'";
         $pay = $this->Query($query);
         $states = $this->Query($states_query);
