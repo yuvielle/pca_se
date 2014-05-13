@@ -148,26 +148,29 @@ class app_terminalController extends app_baseController
             $start_date = library_utils::mssql_real_escape_string($request->start_date . ' 00:00:00');
             $end_date = library_utils::mssql_real_escape_string($request->end_date . ' 23:59:59');
 
-            $id_terminal = ($request->id_terminal != '') ? library_utils::mssql_real_escape_string($request->id_terminal) : "'%'";
-            $pay_type = ($request->pay_type != '') ? "'%" . iconv('UTF-8', 'Windows-1251', library_utils::mssql_real_escape_string($request->pay_type)) . "%'" : "'%'";
-            $string = '';
-            if((int)$request->pay_state == 6){
-                $string = ' and pdesc.state = 6 ';
-            }
-            elseif((int)$request->pay_state != 0){
-                $string = ' and pdesc.state <> 6 ';
-            }
-            $tid = ((int)$request->tid != 0) ? library_utils::mssql_real_escape_string($request->tid) : "'%'";
-            //$tid = ((int)$request->tid != 0) ? library_utils::mssql_real_escape_string($request->tid) : null;
-            $transaction = ((int)$request->transaction != 0) ? '"' . library_utils::mssql_real_escape_string($request->transaction) . '"' : "'%'";
-            $client_account = ($request->client_account != '') ? library_utils::mssql_real_escape_string($request->client_account) : "%";
-            $client_amount = ((int)$request->client_amount != 0) ? library_utils::mssql_real_escape_string($request->client_amount) : "'%'";
-            /*$pays = $this->Query("exec [pendjurina].[owebs_mini_FindPays] '" . $_SESSION['session_hash'] . "', '" .
-                $request->start_date . "', '" . $request->end_date . "', '" . $request->id_terminal . "', '" .
-                $request->pay_type . "', '" . $request->pay_state . "', '" .
-                $request->tid . "', '" . $request->transaction . "', '" .
-                $request->client_account . "', '" .  $request->client_amount . "'");*/
-            $pays = $this->Query("
+            //$id_terminal = ($request->id_terminal != '') ? library_utils::mssql_real_escape_string($request->id_terminal) : "'%'";
+            //$pay_type = ($request->pay_type != '') ? "'%" . iconv('UTF-8', 'Windows-1251', library_utils::mssql_real_escape_string($request->pay_type)) . "%'" : "'%'";
+            //$string = '';
+            //if((int)$request->pay_state == 6){
+            //    $string = ' and pdesc.state = 6 ';
+            //}
+            //elseif((int)$request->pay_state != 0){
+            //    $string = ' and pdesc.state <> 6 ';
+            //}
+            //$tid = ((int)$request->tid != 0) ? library_utils::mssql_real_escape_string($request->tid) : "'%'";
+            $tid = ($request->tid != '') ? "'" . $request->tid . "'" : "null";
+            //$transaction = ((int)$request->transaction != 0) ? '"' . library_utils::mssql_real_escape_string($request->transaction) . '"' : "'%'";
+            //$client_account = ($request->client_account != '') ? library_utils::mssql_real_escape_string($request->client_account) : "%";
+            //$client_amount = ((int)$request->client_amount != 0) ? library_utils::mssql_real_escape_string($request->client_amount) : "'%'";
+            $pays = $this->Query("exec [pendjurina].[owebs_mini_FindPays] '" . $_SESSION['session_hash'] . "', '" .
+                $start_date . "', '" . $end_date . "',
+                '" . $request->id_terminal . "',
+                '" . $request->pay_type . "',
+                '" . $request->pay_state . "', " . $tid . ", '" . $request->transaction .
+                "', '" . $request->client_account .
+                "', '" .  $request->client_amount . "'"
+            );
+            /*$pays = $this->Query("
                 SELECT    0 as err_code, p.tid, p.sub_inner_tid, p.point_oid, p.DatePay, pr.ProviderName, gorod.dbo.PD4.ClientAccount,
                             CAST(--CAST(p.state AS varchar(2)) + '-' +
                             pdesc.name AS varchar(30)) AS state, p.summary_amount, p.Commission, p.amount
@@ -187,7 +190,7 @@ class app_terminalController extends app_baseController
                             and gorod.dbo.PD4.ClientAccount like Convert(VarChar, '" . $client_account . "') + '%'
                             and p.summary_amount like Convert(VarChar, " . $client_amount . ") + '%'
                 order by p.datepay desc
-            ");
+            ");*/
 
             $data = array();
             if (mssql_num_rows($pays) > 0) {
